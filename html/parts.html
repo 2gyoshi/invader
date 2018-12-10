@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        // Machineクラス
+        function Machine(){
+          this.positionX_ = $('#machine').position().left;
+          this.positionY_ = $('#machine').position().top;
+        }
+        Machine.prototype.Move = function(x){
+          var newPosition = this.positionX_ + x;
+          document.getElementById('machine').style.left = newPosition + "px";
+          this.positionX_ = newPosition;
+        }
+        Machine.prototype.Shoot = function(){
+          var x = $('#battery').offset().left + $('#battery').width() / 2 ;
+          var y = $('#battery').offset().top;
+          new Bullet(x, y);
+        }
+        function Bullet(x, y){
+          $('#machine').before('<div class="bullets"></div>');
+          $('.bullets').offset({ top: y, left: x });
+
+          var i = 0;
+          var id = setInterval(function() {
+            var posY = $('.bullets').offset().top;
+            var newPosY = posY - i;
+            $('.bullets').offset({ top: newPosY, left: x });
+            i += 5;
+            console.log(i);
+            if(posY < 0) {
+              clearInterval(id);
+            }
+          }, 100);
+        }
+
+        
+        var machine = new Machine();
+
+        $(window).keydown(function(e){
+          // スペースキー 撃つ
+          if(e.keyCode == 32){
+            machine.Shoot();
+          }
+          // <- -> 左右移動
+          if (e.keyCode == 37){
+            machine.Move(-5);
+          }
+          if (e.keyCode == 39){
+            machine.Move(+5);
+          } }); }); </script> <style type="text/css"> body{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      div{
+        margin: 0;
+        padding: 0;
+      } 
+      #machineSpace{
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+        box-sizing: border-box;
+        position: relative;
+      }
+      #machine{
+        width: 100px;
+        height: 100px;
+        /*border: 1px solid black;
+        box-sizing: border-box;*/
+        /* センタリング */
+        position: absolute;
+        top: calc(500px / 2 - (100px / 2));
+        left: calc(500px / 2 - (100px / 2));
+      }
+      #battery{
+        width: 20%;
+        height: 50%;
+        margin: 0 auto;
+        border: 1px solid black;
+        /*接合部の見栄えが悪いのでとりあえずの処置*/
+        border-bottom: 1px solid white;
+        box-sizing: border-box;
+      }
+      #machineBody{
+        width: 100%;
+        height: 50%;
+        border: 1px solid black;
+        box-sizing: border-box;
+      }
+      .bullets{
+        width: 1px;
+        height: 10px;
+        border: 1px solid black;
+      }
+        
+    </style>
+  </head>
+  <body>
+    <div id="machineSpace">
+      <div id="machine">
+        <div id="battery"></div>
+        <div id="machineBody"></div>
+      </div>
+    </div>
+  </body> 
+</html> 
+
+<!-- EOF -->
+
