@@ -4,54 +4,225 @@
     <meta charset="utf-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript">
-      $(function(){
-        // Machineクラス
-        function Machine(){
-          this.positionX_ = $('#machine').position().left;
-          this.positionY_ = $('#machine').position().top;
+      // あらゆるオブジェクトの祖
+      class BaseObject {
+        // 初期位置を指定して生成する
+        constructor(posX, posY, width, height){
+          this.posX_   = posX;
+          this.posY_   = posY;
+          this.width_  = width;
+          this.height_ = height;
+          this.self_   = document.createElement('div');
+          this.Draw();
         }
-        Machine.prototype.Move = function(x){
-          var newPosition = this.positionX_ + x;
-          document.getElementById('machine').style.left = newPosition + "px";
-          this.positionX_ = newPosition;
-        }
-        Machine.prototype.Shoot = function(){
-          var x = $('#battery').offset().left + $('#battery').width() / 2 ;
-          var y = $('#battery').offset().top;
-          new Bullet(x, y);
-        }
-        function Bullet(x, y){
-          $('#machine').before('<div class="bullets"></div>');
-          $('.bullets').offset({ top: y, left: x });
+        // 自分を描画する
+        Draw(){
+          // オブジェクトを配置
+          var field = document.getElementById("playField");
+          if(field == null){
+            console.log("in DrawMyself of CharactorBase field is null");
+            return;
+          }
+          field.insertBefore(this.self_, field.firstChild);
 
-          var i = 0;
-          var id = setInterval(function() {
-            var posY = $('.bullets').offset().top;
-            var newPosY = posY - i;
-            $('.bullets').offset({ top: newPosY, left: x });
-            i += 5;
-            console.log(i);
-            if(posY < 0) {
-              clearInterval(id);
+          // スタイル設定 
+          this.self_.style.position = "absolute";
+          this.self_.style.border   = "1px solid black";
+          this.self_.style.width    = this.width_  + "px";
+          this.self_.style.height   = this.height_ + "px";
+          this.self_.style.left     = this.posX_   + "px";
+          this.self_.style.top      = this.posY_   + "px";
+        }
+      }
+        
+      // ゲーム画面内で使用するオブジェクト(登場人物)
+      class GameObject extends BaseObject {
+        constructor(x, y, w, h){
+          super(x, y, w, h);
+        }
+
+        Move(distX, distY){
+          if(this.self_ == null){
+            console.log("in Move of CharactorBase self is null");
+            return;
+          }
+          var newPosX = this.posX_ + distX;
+          var newPosY = this.posY_ + distY;
+          this.self_.style.left = newPosX + "px";
+          this.self_.style.top  = newPosY + "px";
+          this.posX_ = newPosX;
+          this.posY_ = newPosY;
+        }
+
+        Hit(obj){
+          //obj.self_.parentNode.removeChild(obj.self_);
+          obj.self_.style.background = "red";
+          console.log("hit!!!");
+        }
+      }
+
+      class Game{
+        constructor(){
+          this.collection_ = [];
+        }
+        AddCollection(obj){
+          this.collection_.push(obj);
+        }
+        DelCollection(obj){
+          this.collection_.pop(obj);
+        }
+        IsCollision(){
+          var length = this.collection_.length;
+          console.log(length);
+    
+          for(var i=0; i<length-1; i++) {
+            for(var j=i+1; j<length; j++) {
+              var o1 = this.collection_[i];
+              var o2 = this.collection_[j];
+              var widthDecision   = (Math.abs(o1.posX_ - o2.posX_) < o1.width_ / 2 + o2.width_ / 2 )? true : false;
+              var heightDecision  = (Math.abs(o1.posY_ - o2.posY_) < o1.height_ / 2 + o2.height_ / 2 )? true : false;
+
+              if(widthDecision == false || heightDecision == false){
+                continue;
+              }
+
+              o1.Hit(o2);
+              o2.Hit(o1);
+              this.collection_.pop(o1);
+              this.collection_.pop(o2);
+  
+              return;
             }
+          }
+        }
+      }
+     
+      class Player extends GameObject {
+        constructor(x, y, w, h){
+          super(x, y, w, h);
+        }
+      }
+
+      class Enemy extends GameObject {
+        constructor(x, y, w, h){
+          super(x, y, w, h);
+          this.MyMove();
+        }
+        MyMove(){
+          if(this.posY_ >= 400){
+            this.self_.parentNode.removeChild(this.self_);
+            return
+          }
+          var self = this;
+          self.Move(0, +10);
+          window.setTimeout(function(){
+            self.MyMove();
+          }, 500);
+        }
+      }
+
+      class Bullet extends GameObject {
+        constructor(x, y, w, h){
+          super(x, y, w, h);
+          this.MyMove();
+        }
+        MyMove(){
+          if(this.posY_ < 0){
+            this.self_.parentNode.removeChild(this.self_);
+            return
+          }
+          var self = this;
+          self.Move(0, -10);
+          window.setTimeout(function(){
+            self.MyMove();
           }, 100);
         }
 
-        
-        var machine = new Machine();
+      }
 
-        $(window).keydown(function(e){
-          // スペースキー 撃つ
-          if(e.keyCode == 32){
-            machine.Shoot();
+      class Timer{
+        constructor(){
+          this.remainTime_ = 60 * 1000;
+        }
+        CountDown(){
+          if(this.remainTime_ <= 0){
+            return
           }
-          // <- -> 左右移動
-          if (e.keyCode == 37){
-            machine.Move(-5);
-          }
-          if (e.keyCode == 39){
-            machine.Move(+5);
-          } }); }); </script> <style type="text/css"> body{
+          this.remainTime_ -= 1000;
+          var timer = document.getElementById("timer");
+          timer.innerText = this.remainTime_;
+        }
+        Start(){
+          var self = this;
+          window.setInterval(function(){
+            self.CountDown();
+          }, 1000);
+        }
+        Stop(){
+        }
+        
+      }
+      
+
+
+
+      $(function(){
+
+        function CreateEnemy(game){
+          var enemy = new Enemy(Math.random() * 450 , 0, 50, 50);
+          game.AddCollection(enemy);
+        }
+
+        $('#start').on('click',function(){
+          var timer = new Timer();
+          timer.Start();
+
+          const game = new Game();
+          const player = new Player(200, 450, 50, 50);
+          game.AddCollection(player);
+
+          window.setInterval(function(){
+            CreateEnemy(game);
+          }, 5000);
+
+          window.setInterval(function(){
+            game.IsCollision();
+          }, 1);
+
+          $(window).keydown(function(e){
+            // スペースキー 撃つ
+            if(e.keyCode == 32){
+              var bulletWidth = 5;
+              var bulletHeight = 5;
+              // 自機の中心に弾を出現させる
+              var bulletPosX = player.posX_ +  (player.width_ / 2) - (bulletWidth / 2);
+              var bulletPosY = player.posY_ - 100;
+              var bullet = new Bullet(bulletPosX, bulletPosY, bulletWidth, bulletHeight);
+              game.AddCollection(bullet);
+            }
+            // <- -> 左右移動
+            if (e.keyCode == 37){
+              player.Move(-5, 0);
+            }
+            if (e.keyCode == 39){
+              player.Move(+5, 0);
+            }
+          });
+
+
+
+        });
+
+        $('#stop').on('click',function(){
+          // 暫定対応
+          location.reload();
+        });
+
+
+      });
+  </script>
+  <style type="text/css">
+     body{
         width: 100%;
         height: 100%;
         margin: 0;
@@ -60,54 +231,21 @@
       div{
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
       } 
-      #machineSpace{
+      #playField{
         width: 500px;
         height: 500px;
         border: 1px solid black;
-        box-sizing: border-box;
-        position: relative;
       }
-      #machine{
-        width: 100px;
-        height: 100px;
-        /*border: 1px solid black;
-        box-sizing: border-box;*/
-        /* センタリング */
-        position: absolute;
-        top: calc(500px / 2 - (100px / 2));
-        left: calc(500px / 2 - (100px / 2));
-      }
-      #battery{
-        width: 20%;
-        height: 50%;
-        margin: 0 auto;
-        border: 1px solid black;
-        /*接合部の見栄えが悪いのでとりあえずの処置*/
-        border-bottom: 1px solid white;
-        box-sizing: border-box;
-      }
-      #machineBody{
-        width: 100%;
-        height: 50%;
-        border: 1px solid black;
-        box-sizing: border-box;
-      }
-      .bullets{
-        width: 1px;
-        height: 10px;
-        border: 1px solid black;
-      }
-        
     </style>
   </head>
   <body>
-    <div id="machineSpace">
-      <div id="machine">
-        <div id="battery"></div>
-        <div id="machineBody"></div>
-      </div>
+    <div id="playField">
     </div>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+    <div id="timer">00:00</div>
   </body> 
 </html> 
 
