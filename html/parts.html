@@ -4,7 +4,77 @@
     <meta charset="utf-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript">
-      // あらゆるオブジェクトの祖
+
+      // TODO: 衝突判定の計算精度を上げる
+      // TODO: GameObjectのstate_を検出できないエラーを消す
+
+      // 1秒に60回Updateを行う
+      const UPDATEINTERVAL = 1000 / 60;
+      // 敵機が1回のUpdateで動く距離
+      const ENEMYMOVEDIST  = 20 / 60; 
+      // 弾丸が1回のUpdateで動く距離
+      const BULLETMOVEDIST = -20; 
+      // 敵機があわられる時間
+      const ENEMYAPPEARTIME = 3000;
+
+      // ゲームを管理するクラス
+      class Game{
+        constructor(){
+          this.collection_ = [];
+        }
+        AddCollection(obj){
+          this.collection_.push(obj);
+        }
+        DelCollection(index){
+          this.collection_.splice(index, 1);
+        }
+        // ゲーム内オブジェクトの更新
+        ObjectsUpdate(){
+          var length = this.collection_.length;
+          for(var i = 0; i < length; i++) {
+            var obj = this.collection_[i];
+            obj.Update();
+          }
+        }
+        // 衝突判定
+        Collision(){
+          var length = this.collection_.length;
+          for(var i = 0; i < length - 1; i++) {
+            for(var j = i + 1; j < length ; j++) {
+              var o1 = this.collection_[i];
+              var o2 = this.collection_[j];
+              // 計算がずれているらしい(特にx軸)
+              var widthDecision   = (Math.abs(o1.posX_ - o2.posX_) < o1.width_  / 2 + o2.width_  / 2)? true : false;
+              var heightDecision  = (Math.abs(o1.posY_ - o2.posY_) < o1.height_ / 2 + o2.height_ / 2)? true : false;
+              if(widthDecision == false || heightDecision == false){
+                continue;
+              }
+              o1.Hit();
+              o2.Hit();
+            }
+          }
+        }
+        // 不要オブジェクトの始末
+        Clean(){
+          var length = this.collection_.length;
+          for(var i = 0; i < length; i++) {
+            var obj = this.collection_[i];
+            // state_が検出できない時がある
+            if(obj.state_ == false){
+              obj.self_.parentNode.removeChild(obj.self_);
+              this.DelCollection(i);
+            }
+          }
+        }
+        // 更新
+        Update(){
+          this.ObjectsUpdate();
+          this.Collision();
+          this.Clean()
+        }
+      }
+     
+      // オブジェクトのベース
       class BaseObject {
         // 初期位置を指定して生成する
         constructor(posX, posY, width, height){
@@ -13,6 +83,7 @@
           this.width_  = width;
           this.height_ = height;
           this.self_   = document.createElement('div');
+          this.state_  = true;
           this.Draw();
         }
         // 自分を描画する
@@ -40,7 +111,6 @@
         constructor(x, y, w, h){
           super(x, y, w, h);
         }
-
         Move(distX, distY){
           if(this.self_ == null){
             console.log("in Move of CharactorBase self is null");
@@ -53,89 +123,42 @@
           this.posX_ = newPosX;
           this.posY_ = newPosY;
         }
-
-        Hit(obj){
-          //obj.self_.parentNode.removeChild(obj.self_);
-          obj.self_.style.background = "red";
-          console.log("hit!!!");
+        Hit(){
+          this.state_ = false;
         }
       }
 
-      class Game{
-        constructor(){
-          this.collection_ = [];
-        }
-        AddCollection(obj){
-          this.collection_.push(obj);
-        }
-        DelCollection(obj){
-          this.collection_.pop(obj);
-        }
-        IsCollision(){
-          var length = this.collection_.length;
-          console.log(length);
-    
-          for(var i=0; i<length-1; i++) {
-            for(var j=i+1; j<length; j++) {
-              var o1 = this.collection_[i];
-              var o2 = this.collection_[j];
-              var widthDecision   = (Math.abs(o1.posX_ - o2.posX_) < o1.width_ / 2 + o2.width_ / 2 )? true : false;
-              var heightDecision  = (Math.abs(o1.posY_ - o2.posY_) < o1.height_ / 2 + o2.height_ / 2 )? true : false;
-
-              if(widthDecision == false || heightDecision == false){
-                continue;
-              }
-
-              o1.Hit(o2);
-              o2.Hit(o1);
-              this.collection_.pop(o1);
-              this.collection_.pop(o2);
-  
-              return;
-            }
-          }
-        }
-      }
-     
       class Player extends GameObject {
         constructor(x, y, w, h){
           super(x, y, w, h);
+        }
+        Update(){
         }
       }
 
       class Enemy extends GameObject {
         constructor(x, y, w, h){
           super(x, y, w, h);
-          this.MyMove();
         }
-        MyMove(){
+        Update(){
           if(this.posY_ >= 400){
-            this.self_.parentNode.removeChild(this.self_);
+            this.state_ = false;
             return
           }
-          var self = this;
-          self.Move(0, +10);
-          window.setTimeout(function(){
-            self.MyMove();
-          }, 500);
+          this.Move(0, ENEMYMOVEDIST);
         }
       }
 
       class Bullet extends GameObject {
         constructor(x, y, w, h){
           super(x, y, w, h);
-          this.MyMove();
         }
-        MyMove(){
+        Update(){
           if(this.posY_ < 0){
-            this.self_.parentNode.removeChild(this.self_);
+            this.state_ = false;
             return
           }
-          var self = this;
-          self.Move(0, -10);
-          window.setTimeout(function(){
-            self.MyMove();
-          }, 100);
+          this.Move(0, BULLETMOVEDIST);
         }
 
       }
@@ -174,20 +197,17 @@
         }
 
         $('#start').on('click',function(){
-          var timer = new Timer();
-          timer.Start();
-
           const game = new Game();
           const player = new Player(200, 450, 50, 50);
           game.AddCollection(player);
 
           window.setInterval(function(){
             CreateEnemy(game);
-          }, 5000);
+          }, ENEMYAPPEARTIME);
 
           window.setInterval(function(){
-            game.IsCollision();
-          }, 1);
+            game.Update();
+          }, UPDATEINTERVAL);
 
           $(window).keydown(function(e){
             // スペースキー 撃つ
