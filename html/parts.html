@@ -5,8 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript">
 
-      // TODO: 衝突判定の計算精度を上げる
-      // TODO: GameObjectのstate_を検出できないエラーを消す
+      // ERROR: GameObjectのisDestroy_を検出できないエラーを消す
 
       // 1秒に60回Updateを行う
       const UPDATEINTERVAL = 1000 / 60;
@@ -16,9 +15,17 @@
       const BULLETMOVEDIST = -20; 
       // 敵機があわられる時間
       const ENEMYAPPEARTIME = 3000;
+      // 自機の横幅
+      const PLAYERWIDTH = 50;
+      // 自機の縦幅
+      const PLAYERHIGHT = 50;
+      // 敵機の横幅
+      const ENEMYWIDTH = 50;
+      // 敵機の縦幅
+      const ENEMYHIGHT = 50;
 
       // ゲームを管理するクラス
-      class Game{
+      class GameManager{
         constructor(){
           this.collection_ = [];
         }
@@ -40,17 +47,20 @@
         Collision(){
           var length = this.collection_.length;
           for(var i = 0; i < length - 1; i++) {
+            var target = this.collection_[i];
+            var centerX4Target = target.leftTopX_ + target.width_ / 2;
+            var centerY4Target = target.leftTopY_ + target.height_ / 2;
             for(var j = i + 1; j < length ; j++) {
-              var o1 = this.collection_[i];
-              var o2 = this.collection_[j];
-              // 計算がずれているらしい(特にx軸)
-              var widthDecision   = (Math.abs(o1.posX_ - o2.posX_) < o1.width_  / 2 + o2.width_  / 2)? true : false;
-              var heightDecision  = (Math.abs(o1.posY_ - o2.posY_) < o1.height_ / 2 + o2.height_ / 2)? true : false;
+              var other = this.collection_[j];
+              var centerX4Other = other.leftTopX_ + other.width_ / 2;
+              var centerY4Other = other.leftTopY_ + other.height_ / 2;
+              var widthDecision = (Math.abs(centerX4Target - centerX4Other) < target.width_ / 2 + other.width_ / 2)? true : false;
+              var heightDecision = (Math.abs(centerY4Target - centerY4Other) < target.height_ / 2 + other.height_ / 2)? true : false;
               if(widthDecision == false || heightDecision == false){
                 continue;
               }
-              o1.Hit();
-              o2.Hit();
+              target.Hit();
+              other.Hit();
             }
           }
         }
@@ -59,31 +69,32 @@
           var length = this.collection_.length;
           for(var i = 0; i < length; i++) {
             var obj = this.collection_[i];
-            // state_が検出できない時がある
-            if(obj.state_ == false){
-              obj.self_.parentNode.removeChild(obj.self_);
-              this.DelCollection(i);
+            // isDestroy_が検出できない時がある
+            if(obj.isDestroy_ == false){
+              continue;
             }
+            obj.self_.parentNode.removeChild(obj.self_);
+            this.DelCollection(i);
           }
         }
         // 更新
         Update(){
           this.ObjectsUpdate();
           this.Collision();
-          this.Clean()
+          this.Clean();
         }
       }
      
       // オブジェクトのベース
       class BaseObject {
         // 初期位置を指定して生成する
-        constructor(posX, posY, width, height){
-          this.posX_   = posX;
-          this.posY_   = posY;
-          this.width_  = width;
-          this.height_ = height;
-          this.self_   = document.createElement('div');
-          this.state_  = true;
+        constructor(leftTopX, leftTopY, width, height){
+          this.leftTopX_  = leftTopX;
+          this.leftTopY_  = leftTopY;
+          this.width_     = width;
+          this.height_    = height;
+          this.isDestroy_ = false;
+          this.self_      = document.createElement('div');
           this.Draw();
         }
         // 自分を描画する
@@ -95,14 +106,13 @@
             return;
           }
           field.insertBefore(this.self_, field.firstChild);
-
           // スタイル設定 
           this.self_.style.position = "absolute";
           this.self_.style.border   = "1px solid black";
           this.self_.style.width    = this.width_  + "px";
           this.self_.style.height   = this.height_ + "px";
-          this.self_.style.left     = this.posX_   + "px";
-          this.self_.style.top      = this.posY_   + "px";
+          this.self_.style.left     = this.leftTopX_   + "px";
+          this.self_.style.top      = this.leftTopY_   + "px";
         }
       }
         
@@ -116,15 +126,15 @@
             console.log("in Move of CharactorBase self is null");
             return;
           }
-          var newPosX = this.posX_ + distX;
-          var newPosY = this.posY_ + distY;
-          this.self_.style.left = newPosX + "px";
-          this.self_.style.top  = newPosY + "px";
-          this.posX_ = newPosX;
-          this.posY_ = newPosY;
+          var newLeftTopX = this.leftTopX_ + distX;
+          var newLeftTopY = this.leftTopY_ + distY;
+          this.self_.style.left = newLeftTopX + "px";
+          this.self_.style.top  = newLeftTopY + "px";
+          this.leftTopX_ = newLeftTopX;
+          this.leftTopY_ = newLeftTopY;
         }
         Hit(){
-          this.state_ = false;
+          this.isDestroy_ = true;
         }
       }
 
@@ -141,8 +151,8 @@
           super(x, y, w, h);
         }
         Update(){
-          if(this.posY_ >= 400){
-            this.state_ = false;
+          if(this.leftTopY_ >= 400){
+            this.isDestroy_ = true;
             return
           }
           this.Move(0, ENEMYMOVEDIST);
@@ -154,15 +164,15 @@
           super(x, y, w, h);
         }
         Update(){
-          if(this.posY_ < 0){
-            this.state_ = false;
+          if(this.leftTopY_ < 0){
+            this.isDestroy_ = true;
             return
           }
           this.Move(0, BULLETMOVEDIST);
         }
-
       }
 
+      // 作りかけ(放置中)
       class Timer{
         constructor(){
           this.remainTime_ = 60 * 1000;
@@ -183,30 +193,39 @@
         }
         Stop(){
         }
-        
       }
       
+      // 作りかけ(放置中)
+      class ScoreManager extends BaseObject{
+        constructor(){
+          this.score = 0;
+        }
+        ShowScore(){}
+        UpdateScore(){}
+      }
 
 
 
       $(function(){
 
-        function CreateEnemy(game){
-          var enemy = new Enemy(Math.random() * 450 , 0, 50, 50);
-          game.AddCollection(enemy);
+        function CreateEnemy(gameManager){
+          var enemy = new Enemy(Math.random() * 450 , 0, ENEMYWIDTH, ENEMYHIGHT);
+          gameManager.AddCollection(enemy);
         }
 
         $('#start').on('click',function(){
-          const game = new Game();
-          const player = new Player(200, 450, 50, 50);
-          game.AddCollection(player);
+          // startボタンにフォーカスが当たっていると自機が複製されてしまう
+          document.activeElement.blur();
+          const gameManager = new GameManager();
+          const player = new Player(200, 450, PLAYERWIDTH, PLAYERHIGHT);
+          gameManager.AddCollection(player);
 
           window.setInterval(function(){
-            CreateEnemy(game);
+            CreateEnemy(gameManager);
           }, ENEMYAPPEARTIME);
 
           window.setInterval(function(){
-            game.Update();
+            gameManager.Update();
           }, UPDATEINTERVAL);
 
           $(window).keydown(function(e){
@@ -215,10 +234,11 @@
               var bulletWidth = 5;
               var bulletHeight = 5;
               // 自機の中心に弾を出現させる
-              var bulletPosX = player.posX_ +  (player.width_ / 2) - (bulletWidth / 2);
-              var bulletPosY = player.posY_ - 100;
-              var bullet = new Bullet(bulletPosX, bulletPosY, bulletWidth, bulletHeight);
-              game.AddCollection(bullet);
+              var bulletLeftTopX = player.leftTopX_ +  (player.width_ / 2) - (bulletWidth / 2);
+              // 発車した瞬間に自機が死なないようにY座標をテコ入れ
+              var bulletLeftTopY = player.leftTopY_ - 10;
+              var bullet = new Bullet(bulletLeftTopX, bulletLeftTopY, bulletWidth, bulletHeight);
+              gameManager.AddCollection(bullet);
             }
             // <- -> 左右移動
             if (e.keyCode == 37){
