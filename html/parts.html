@@ -32,36 +32,39 @@
       class GameManager{
         constructor(){
           this.collection_ = [];
-          this.timer_ = new Timer(PLAYABLETIME);
-          this.factory_ = new Factory();
+          this.enemyControl_ = new EnemyControl(this);
+          
         }
         AddCollection(obj){
           this.collection_.push(obj);
         }
         DelCollection(index){
+          if(this.collection_[index].toString() == "Enemy"){
+            console.log(this.enemyControl_.enemyKillCount_++);
+          }
           this.collection_.splice(index, 1);
         }
         // ゲーム内オブジェクトの更新
         ObjectsUpdate(){
-          var length = this.collection_.length;
-          for(var i = 0; i < length; i++) {
-            var obj = this.collection_[i];
+          let length = this.collection_.length;
+          for(let i = 0; i < length; i++) {
+            let obj = this.collection_[i];
             obj.Update();
           }
         }
         // 衝突判定
         Collision(){
-          var length = this.collection_.length;
-          for(var i = 0; i < length - 1; i++) {
-            var target = this.collection_[i];
-            var centerX4Target = target.leftTopX_ + target.width_ / 2;
-            var centerY4Target = target.leftTopY_ + target.height_ / 2;
-            for(var j = i + 1; j < length ; j++) {
-              var other = this.collection_[j];
-              var centerX4Other = other.leftTopX_ + other.width_ / 2;
-              var centerY4Other = other.leftTopY_ + other.height_ / 2;
-              var widthDecision = (Math.abs(centerX4Target - centerX4Other) < target.width_ / 2 + other.width_ / 2)? true : false;
-              var heightDecision = (Math.abs(centerY4Target - centerY4Other) < target.height_ / 2 + other.height_ / 2)? true : false;
+          let length = this.collection_.length;
+          for(let i = 0; i < length - 1; i++) {
+            let target = this.collection_[i];
+            let centerX4Target = target.leftTopX_ + target.width_ / 2;
+            let centerY4Target = target.leftTopY_ + target.height_ / 2;
+            for(let j = i + 1; j < length ; j++) {
+              let  other = this.collection_[j];
+              let centerX4Other = other.leftTopX_ + other.width_ / 2;
+              let centerY4Other = other.leftTopY_ + other.height_ / 2;
+              let widthDecision = (Math.abs(centerX4Target - centerX4Other) < target.width_ / 2 + other.width_ / 2)? true : false;
+              let heightDecision = (Math.abs(centerY4Target - centerY4Other) < target.height_ / 2 + other.height_ / 2)? true : false;
               if(widthDecision == false || heightDecision == false){
                 continue;
               }
@@ -72,9 +75,9 @@
         }
         // 不要オブジェクトの始末
         Clean(){
-          var length = this.collection_.length;
-          for(var i = 0; i < length; i++) {
-            var obj = this.collection_[i];
+          let length = this.collection_.length;
+          for(let i = 0; i < length; i++) {
+            let obj = this.collection_[i];
             // isDestroy_が検出できない時がある
             if(obj.isDestroy_ == false){
               continue;
@@ -90,24 +93,10 @@
           this.Clean();
         }
         Test(){
-          if(this.timer_.GetTime() < (100000)){
-            this.factory_.CreateBoss(this);
-          }else{
-            this.factory_.CreateEnemy(this);
-          }
+          this.enemyControl_.EnemyAppearControl();
         }
       }
 
-      class Factory{
-        CreateEnemy(gameManager){
-          var enemy = new Enemy(Math.random() * 450 , 0, ENEMYWIDTH, ENEMYHIGHT);
-          gameManager.AddCollection(enemy);
-        }
-        CreateBoss(gameManager){
-          const boss = new Boss(250 - 125, -200, 250, 250);
-          gameManager.AddCollection(boss);
-        }
-      }
 
      
       // オブジェクトのベース
@@ -125,7 +114,7 @@
         // 自分を描画する
         Draw(){
           // オブジェクトを配置
-          var field = document.getElementById("playField");
+          let field = document.getElementById("playField");
           if(field == null){
             console.log("in DrawMyself of CharactorBase field is null");
             return;
@@ -151,8 +140,8 @@
             console.log("in Move of CharactorBase self is null");
             return;
           }
-          var newLeftTopX = this.leftTopX_ + distX;
-          var newLeftTopY = this.leftTopY_ + distY;
+          let newLeftTopX = this.leftTopX_ + distX;
+          let newLeftTopY = this.leftTopY_ + distY;
           this.self_.style.left = newLeftTopX + "px";
           this.self_.style.top  = newLeftTopY + "px";
           this.leftTopX_ = newLeftTopX;
@@ -182,6 +171,9 @@
           }
           this.Move(0, ENEMYMOVEDIST);
         }
+        toString(){
+          return "Enemy";
+        }
       }
 
       class Bullet extends GameObject {
@@ -197,58 +189,30 @@
         }
       }
 
-      // タイマー
-      class Timer{
-        constructor(playableTime){
-          this.timer_ = document.getElementById("timer");
-          this.remainTime_ = playableTime;
-          this.timeConverter_ = new TimeConverter();
-          this.Start();
+      class EnemyControl{
+        constructor(gameManager){
+          this.gameManager_ = gameManager;
+          this.enemyKillCount_ = 0;
         }
-        Start(){
-          var self = this;
-          window.setInterval(function(){
-            self.Update();
-          }, 1000);
+        CreateEnemy(){
+          let enemy = new Enemy(Math.random() * 450 , 0, ENEMYWIDTH, ENEMYHIGHT);
+          this.gameManager_.AddCollection(enemy);
         }
-        Stop(){
-          GameOver();
+        CreateBoss(){
+          const boss = new Boss(250 - 125, -200, 250, 250);
+          this.gameManager_.AddCollection(boss);
         }
-        Update(){
-          this.CountDownRemainTime();
-          this.UpdateTimer();
-        }
-        CountDownRemainTime(){
-          if(this.remaiTime_ <= 0){
-            this.Stop();
-            return;
+        EnemyAppearControl(){
+          const untilBossAppear = 5;
+          if(this.enemyKillCount_ < untilBossAppear) {
+            this.CreateEnemy();
           }
-          this.remainTime_ -= 1000;
+          if(this.enemyKillCount_ == untilBossAppear) {
+            this.CreateBoss();
+            // ボスを複数出さないための苦肉の策
+            this.enemyKillCount_ = 10;
+          }
         }
-        UpdateTimer(){
-          var degTime = this.timeConverter_.ConvertMsToDegitalTime(this.remainTime_);
-          this.timer_.style.innerText = "あいうえお";
-        }
-        GetTime(){
-          console.log(this.remainTime_);
-          return this.remainTime_;
-        } 
-      }
-
-      // ミリ秒を変換するためのクラス
-      // 参考： https://qiita.com/fumix/items/a7f66780c728de95558f
-      class TimeConverter{
-        ConvertMsToDegitalTime(ms){
-          var h = String(Math.floor(ms / 3600000) + 100).substring(1);
-          var m = String(Math.floor((ms - h * 3600000)/60000)+ 100).substring(1);
-          var s = String(Math.round((ms - h * 3600000 - m * 60000)/1000)+ 100).substring(1);
-          return h + ":" + m + ":" + s;
-        }
-      }
-
-      function GameOver(){
-          // 暫定対応
-          location.reload();
       }
 
       class Boss extends GameObject {
@@ -266,7 +230,7 @@
           this.Move(0, ENEMYMOVEDIST);
         }
         Hit(){
-          if (this.hitCount_ < 50){
+          if (this.hitCount_ < 200){
             this.hitCount_ += 1;
             return;
           }
@@ -288,7 +252,7 @@
           window.setInterval(function(){
             gameManager.Test();
           }, ENEMYAPPEARTIME);
-
+          
           window.setInterval(function(){
             gameManager.Update();
           }, UPDATEINTERVAL);
@@ -296,13 +260,13 @@
           $(window).keydown(function(e){
             // スペースキー 撃つ
             if(e.keyCode == 32){
-              var bulletWidth = 5;
-              var bulletHeight = 5;
+              let bulletWidth = 5;
+              let bulletHeight = 5;
               // 自機の中心に弾を出現させる
-              var bulletLeftTopX = player.leftTopX_ +  (player.width_ / 2) - (bulletWidth / 2);
+              let bulletLeftTopX = player.leftTopX_ +  (player.width_ / 2) - (bulletWidth / 2);
               // 発車した瞬間に自機が死なないようにY座標をテコ入れ
-              var bulletLeftTopY = player.leftTopY_ - 10;
-              var bullet = new Bullet(bulletLeftTopX, bulletLeftTopY, bulletWidth, bulletHeight);
+              let bulletLeftTopY = player.leftTopY_ - 10;
+              let bullet = new Bullet(bulletLeftTopX, bulletLeftTopY, bulletWidth, bulletHeight);
               gameManager.AddCollection(bullet);
             }
             // <- -> 左右移動
@@ -320,7 +284,7 @@
 
         $("#stop").on("click",function(){
           // 暫定対応
-          GameOver();
+          location.reload();
         });
 
 
@@ -349,7 +313,6 @@
     <div id="playField"></div>
     <button id="start">start</button>
     <button id="stop">stop</button>
-    <div id="timer">a</div>
   </body> 
 </html> 
 
