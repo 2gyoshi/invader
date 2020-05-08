@@ -1,8 +1,8 @@
 'usestrict'
 
 class Player {
-    constructor(target, width, height, left, top) {
-        this.target  = target;
+    constructor(field, width, height, left, top) {
+        this.field  = field;
         this.width   = width;
         this.height  = height;
         this.left    = left;
@@ -22,7 +22,7 @@ class Player {
         this.element.style.left     = `${this.left}px`;
         this.element.style.top      = `${this.top}px`;
 
-        this.target.insertAdjacentElement('beforeend', this.element);
+        this.field.insertAdjacentElement('beforeend', this.element);
     }
 
     update() {
@@ -30,6 +30,12 @@ class Player {
     }
 
     move(left, top) {
+        const min = 0;
+        const max = this.field.clientWidth - this.width;
+        
+        if(this.left + left <= min) return;
+        if(this.left + left >= max) return;
+
         this.left += left;
         this.top  += top;
         this.element.style.left = `${this.left}px`;
