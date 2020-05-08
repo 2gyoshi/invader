@@ -36,3 +36,42 @@ body {
     /* border: 1px solid #000000; */
 }
 
+button {
+    width: 100px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #FFFFFF;
+}
+
+.center {
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.start-btn {
+    
+}
+
+.reset-btn {
+    color: #FFFFFF;
+    background: #E53A40;
+}
+
+.stop-btn {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px; 
+}
+

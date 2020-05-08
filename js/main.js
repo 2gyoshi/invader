@@ -78,12 +78,43 @@ function getEnemyLeft() {
 
 const main = new Main();
 
-document.querySelector('#js-start-btn').addEventListener('click', e => {
-    e.target.disabled = true;
+const startBtn = document.querySelector('#js-start-btn');
+const resetBtn = document.querySelector('#js-reset-btn');
+const stopBtn  = document.querySelector('#js-stop-btn');
+
+startBtn.addEventListener('click', e => {
+    buttonControl(true);
     main.start();
 });
 
-document.querySelector('#js-stop-btn').addEventListener('click', e => {
-    document.querySelector('#js-start-btn').disabled = false;
+resetBtn.addEventListener('click', e => {
+    buttonControl(true);
+    location.reload();
+});
+
+stopBtn.addEventListener('click', e => {
+    buttonControl(false);
     main.stop();
 });
+
+function buttonControl(isStart) {
+    if(isStart) {
+        startBtn.disabled = true;
+        startBtn.style.display = 'none';
+    
+        resetBtn.disabled = true;
+        resetBtn.style.display = 'none';
+    
+        stopBtn.disabled = false;
+        stopBtn.style.display = 'block';
+    } else {
+        startBtn.disabled = false;
+        startBtn.style.display = 'block';
+    
+        resetBtn.disabled = false;
+        resetBtn.style.display = 'block';
+    
+        stopBtn.disabled = true;
+        stopBtn.style.display = 'none';
+    }
+}
