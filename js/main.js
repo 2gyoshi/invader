@@ -12,10 +12,10 @@ class Main {
         const field = document.querySelector('#js-field');
         
         // Player生成
-        const width  = 100;
-        const height = 100;
-        const left   = (document.documentElement.clientWidth * 0.5) - (width * 0.5)
-        const top    = document.documentElement.clientHeight * 0.8;
+        const width  = 50;
+        const height = 50;
+        const left   = (field.clientWidth * 0.5) - (width * 0.5)
+        const top    = field.clientHeight * 0.8;
         const player = new Player(field, width, height, left, top);
         this.manager.addItem(player);
         player.createElement();
@@ -26,9 +26,9 @@ class Main {
             switch(e.keyCode) {
                 case 32: // スペースキー入力
                     const bw = 10;
-                    const bh = 10;
+                    const bh = 20;
                     const bl = player.left + (player.width * 0.5) - (bw * 0.5);
-                    const bt = player.top - (bh * 0.5);
+                    const bt = player.top - (bh * 2);
                     const bullet = new Bullet(field, bw, bh, bl, bt, -5);
                     this.manager.addItem(bullet);
                     bullet.createElement();
@@ -70,11 +70,10 @@ function getRandomInt(min, max) {
 // Enemyの出現位置を取得する
 function getEnemyLeft() {
     const field  = document.querySelector('#js-field');
-    const adjust = field.getBoundingClientRect().left;
     const piece  = field.clientWidth / 5;
     const index  = getRandomInt(0, 5);
     // TODO: Enemyの幅調整値(25)を動的に取得できるようにする
-    return (piece * index) + (piece * 0.5) - 25 + adjust;
+    return (piece * index) + (piece * 0.5) - 25;
 }
 
 const main = new Main();

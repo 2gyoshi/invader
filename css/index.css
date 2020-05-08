@@ -9,22 +9,30 @@ html, body {
     height: 100%;
 }
 
+body {
+    background: #323347;
+}
+
 .field {
     width: 250px;
     height: 100%;
     border: 1px solid #000000;
     margin: 0 auto;
-    background: gray;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
 .player {
     /* border: 1px solid #000000; */
 }
 
 .enemy {
-    border: 1px solid #000000;
+    /* border: 1px solid #000000; */
 }
 
 .bullet {
-    border: 1px solid #000000;
+    /* border: 1px solid #000000; */
 }
 

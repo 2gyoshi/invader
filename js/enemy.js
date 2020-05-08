@@ -14,7 +14,8 @@ class Enemy {
     }
 
     createElement() {
-        this.element = document.createElement('div');
+        this.element = document.createElement('img');
+        this.element.setAttribute('src', '../img/enemy.svg')
         this.element.classList.add(this.type);
         this.element.style.width    = `${this.width}px`;
         this.element.style.height   = `${this.height}px`;

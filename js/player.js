@@ -9,7 +9,7 @@ class Player {
         this.top     = top;
         this.type    = 'player';
         this.element = null;
-        this.isHit    = false;
+        this.isHit   = false;
     }
 
     createElement() {
