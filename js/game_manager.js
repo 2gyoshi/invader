@@ -4,6 +4,9 @@ class GameManager {
     constructor() {
         this.collection = [];
         this.requestID  = 0;
+        this.player     = null;
+        this.isStart    = false;
+        this.utility    = new Utility();
     }
 
     addItem(item) {
@@ -15,6 +18,7 @@ class GameManager {
     }
 
     start() {
+        this.isStart = true;
         this.requestID = requestAnimationFrame(this.start.bind(this));
         this.collection.forEach(e => e.update());
         this.judgeCollision();
@@ -22,7 +26,9 @@ class GameManager {
     }
 
     stop() {
+        this.isStart = false;
         cancelAnimationFrame(this.requestID);
+        clearInterval(this.enemyTimer);
     }
 
     judgeCollision(){
@@ -58,4 +64,42 @@ class GameManager {
             item = null;
         }
     }
+
+    // TODO: どうにかする
+    createPlayer() {
+        if(this.player === null) {
+            const field = document.querySelector('#js-field');
+            const width  = 50;
+            const height = 50;
+            const left   = (field.clientWidth * 0.5) - (width * 0.5)
+            const top    = field.clientHeight * 0.8;
+            this.player = new Player(field, width, height, left, top);
+            this.addItem(this.player);
+            this.player.createElement();
+        }
+    }
+
+    // TODO: どうにかする
+    createBullet() {
+        const field = document.querySelector('#js-field');
+        const bw = 5;
+        const bh = 10;
+        const bl = this.player.left + (this.player.width * 0.5) - (bw * 0.5);
+        const bt = this.player.top - (bh * 2);
+        const bullet = new Bullet(field, bw, bh, bl, bt, -5);
+        this.addItem(bullet);
+        bullet.createElement();
+    }
+
+    // TODO: どうにかする
+    createEnemy() {
+        const field = document.querySelector('#js-field');
+        this.enemyTimer = setInterval(() => {
+            const eLeft = this.utility.getEnemyLeft(25);
+            const enemy = new Enemy(field, 50, 50, eLeft, 10, 0.5);
+            enemy.createElement();
+            this.addItem(enemy);
+        }, 3000);
+    }
+
 }
