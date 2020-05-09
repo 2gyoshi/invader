@@ -10,6 +10,7 @@ class GameObject {
         this.type       = 'gameObject';
         this.element    = null;
         this.isDisposed = false;
+        this.health     = 1;
     }
 
     createElement() {
@@ -34,9 +35,17 @@ class GameObject {
 
     dispose() {
         this.isDisposed = true;
+        return 0;
     }
 
     getIsDisposed() {
         return this.isDisposed;
+    }
+
+    hit() {
+        this.health--;
+        if(this.health <= 0) {
+            this.dispose();
+        } 
     }
 }

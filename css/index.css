@@ -60,3 +60,12 @@ button {
     right: 10px; 
 }
 
+.clear-message {
+    color: yellow;
+    font-size: 25px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
