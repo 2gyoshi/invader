@@ -10,7 +10,7 @@ class Bullet extends GameObject {
     update() {
         super.update();
         if(this.top < 0) {
-            this.element.remove();
+            this.dispose();
         }
     }
 }

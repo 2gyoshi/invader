@@ -2,14 +2,14 @@
 
 class GameObject {
     constructor(field, width, height, left, top) {
-        this.field   = field;
-        this.width   = width;
-        this.height  = height;
-        this.left    = left;
-        this.top     = top;
-        this.type    = 'gameObject';
-        this.element = null;
-        this.isHit   = false;
+        this.field      = field;
+        this.width      = width;
+        this.height     = height;
+        this.left       = left;
+        this.top        = top;
+        this.type       = 'gameObject';
+        this.element    = null;
+        this.isDisposed = false;
     }
 
     createElement() {
@@ -32,7 +32,11 @@ class GameObject {
         this.element.style.top  = `${this.top}px`;
     }
 
-    hit() {
-        this.isHit = true;
+    dispose() {
+        this.isDisposed = true;
+    }
+
+    getIsDisposed() {
+        return this.isDisposed;
     }
 }

@@ -10,7 +10,7 @@ class Enemy extends GameObject {
     update() {
         super.update();
         if(this.top > document.documentElement.clientHeight * 0.8) {
-            this.element.remove();
+            this.dispose();
         }
     }
 }

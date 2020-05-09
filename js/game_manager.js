@@ -3,7 +3,8 @@
 class GameManager {
     constructor() {
         this.collection = [];
-        this.requestID  = 0;
+        this.requestID  = null;
+        this.enemyTimer = null;
         this.player     = null;
         this.isStart    = false;
         this.utility    = new Utility();
@@ -21,7 +22,7 @@ class GameManager {
         this.isStart = true;
         this.requestID = requestAnimationFrame(this.start.bind(this));
         this.collection.forEach(e => e.update());
-        this.judgeCollision();
+        this.collection.forEach(e => this.collision(e));
         this.clean();
     }
 
@@ -31,34 +32,35 @@ class GameManager {
         clearInterval(this.enemyTimer);
     }
 
-    judgeCollision(){
-        for(let target of this.collection) {
+    collision(target) {
+        // オブジェクトの中点を取得する
+        const hw = target.width * 0.5;
+        const hh = target.height * 0.5;
+        const x = target.left + hw;
+        const y = target.top + hh;
+
+        for(let item of this.collection) {
+            if(target === item) continue;
             // オブジェクトの中点を取得する
-            let centerX4Target = target.left + (target.width * 0.5);
-            let centerY4Target = target.top + (target.height * 0.5);
+            let itemhw = item.width * 0.5;
+            let itemhh = item.height * 0.5;
+            let itemx = item.left + itemhw;
+            let itemy = item.top + itemhh;
 
-            for(let other of this.collection) {
-                if(target === other) continue;
+            // 縦横の重なりを判定
+            let xd = Math.abs(x - itemx) < hw + itemhw;
+            let yd = Math.abs(y - itemy) < hh + itemhh;
+            
+            if(xd === false || yd === false) continue;
 
-                // オブジェクトの中点を取得する
-                let centerX4Other  = other.left + (other.width * 0.5);
-                let centerY4Other  = other.top + (other.height * 0.5);
-
-                // 縦横が重なっていないか判定
-                let widthDecision  = (Math.abs(centerX4Target - centerX4Other) < (target.width * 0.5) + (other.width * 0.5))   ? true : false;
-                let heightDecision = (Math.abs(centerY4Target - centerY4Other) < (target.height * 0.5) + (other.height * 0.5)) ? true : false;
-                
-                if(widthDecision == false || heightDecision == false) continue;
-                
-                target.hit();
-                other.hit();
-            }
+            target.dispose();
+            break;
         }
     }
 
     clean() {
         for(let item of this.collection) {
-            if(item.isHit === false) continue;
+            if(item.getIsDisposed() === false) continue;
             item.element.remove();
             this.removeItem(item);
             item = null;
@@ -81,25 +83,30 @@ class GameManager {
 
     // TODO: どうにかする
     createBullet() {
-        const field = document.querySelector('#js-field');
-        const bw = 5;
-        const bh = 10;
-        const bl = this.player.left + (this.player.width * 0.5) - (bw * 0.5);
-        const bt = this.player.top - (bh * 2);
-        const bullet = new Bullet(field, bw, bh, bl, bt, -5);
+        const field    = document.querySelector('#js-field');
+        const width    = 5;
+        const height   = 10;
+        const left     = this.player.left + (this.player.width * 0.5) - (width * 0.5);
+        const top      = this.player.top - (height * 2);
+        const distance = -5;
+        const bullet   = new Bullet(field, width, height, left, top, distance);
         this.addItem(bullet);
         bullet.createElement();
     }
 
     // TODO: どうにかする
     createEnemy() {
-        const field = document.querySelector('#js-field');
         this.enemyTimer = setInterval(() => {
-            const eLeft = this.utility.getEnemyLeft(25);
-            const enemy = new Enemy(field, 50, 50, eLeft, 10, 0.5);
+            const field    = document.querySelector('#js-field');
+            const width    = 50;
+            const height   = 50;
+            const left     = this.utility.getEnemyLeft(width * 0.5);
+            const top      = 10;
+            const distance = 0.5;
+            const enemy = new Enemy(field, width, height, left, top, distance);
             enemy.createElement();
             this.addItem(enemy);
-        }, 3000);
+        }, 1800);
     }
 
 }
