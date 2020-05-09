@@ -10,9 +10,7 @@ html, body {
 }
 
 body {
-    /* background: #323347; */
     background: #425A69;
-    
 }
 
 .field {
@@ -24,18 +22,6 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* border: 1px solid #000000; */
-}
-
-.player {
-    /* border: 1px solid #000000; */
-}
-
-.enemy {
-    /* border: 1px solid #000000; */
-}
-
-.bullet {
     /* border: 1px solid #000000; */
 }
 
@@ -60,10 +46,6 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); 
-}
-
-.start-btn {
-    
 }
 
 .reset-btn {

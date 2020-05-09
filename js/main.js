@@ -1,36 +1,25 @@
 'usestrict'
 
-class Main {
-    constructor() {
-        this.manager = new GameManager();
-    }
-
-    // ゲームスタート
-    start() {
-        this.manager.start();
-        this.manager.createPlayer();
-        this.manager.createEnemy();
-    }
-
-    // 一時停止
-    stop() {
-        this.manager.stop();
-    }
-}
-
 window.onload = function() {
-    const main　= new Main();
+    // 背景の星を作る
+    new Background().render();
+    
+    // ゲームを管理するオブジェクトを生成する
+    const manager = new GameManager();
+
+    // キー入力イベントを設定する
     window.addEventListener('keydown', e => {
-        if(main.manager.isStart === false) return;
+        if(manager.isStart === false) return;
         switch(e.keyCode) {
             case 32: // スペースキー入力
-                main.manager.createBullet();
+                // TODO: プレイヤーにもたせたい機能
+                manager.createBullet();
                 break;
             case 37:　// 左キー入力
-                main.manager.player.move(-10, 0);
+                manager.player.move(-10, 0);
                 break;
             case 39: // 右キー入力
-                main.manager.player.move(10, 0);
+                manager.player.move(10, 0);
                 break;
             default:
                 break;
@@ -38,22 +27,29 @@ window.onload = function() {
     }, false);
 
     const utility 　= new Utility();
-    const startBtn = document.querySelector('#js-start-btn');
-    const resetBtn = document.querySelector('#js-reset-btn');
-    const stopBtn  = document.querySelector('#js-stop-btn');
 
+    // ゲームを開始する
+    const startBtn = document.querySelector('#js-start-btn');
     startBtn.addEventListener('click', e => {
         utility.buttonControl(true);
-        main.start();
+        manager.start();
     });
 
+    // ゲームを停止する
+    const stopBtn = document.querySelector('#js-stop-btn');
+    stopBtn.addEventListener('click', e => {
+        utility.buttonControl(false);
+        manager.stop();
+    });
+
+    // ゲームをリセットする
+    const resetBtn = document.querySelector('#js-reset-btn');
     resetBtn.addEventListener('click', e => {
         utility.buttonControl(true);
         location.reload();
     });
+}
 
-    stopBtn.addEventListener('click', e => {
-        utility.buttonControl(false);
-        main.stop();
-    });
+window.onresize = function() {
+    new Background().render();
 }

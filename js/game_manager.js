@@ -20,16 +20,22 @@ class GameManager {
 
     start() {
         this.isStart = true;
-        this.requestID = requestAnimationFrame(this.start.bind(this));
-        this.collection.forEach(e => e.update());
-        this.collection.forEach(e => this.collision(e));
-        this.clean();
+        this.createPlayer();
+        this.startEnemyTimer();
+        this.update();
     }
 
     stop() {
         this.isStart = false;
         cancelAnimationFrame(this.requestID);
         clearInterval(this.enemyTimer);
+    }
+
+    update() {
+        this.requestID = requestAnimationFrame(this.update.bind(this));
+        this.collection.forEach(e => e.update());
+        this.collection.forEach(e => this.collision(e));
+        this.clean();
     }
 
     collision(target) {
@@ -67,21 +73,21 @@ class GameManager {
         }
     }
 
-    // TODO: どうにかする
+    // TODO: 分離したい
     createPlayer() {
-        if(this.player === null) {
-            const field = document.querySelector('#js-field');
-            const width  = 50;
-            const height = 50;
-            const left   = (field.clientWidth * 0.5) - (width * 0.5)
-            const top    = field.clientHeight * 0.8;
-            this.player = new Player(field, width, height, left, top);
-            this.addItem(this.player);
-            this.player.createElement();
-        }
+        if(this.player !== null) return;
+
+        const field  = document.querySelector('#js-field');
+        const width  = 50;
+        const height = 50;
+        const left   = (field.clientWidth * 0.5) - (width * 0.5)
+        const top    = field.clientHeight * 0.8;
+        this.player  = new Player(field, width, height, left, top);
+        this.addItem(this.player);
+        this.player.createElement();
     }
 
-    // TODO: どうにかする
+    // TODO: 分離したい
     createBullet() {
         const field    = document.querySelector('#js-field');
         const width    = 5;
@@ -94,19 +100,22 @@ class GameManager {
         bullet.createElement();
     }
 
-    // TODO: どうにかする
+    // TODO: 分離したい
     createEnemy() {
-        this.enemyTimer = setInterval(() => {
-            const field    = document.querySelector('#js-field');
-            const width    = 50;
-            const height   = 50;
-            const left     = this.utility.getEnemyLeft(width * 0.5);
-            const top      = 10;
-            const distance = 0.5;
-            const enemy = new Enemy(field, width, height, left, top, distance);
-            enemy.createElement();
-            this.addItem(enemy);
-        }, 1800);
+        const field    = document.querySelector('#js-field');
+        const width    = 50;
+        const height   = 50;
+        const left     = this.utility.getEnemyLeft(width * 0.5);
+        const top      = 10;
+        const distance = 0.5;
+        const enemy = new Enemy(field, width, height, left, top, distance);
+        enemy.createElement();
+        this.addItem(enemy);
+    }
+
+    // TODO: 分離したい
+    startEnemyTimer() {
+        this.enemyTimer = setInterval(() => this.createEnemy(), 1800);
     }
 
 }
