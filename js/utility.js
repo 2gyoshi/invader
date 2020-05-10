@@ -41,6 +41,12 @@ class Utility {
                 resetBtn.style.display = 'block';
                 stopBtn.style.display  = 'none';
                 message.style.display  = 'block';
+            case 'over':
+                startBtn.style.display = 'none';
+                resetBtn.style.display = 'block';
+                stopBtn.style.display  = 'none';
+                message.style.display  = 'block';
+                break;
             default:
                 break;
         }

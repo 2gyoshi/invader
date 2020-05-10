@@ -15,7 +15,6 @@ class Enemy extends GameObject {
     }
 
     dispose() {
-        this.distance = 0;
         this.element.setAttribute('src', '../img/explosion.svg');
         setInterval(() => super.dispose(), 500);
     }

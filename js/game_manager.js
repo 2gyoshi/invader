@@ -32,17 +32,18 @@ class GameManager {
         clearInterval(this.enemyTimer);
     }
 
+    finish(status) {
+        this.stop();
+        const message = document.querySelector('.message');
+        message.innerHTML = `<h1 class="${status}">game ${status}</h1>`;
+        this.utility.displayControl(status);
+    }
+
     update() {
         this.requestID = requestAnimationFrame(this.update.bind(this));
         this.collection.forEach(e => e.update());
         this.collection.forEach(e => this.collision(e));
         this.clean();
-    }
-
-    clear() {
-        this.stop();
-        // TODO: どうにかする
-        this.utility.displayControl('clear');
     }
 
     collision(target) {
@@ -81,10 +82,17 @@ class GameManager {
                 this.score++;
             }
             if(item.type === 'boss') {
-                this.clear();
+                this.finish('clear');
+            }
+            if(item.type === 'player') {
+                this.finish('over');
             }
             item = null;
         }
+    }
+
+    startEnemyTimer() {
+        this.enemyTimer = setInterval(() => this.createEnemy(), 3000);
     }
 
     // TODO: 分離したい
@@ -115,6 +123,7 @@ class GameManager {
 
     // TODO: 分離したい
     createEnemy() {
+        // TODO: どうにかする
         if(this.score >= 10) {
             clearInterval(this.enemyTimer);
             this.createBoss();
@@ -130,11 +139,6 @@ class GameManager {
         const enemy = new Enemy(field, width, height, left, top, distance);
         enemy.createElement();
         this.addItem(enemy);
-    }
-
-    // TODO: 分離したい
-    startEnemyTimer() {
-        this.enemyTimer = setInterval(() => this.createEnemy(), 3000);
     }
 
     // TODO: 分離したい

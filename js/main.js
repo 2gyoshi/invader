@@ -10,16 +10,17 @@ window.onload = function() {
     // キー入力イベントを設定する
     window.addEventListener('keydown', e => {
         if(manager.isStart === false) return;
+        const distance = manager.player.width;
         switch(e.keyCode) {
             case 32: // スペースキー入力
                 // TODO: プレイヤーにもたせたい機能
                 manager.createBullet();
                 break;
             case 37:　// 左キー入力
-                manager.player.move(-10, 0);
+                manager.player.move(distance * -1, 0);
                 break;
             case 39: // 右キー入力
-                manager.player.move(10, 0);
+                manager.player.move(distance, 0);
                 break;
             default:
                 break;
