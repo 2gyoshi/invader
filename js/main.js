@@ -31,21 +31,21 @@ window.onload = function() {
     // ゲームを開始する
     const startBtn = document.querySelector('#js-start-btn');
     startBtn.addEventListener('click', e => {
-        utility.buttonControl(true);
+        utility.displayControl('start');
         manager.start();
     });
 
     // ゲームを停止する
     const stopBtn = document.querySelector('#js-stop-btn');
     stopBtn.addEventListener('click', e => {
-        utility.buttonControl(false);
+        utility.displayControl('stop');
         manager.stop();
     });
 
     // ゲームをリセットする
     const resetBtn = document.querySelector('#js-reset-btn');
     resetBtn.addEventListener('click', e => {
-        utility.buttonControl(true);
+        utility.displayControl('start');
         location.reload();
     });
 }

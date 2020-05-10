@@ -42,11 +42,7 @@ class GameManager {
     clear() {
         this.stop();
         // TODO: どうにかする
-        const body = document.querySelector('body');
-        const element = document.createElement('div');
-        element.insertAdjacentHTML('beforeend', 'clear!');
-        element.classList.add('clear-message')
-        body.insertAdjacentElement('beforeend', element);
+        this.utility.displayControl('clear');
     }
 
     collision(target) {
@@ -147,7 +143,7 @@ class GameManager {
         const width    = field.clientWidth;
         const height   = width;
         const left     = (field.clientWidth * 0.5) - (width * 0.5)
-        const top      = -10;
+        const top      = height * -1;
         const distance = 0.2;
         const boss = new Boss(field, width, height, left, top, distance);
         boss.createElement();

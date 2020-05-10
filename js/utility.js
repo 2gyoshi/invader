@@ -17,29 +17,32 @@ class Utility {
     }
 
     // TODO: どうにかする
-    buttonControl(isStart) {
+    displayControl(status) {
         const startBtn = document.querySelector('#js-start-btn');
         const resetBtn = document.querySelector('#js-reset-btn');
         const stopBtn  = document.querySelector('#js-stop-btn');
-    
-        if(isStart) {
-            startBtn.disabled = true;
-            startBtn.style.display = 'none';
-        
-            resetBtn.disabled = true;
-            resetBtn.style.display = 'none';
-        
-            stopBtn.disabled = false;
-            stopBtn.style.display = 'block';
-        } else {
-            startBtn.disabled = false;
-            startBtn.style.display = 'block';
-        
-            resetBtn.disabled = false;
-            resetBtn.style.display = 'block';
-        
-            stopBtn.disabled = true;
-            stopBtn.style.display = 'none';
+        const message  = document.querySelector('.message');
+
+        switch (status) {
+            case 'start':
+                startBtn.style.display = 'none';
+                resetBtn.style.display = 'none';
+                stopBtn.style.display  = 'block';
+                message.style.display  = 'none';
+                break;
+            case 'stop':
+                startBtn.style.display = 'block';
+                resetBtn.style.display = 'block';
+                stopBtn.style.display  = 'none';
+                message.style.display  = 'none';
+                break;
+            case 'clear':
+                startBtn.style.display = 'none';
+                resetBtn.style.display = 'block';
+                stopBtn.style.display  = 'none';
+                message.style.display  = 'block';
+            default:
+                break;
         }
     }
 }
