@@ -1,10 +1,9 @@
 'usestrict'
 
-class Bullet extends GameObject {
-    constructor(field, width, height, left, top, distance) {
-        super(field, width, height, left, top);
-        this.distance = distance;
-        this.type     = 'bullet';
+class Bullet extends Charactor {
+    constructor(field, width, height, left, top, distance, health, img) {
+        super(field, width, height, left, top, distance, health, img);
+        this.type = 'bullet';
     }
 
     update() {

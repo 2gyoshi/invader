@@ -1,17 +1,21 @@
 'usestrict'
 
-window.onload = function() {
+window.addEventListener('load', main);
+window.addEventListener('resize', e => new Background().render());
+
+function main() {
     // 背景の星を作る
     new Background().render();
     
     // ゲームを管理するオブジェクトを生成する
-    const utility 　= new Utility();
-    const manager = new GameManager();
-    manager.setUtility(utility);
+    const field = document.querySelector('#js-field');
+
+    const utility = new Utility();
+    const manager = new Manager(utility, field);
 
     // キー入力イベントを設定する
     window.addEventListener('keydown', e => {
-        if(manager.isStart === false) return;
+        if(manager.isPlaying === false) return;
         const distance = manager.player.width;
         switch(e.keyCode) {
             case 32: // スペースキー入力
@@ -49,8 +53,4 @@ window.onload = function() {
         utility.displayControl('start');
         location.reload();
     });
-}
-
-window.onresize = function() {
-    new Background().render();
 }

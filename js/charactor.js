@@ -1,21 +1,24 @@
 'usestrict'
 
-class GameObject {
-    constructor(field, width, height, left, top) {
+class Charactor {
+    constructor(field, width, height, left, top, distance, health, img) {
+        this.type       = 'base';
         this.field      = field;
         this.width      = width;
         this.height     = height;
         this.left       = left;
         this.top        = top;
-        this.type       = 'gameObject';
+        this.health     = health;
+        this.distance   = distance;
+        this.img        = img;
         this.element    = null;
         this.isDisposed = false;
-        this.health     = 1;
+
     }
 
     createElement() {
         this.element = document.createElement('img');
-        this.element.setAttribute('src', `../img/${this.type}.svg`)
+        this.element.setAttribute('src', this.img.normal)
         this.element.classList.add(this.type);
         this.element.style.width    = `${this.width}px`;
         this.element.style.height   = `${this.height}px`;

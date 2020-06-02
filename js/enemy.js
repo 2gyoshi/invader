@@ -1,10 +1,9 @@
 'usestrict'
 
-class Enemy extends GameObject {
-    constructor(field, width, height, left, top, distance) {
-        super(field, width, height, left, top);
-        this.distance = distance;
-        this.type     = 'enemy';
+class Enemy extends Charactor {
+    constructor(field, width, height, left, top, distance, health, img) {
+        super(field, width, height, left, top, distance, health, img);
+        this.type = 'enemy';
     }
 
     update() {
@@ -15,7 +14,7 @@ class Enemy extends GameObject {
     }
 
     dispose() {
-        this.element.setAttribute('src', '../img/explosion.svg');
+        this.element.setAttribute('src', this.img.dispose);
         setInterval(() => super.dispose(), 500);
     }
 }

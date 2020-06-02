@@ -8,14 +8,6 @@ class Utility {
         return Math.floor(Math.random() * (max - min)) + min;
     }
     
-    // Enemyの出現位置を取得する
-    getEnemyLeft(adjust) {
-        const field  = document.querySelector('#js-field');
-        const piece  = field.clientWidth / 5;
-        const index  = this.getRandomInt(0, 5);
-        return (piece * index) + (piece * 0.5) - adjust;
-    }
-
     // TODO: どうにかする
     displayControl(status) {
         const startBtn = document.querySelector('#js-start-btn');
@@ -23,6 +15,8 @@ class Utility {
         const stopBtn  = document.querySelector('#js-stop-btn');
         const message  = document.querySelector('.message');
 
+        if(!startBtn || !resetBtn || !stopBtn || !message) return;
+        
         switch (status) {
             case 'start':
                 startBtn.style.display = 'none';

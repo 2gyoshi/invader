@@ -1,8 +1,8 @@
 'usestrict'
 
-class Player extends GameObject {
-    constructor(field, width, height, left, top) {
-        super(field, width, height, left, top);
+class Player extends Charactor {
+    constructor(field, width, height, left, top, distance, health, img) {
+        super(field, width, height, left, top, distance, health, img);
         this.type    = 'player';
     }
 
@@ -24,7 +24,7 @@ class Player extends GameObject {
     }
 
     dispose() {
-        this.element.setAttribute('src', '../img/explosion.svg');
+        this.element.setAttribute('src', this.img.dispose);
         setInterval(() => super.dispose(), 500);
     }
 }

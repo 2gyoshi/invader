@@ -1,11 +1,9 @@
 'usestrict'
 
-class Boss extends GameObject {
-    constructor(field, width, height, left, top, distance) {
-        super(field, width, height, left, top);
-        this.distance = distance;
-        this.type     = 'boss';
-        this.health   = 100;
+class Boss extends Charactor {
+    constructor(field, width, height, left, top, distance, health, img) {
+        super(field, width, height, left, top, distance, health, img);
+        this.type = 'boss';
     }
 
     update() {
@@ -17,7 +15,7 @@ class Boss extends GameObject {
 
     dispose() {
         this.distance = 0;
-        this.element.setAttribute('src', '../img/explosion.svg');
+        this.element.setAttribute('src', this.img.dispose);
         setInterval(() => super.dispose(), 500);
     }
 }
