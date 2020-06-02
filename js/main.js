@@ -5,7 +5,9 @@ window.onload = function() {
     new Background().render();
     
     // ゲームを管理するオブジェクトを生成する
+    const utility 　= new Utility();
     const manager = new GameManager();
+    manager.setUtility(utility);
 
     // キー入力イベントを設定する
     window.addEventListener('keydown', e => {
@@ -26,8 +28,6 @@ window.onload = function() {
                 break;
         }
     }, false);
-
-    const utility 　= new Utility();
 
     // ゲームを開始する
     const startBtn = document.querySelector('#js-start-btn');

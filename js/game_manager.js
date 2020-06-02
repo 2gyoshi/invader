@@ -1,14 +1,14 @@
 'usestrict'
 
 class GameManager {
-    constructor() {
+    constructor(utility) {
         this.collection = [];
         this.requestID  = null;
         this.enemyTimer = null;
         this.player     = null;
         this.isStart    = false;
         this.score      = 0;
-        this.utility    = new Utility();
+        this.utility    = null;
     }
 
     addItem(item) {
@@ -17,6 +17,10 @@ class GameManager {
 
     removeItem(item) {
         this.collection = this.collection.filter(e => e !== item);
+    }
+
+    setUtility(utility) {
+        this.utility = utility;
     }
 
     start() {
@@ -148,7 +152,7 @@ class GameManager {
         const height   = width;
         const left     = (field.clientWidth * 0.5) - (width * 0.5)
         const top      = height * -1;
-        const distance = 0.2;
+        const distance = 0.5;
         const boss = new Boss(field, width, height, left, top, distance);
         boss.createElement();
         this.addItem(boss);
