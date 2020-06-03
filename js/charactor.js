@@ -1,7 +1,7 @@
 'usestrict'
 
 class Charactor {
-    constructor(field, width, height, left, top, distance, health, img) {
+    constructor(field, width, height, left, top, distance, health, imgPath) {
         this.type       = 'base';
         this.field      = field;
         this.width      = width;
@@ -10,21 +10,21 @@ class Charactor {
         this.top        = top;
         this.health     = health;
         this.distance   = distance;
-        this.img        = img;
-        this.element    = null;
+        this.imgPath    = imgPath;
         this.isDisposed = false;
 
         // TODO:ダイエットする
-        const canvas  = document.querySelector('#js-canvas');
+        const canvas = document.querySelector('#js-canvas');
         this.context = canvas.getContext('2d');
-        this.normalImage = new Image();
-        this.normalImage.src = this.img.normal;
+        this.normalImg = new Image();
+        this.normalImg.src = this.imgPath.normal;
+        this.displayImg = this.normalImg;
         // this.disposeImage = new Image();
         // this.disposeImage.src = null;
     }
 
     draw() {
-        this.context.drawImage(this.normalImage, this.left, this.top, this.width, this.height);
+        this.context.drawImage(this.displayImg, this.left, this.top, this.width, this.height);
     }
 
     update() {

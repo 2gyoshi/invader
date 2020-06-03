@@ -1,9 +1,12 @@
 'usestrict'
 
 class Player extends Charactor {
-    constructor(field, width, height, left, top, distance, health, img) {
-        super(field, width, height, left, top, distance, health, img);
+    constructor(field, width, height, left, top, distance, health, imgPath) {
+        super(field, width, height, left, top, distance, health, imgPath);
         this.type = 'player';
+        
+        this.disposedImg = new Image();
+        this.disposedImg.src = this.imgPath.dispose;
     }
 
     update() {
@@ -22,11 +25,8 @@ class Player extends Charactor {
     }
 
     dispose() {
-        this.isDisposed = true;
-
-        this.imgobj = new Image();
-        this.imgobj.src = this.img.dispose;
-        this.imgobj.onload = this.draw();
+        this.displayImg = this.disposedImg;
+        setTimeout(() => this.isDisposed = true, 300);
 
         return 0;
     }
