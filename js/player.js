@@ -3,7 +3,7 @@
 class Player extends Charactor {
     constructor(field, width, height, left, top, distance, health, img) {
         super(field, width, height, left, top, distance, health, img);
-        this.type    = 'player';
+        this.type = 'player';
     }
 
     update() {
@@ -11,20 +11,23 @@ class Player extends Charactor {
     }
 
     move(left, top) {
-        const min = 0;
-        const max = this.field.clientWidth - this.width;
+        const min = this.field.left;
+        const max = (this.field.left + this.field.width) - this.width;
         
         if(this.left + left < min) return;
         if(this.left + left > max) return;
 
         this.left += left;
         this.top  += top;
-        this.element.style.left = `${this.left}px`;
-        this.element.style.top  = `${this.top}px`;
     }
 
     dispose() {
-        this.element.setAttribute('src', this.img.dispose);
-        setInterval(() => super.dispose(), 500);
+        this.isDisposed = true;
+
+        this.imgobj = new Image();
+        this.imgobj.src = this.img.dispose;
+        this.imgobj.onload = this.draw();
+
+        return 0;
     }
 }

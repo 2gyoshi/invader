@@ -14,26 +14,22 @@ class Charactor {
         this.element    = null;
         this.isDisposed = false;
 
+        // TODO:ダイエットする
+        const canvas  = document.querySelector('#js-canvas');
+        this.context = canvas.getContext('2d');
+        this.normalImage = new Image();
+        this.normalImage.src = this.img.normal;
+        // this.disposeImage = new Image();
+        // this.disposeImage.src = null;
     }
 
-    createElement() {
-        this.element = document.createElement('img');
-        this.element.setAttribute('src', this.img.normal)
-        this.element.classList.add(this.type);
-        this.element.style.width    = `${this.width}px`;
-        this.element.style.height   = `${this.height}px`;
-        this.element.style.position = 'absolute';
-        this.element.style.left     = `${this.left}px`;
-        this.element.style.top      = `${this.top}px`;
-
-        this.field.insertAdjacentElement('beforeend', this.element);
+    draw() {
+        this.context.drawImage(this.normalImage, this.left, this.top, this.width, this.height);
     }
 
     update() {
         this.left = this.left;
         this.top  = this.top + this.distance;
-        this.element.style.left = `${this.left}px`;
-        this.element.style.top  = `${this.top}px`;
     }
 
     dispose() {
@@ -47,7 +43,8 @@ class Charactor {
 
     hit() {
         this.health--;
-        if(this.health <= 0) {
+
+        if(this.health === 0) {
             this.dispose();
         } 
     }

@@ -10,7 +10,7 @@ class Background {
         const width   = body.clientWidth;
         const height  = body.clientHeight;
         canvas.setAttribute('width',`${width}`);
-        canvas.setAttribute('height', `${height}px`);
+        canvas.setAttribute('height', `${height}`);
     
         if (canvas.getContext === false) return;
     

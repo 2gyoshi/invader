@@ -8,14 +8,19 @@ class Boss extends Charactor {
 
     update() {
         super.update();
+        // TODO: 変える
         if(this.top > document.documentElement.clientHeight * 0.8) {
             this.dispose();
         }
     }
 
     dispose() {
-        this.distance = 0;
-        this.element.setAttribute('src', this.img.dispose);
-        setInterval(() => super.dispose(), 500);
+        this.isDisposed = true;
+
+        this.imgobj = new Image();
+        this.imgobj.src = this.img.dispose;
+        this.imgobj.onload = this.draw();
+
+        return 0;
     }
 }
