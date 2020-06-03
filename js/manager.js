@@ -48,6 +48,7 @@ class Manager {
 
     createPlayer() {
         if(this.player) return;
+        
         const field    = this.field;
         const width    = config.player.width;
         const height   = config.player.height;

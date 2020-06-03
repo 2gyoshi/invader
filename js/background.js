@@ -6,7 +6,7 @@ class Background {
     
         //描画コンテキストの取得
         const body    = document.querySelector('body');
-        const canvas  = document.querySelector('#js-canvas');
+        const canvas  = document.querySelector('#background');
         const width   = body.clientWidth;
         const height  = body.clientHeight;
         canvas.setAttribute('width',`${width}`);

@@ -18,15 +18,12 @@ body {
     background: #425A69;
 }
 
-.field {
-    width: 250px;
-    height: 80%;
-    min-width: 250px;
-    min-height: 250px;
+.canvas-wrapper {
+    position: relative;
+}
+
+.canvas-wrapper canvas {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .r-top {

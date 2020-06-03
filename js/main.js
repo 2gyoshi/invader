@@ -1,7 +1,7 @@
 'usestrict'
 
 window.addEventListener('load', main());
-window.addEventListener('resize', e => new Background().render());
+window.addEventListener('resize', () => new Background().render());
 
 function main() {
     // 背景の星を作る
@@ -9,14 +9,24 @@ function main() {
 
     const body = document.querySelector('body');
 
-    // TODO: configから取得する
-    const w = 250;
-    const h = body.clientHeight;
-    const t = 0;
-    const l = (body.clientWidth / 2) - (w / 2);
+    const canvas = document.querySelector('#field');
+    canvas.setAttribute('width',`${body.clientWidth}`);
+    canvas.setAttribute('height', `${body.clientHeight}`);
+    canvas.style.position = 'absolute';
+    canvas.style.top = `${0}px`;
+    canvas.style.left = `${0}px`;
 
     const utility = new Utility();
-    const field = new Field(w, h, t, l);
+    
+    // TODO: configから取得する
+    const width = config.field.width;
+    const height = body.clientHeight;
+    const top = config.field.top;
+    const left = (body.clientWidth / 2) - (w / 2);
+    const context = canvas.getContext('2d');
+
+    const field = new Field(width, height, top, left, context);
+    
     const manager = new Manager(utility, field);
 
     setEventForPC(manager, utility);

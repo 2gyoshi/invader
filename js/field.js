@@ -8,7 +8,7 @@ class Field {
         this.left       = left;
         this.collection = [];
 
-        const canvas = document.querySelector('#js-canvas');
+        const canvas = document.querySelector('#field');
         this.context = canvas.getContext('2d');
     }
 

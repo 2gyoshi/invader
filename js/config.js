@@ -1,6 +1,11 @@
 'usestrict'
 
 const config = {
+    field: {
+        width: 250,
+        top: 0,
+    },
+
     player: {
         width: 50,
         height: 50,
