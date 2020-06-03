@@ -20,7 +20,7 @@ class Charactor {
         this.normalImg.src = this.imgPath.normal;
         this.displayImg = this.normalImg;
         this.disposeImage = new Image();
-        this.disposeImage.src = null;
+        this.disposeImage.src = this.imgPath.dispose;
     }
 
     draw() {

@@ -118,16 +118,16 @@ class Manager {
         const fl = this.field.left;
         const fw = this.field.width;
         const ew = config.enemy.width;
-        const eh = config.enemy.height;
 
-        // fieldをenemyの幅に応じて分割
-        const interval = fw / ew;
-
-        // ランダム値からenemyの位置を取得する
-        const index = this.utility.getRandomInt(0, interval);
+        // Enemyの幅で等分するランダムな値を取得する
+        const max = fw / ew;
+        const rand = this.utility.getRandomInt(0, max);
+        
+        // 調整用
+        const adjust = 0.5;
 
         position.top = ft;
-        position.left = fl + (index * ew);
+        position.left = fl + (rand * ew) + adjust;
 
         return position;
     }

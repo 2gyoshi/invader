@@ -1,35 +1,27 @@
 'usestrict'
 
 window.addEventListener('load', main());
-window.addEventListener('resize', () => new Background().render());
+window.addEventListener('resize', createBackground());
 
 function main() {
-    // 背景の星を作る
-    new Background().render();
-
-    const body = document.querySelector('body');
-
-    const canvas = document.querySelector('#field');
-    canvas.setAttribute('width',`${body.clientWidth}`);
-    canvas.setAttribute('height', `${body.clientHeight}`);
-    canvas.style.position = 'absolute';
-    canvas.style.top = `${0}px`;
-    canvas.style.left = `${0}px`;
+    setCanvasSize();
 
     const utility = new Utility();
     
-    // TODO: configから取得する
+    const body = document.querySelector('body');
     const width = config.field.width;
     const height = body.clientHeight;
     const top = config.field.top;
-    const left = (body.clientWidth / 2) - (w / 2);
-    const context = canvas.getContext('2d');
+    const left = (body.clientWidth / 2) - (width / 2);
+    const field = new Field(width, height, top, left);
 
-    const field = new Field(width, height, top, left, context);
-    
     const manager = new Manager(utility, field);
 
+    // 背景の星を作る
+    createBackground()
+
     setEventForPC(manager, utility);
+
 }
 
 function setEventForPC(manager, utility){
@@ -92,4 +84,48 @@ function setEventForPC(manager, utility){
         utility.displayControl('start');
         location.reload();
     });
+}
+
+function setCanvasSize() {
+    setFieldSize();
+    setBackgroundSize();
+}
+
+function setFieldSize() {
+    const body = document.querySelector('body');
+    const canvas = document.querySelector('#field');
+    
+    if(!canvas || !body) return;
+
+    const width = body.clientWidth;
+    const height = body.clientHeight;
+
+    canvas.setAttribute('width',`${width}`);
+    canvas.setAttribute('height', `${height}`);
+    canvas.style.position = 'absolute';
+    canvas.style.top = `${0}px`;
+    canvas.style.left = `${0}px`;
+}
+
+function setBackgroundSize() {
+    const body = document.querySelector('body');
+    const canvas = document.querySelector('#background');
+    
+    if(!canvas || !body) return;
+
+    const width = body.clientWidth;
+    const height = body.clientHeight;
+
+    canvas.setAttribute('width',`${width}`);
+    canvas.setAttribute('height', `${height}`);
+    canvas.style.position = 'absolute';
+    canvas.style.top = `${0}px`;
+    canvas.style.left = `${0}px`;
+}
+
+function createBackground() {
+    const utility = new Utility();
+    const body = document.querySelector('body');
+    const bg = new Background(body.clientWidth, body.clientHeight, 0, 0, utility);
+    bg.render();
 }
