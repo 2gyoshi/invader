@@ -6,16 +6,8 @@ class Background {
         this.domCanvas = document.querySelector('#background');
         this.context   = this.domCanvas.getContext('2d');
         this.instanceUtil = util;
-
-        // TODO: これでいいのか考える
-        this.run();
     }
-
-    run() {
-        this.style();
-        this.draw();
-    }
-
+    
     style() {
         if(!this.domBody || !this.domCanvas) return;
         
@@ -32,7 +24,7 @@ class Background {
     }
 
     draw() {
-        if(!this.domBody ||!this.instanceUtil|| !this.context) return;
+        if(!this.domBody || !this.instanceUtil || !this.context) return;
 
         const width  = this.domBody.clientWidth;
         const height = this.domBody.clientHeight;
