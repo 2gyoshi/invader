@@ -39,5 +39,4 @@ class Background {
             context.fillRect(x, y, 1, 1);
         }
     }
-
 }

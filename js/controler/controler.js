@@ -1,14 +1,14 @@
 'usestrict'
 
 class Controler {
-    constructor(util, manager, view) {
+    constructor(util, model, view) {
+        this.util       = util;
+        this.model      = model;
+        this.view       = view;
+        this.isPlaying  = false;
         this.domStrBtn  = document.querySelector('#js-start-btn');
         this.domStpBtn  = document.querySelector('#js-stop-btn');
         this.domRstBtn  = document.querySelector('#js-reset-btn');
-        this.instanceUtil    = util;
-        this.instanceManager = manager;
-        // TODO: viewもこっちで管理するようにする
-        // this.instanceView = view;
     }
 
     init() {
@@ -20,19 +20,19 @@ class Controler {
     // PC用のイベントを設定する
     setEventsForPC() {
         this.polyfill();
-        this.setClickBtnEvents();
-        this.setControlEventForPC();
+        this.addClickBtnEvents();
+        this.addControlEventForPC();
     }
 
     // TODO: これからやる
     // PC以外用のイベントを設定する
     setEventsForNotPC() {
-        return
+        return;
     }
 
     // イベントのブラウザ対応をする
     polyfill() {
-        // TODO: なんで即時にしてるか調べる
+        // TODO: なんで即時にしてるか調べていらなかったら変える
         window.requestAnimFrame = (function() {
             return (
                 window.requestAnimationFrame       || 
@@ -49,72 +49,73 @@ class Controler {
     }
 
     // ボタンクリックイベントを設定する
-    setClickBtnEvents() {
+    addClickBtnEvents() {
         if(!this.domStrBtn || !this.domStpBtn || !this.domRstBtn) return;
 
         this.domStrBtn.addEventListener('click', this.clickStrBtn.bind(this));
         this.domStpBtn.addEventListener('click', this.clickStpBtn.bind(this));
         this.domRstBtn.addEventListener('click', this.clickRstBtn.bind(this));
     }
+
+    // PC用のイベントを設定する
+    addControlEventForPC(){
+        if(!this.util || !this.model) return;
+        window.addEventListener('keydown', this.keyDown.bind(this), false);
+    }
     
     // Startボタンクリックイベント
     clickStrBtn() {
         // ゲームを開始する
-        this.instanceUtil.displayControl('start');
-        this.instanceManager.start();
+        this.util.displayControl('start');
+        this.start();
     }
 
     // Stopボタンクリックイベント
     clickStpBtn() {
         // ゲームを停止する
-        this.instanceUtil.displayControl('stop');
-        this.instanceManager.stop();
+        this.util.displayControl('stop');
+        this.stop();
     }
 
     // Resetボタンクリックイベント
     clickRstBtn() {
         // ゲームをリセットする
-        this.instanceUtil.displayControl('start');
+        this.util.displayControl('start');
         location.reload();
-    }
-
-    // PC用のイベントを設定する
-    setControlEventForPC(){
-        if(!this.instanceUtil || !this.instanceManager) return;
-
-        // キー入力イベントを設定する (PC向け) 
-        window.addEventListener('keydown', this.keyDown.bind(this), false);
     }
 
     // キーボードイベント
     keyDown(e) {
-        const val = this.convertKeyCodeToMeaningStr(e.keyCode);
-        if(val === null)    return this.help();
+        if(!this.util || !this.isPlaying) return;
+
+        const val = this.util.convertKeyCodeToMeaningStr(e.keyCode);
+        
+        if(val === null)    return this.helpForPC();
         if(val === 'space') return this.shoot();
         if(val === 'left')  return this.move('left');
         if(val === 'right') return this.move('right');
     }
-
-    // keycodeを意味のわかる文字列に変換する
-    convertKeyCodeToMeaningStr(code) {
-        if(!code) return null;
-        if(code === 32) return 'space';
-        if(code === 37) return 'left';
-        if(code === 39) return 'right';
+    
+    helpForPC() {
+        // TODO: もっといい方法ありそう
+        alert(
+            `space key => shoot
+            left key   => move left
+            right key  => move right`
+        );
     }
 
     // 弾を発射する
     shoot() {
-        if(!this.instanceManager) return;
-
-        this.instanceManager.createBullet();
+        if(!this.model) return;
+        this.model.createBullet();
     }
 
     // プレイヤーを移動する
     move(direction) {
-        if(!this.instanceManager) return;
+        if(!this.model) return;
 
-        const player = this.instanceManager.player
+        const player = this.model.player
         let distance = null;
 
         if(direction === 'left') distance = distance = player.width * -1;
@@ -125,4 +126,26 @@ class Controler {
         player.move(distance, 0);
     }
 
+    start() {
+        this.isPlaying = true;
+        this.model.gameStart();
+        this.update();
+    }
+
+    stop() {
+        this.isPlaying = false;
+        this.model.gameStop();
+        cancelAnimationFrame(this.requestID);
+    }
+
+    update() {
+        if(!this.model || !this.view) return;
+
+        this.model.update();
+
+        const collection = this.model.collection;
+        this.view.update(collection);
+        
+        this.requestID = requestAnimationFrame(this.update.bind(this));
+    }
 }

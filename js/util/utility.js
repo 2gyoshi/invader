@@ -30,12 +30,12 @@ class Utility {
                 stopBtn.style.display  = 'none';
                 message.style.display  = 'none';
                 break;
-            case 'clear':
+            case 'win':
                 startBtn.style.display = 'none';
                 resetBtn.style.display = 'block';
                 stopBtn.style.display  = 'none';
                 message.style.display  = 'block';
-            case 'over':
+            case 'lose':
                 startBtn.style.display = 'none';
                 resetBtn.style.display = 'block';
                 stopBtn.style.display  = 'none';
@@ -46,6 +46,14 @@ class Utility {
         }
     }
 
+    // keycodeを意味のわかる文字列に変換する
+    convertKeyCodeToMeaningStr(code) {
+        if(!code) return null;
+        if(code === 32) return 'space';
+        if(code === 37) return 'left';
+        if(code === 39) return 'right';
+    }
+    
     checkArgument(fn, args) {
         args.forEach(e => {
             if(!e) throw new Error(`関数${fn}で引数が不正です`);

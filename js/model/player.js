@@ -17,6 +17,7 @@ class Player extends Charactor {
         const min = this.field.left;
         const max = (this.field.left + this.field.width) - this.width;
         
+        // TODO: リサイズに対応する
         if(this.left + left < min) return;
         if(this.left + left > max) return;
 
