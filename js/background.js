@@ -1,23 +1,51 @@
-'usestrict'
+'use strict'
 
 class Background {
-    constructor(width, height, top, left, utility) {
-        this.width   = width;
-        this.height  = height;
-        this.top     = top;
-        this.left    = left;
-        this.utility = utility;
+    constructor(util) {
+        this.domBody   = document.querySelector('body');
+        this.domCanvas = document.querySelector('#background');
+        this.context   = this.domCanvas.getContext('2d');
+        this.instanceUtil = util;
 
-        const canvas = document.querySelector('#background');
-        this.context = canvas.getContext('2d');
+        // TODO: これでいいのか考える
+        this.run();
     }
 
-    render() {
-        this.context.fillStyle = '#FFFFFF';
+    run() {
+        this.style();
+        this.draw();
+    }
+
+    style() {
+        if(!this.domBody || !this.domCanvas) return;
+        
+        const width  = this.domBody.clientWidth;
+        const height = this.domBody.clientHeight;
+        const top    = 0;
+        const left   = 0;
+    
+        this.domCanvas.setAttribute('width',`${width}px`);
+        this.domCanvas.setAttribute('height', `${height}px`);
+        this.domCanvas.style.position = 'absolute';
+        this.domCanvas.style.top = `${top}px`;
+        this.domCanvas.style.left = `${left}px`;
+    }
+
+    draw() {
+        if(!this.domBody ||!this.instanceUtil|| !this.context) return;
+
+        const width  = this.domBody.clientWidth;
+        const height = this.domBody.clientHeight;
+        const util = this.instanceUtil;
+        const context = this.context;
+
+        context.fillStyle = '#FFFFFF';
+        
         for(let i = 0; i < 1000; i++) {
-            const x = this.utility.getRandomInt(0, this.width);
-            const y = this.utility.getRandomInt(0, this.height);
-            this.context.fillRect(x, y, 1, 1);
+            let x = util.getRandomInt(0, width);
+            let y = util.getRandomInt(0, height);
+            context.fillRect(x, y, 1, 1);
         }
     }
+
 }

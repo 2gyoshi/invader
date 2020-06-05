@@ -45,4 +45,10 @@ class Utility {
                 break;
         }
     }
+
+    checkArgument(fn, args) {
+        args.forEach(e => {
+            if(!e) throw new Error(`関数${fn}で引数が不正です`);
+        });
+    }
 }
