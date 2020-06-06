@@ -1,22 +1,30 @@
-'usestrict'
+'use strict'
 
+// Controlerクラス
 class Controler {
-    constructor(util, model, view) {
-        this.util       = util;
-        this.model      = model;
-        this.view       = view;
-        this.isPlaying  = false;
-        this.domStrBtn  = document.querySelector('#js-start-btn');
-        this.domStpBtn  = document.querySelector('#js-stop-btn');
-        this.domRstBtn  = document.querySelector('#js-reset-btn');
+    constructor(utility, model, view) {
+        this.utility   = utility;
+        this.model     = model;
+        this.view      = view;
+        this.domStrBtn = document.querySelector('#js-start-btn');
+        this.domStpBtn = document.querySelector('#js-stop-btn');
+        this.domRstBtn = document.querySelector('#js-reset-btn');
     }
 
     init() {
         let device = 'pc';
-        if(device === 'pc') return this.setEventsForPC();
-        // if(device === 'notpc') return this.setEventsForNotPC();
+
+        if(device === 'pc') this.setEventsForPC();
+        // if(device === 'notpc') this.setEventsForNotPC();
+
+        this.model.setField(this.view.getField());
+        this.view.init();
     }
     
+    resize() {
+        this.view.resize();
+    }
+
     // PC用のイベントを設定する
     setEventsForPC() {
         this.polyfill();
@@ -48,7 +56,6 @@ class Controler {
         })();
     }
 
-    // ボタンクリックイベントを設定する
     addClickBtnEvents() {
         if(!this.domStrBtn || !this.domStpBtn || !this.domRstBtn) return;
 
@@ -57,46 +64,40 @@ class Controler {
         this.domRstBtn.addEventListener('click', this.clickRstBtn.bind(this));
     }
 
-    // PC用のイベントを設定する
     addControlEventForPC(){
-        if(!this.util || !this.model) return;
+        if(!this.utility || !this.model) return;
         window.addEventListener('keydown', this.keyDown.bind(this), false);
     }
     
-    // Startボタンクリックイベント
     clickStrBtn() {
-        // ゲームを開始する
-        this.util.displayControl('start');
+        this.utility.displayControl('start');
         this.start();
     }
 
-    // Stopボタンクリックイベント
     clickStpBtn() {
-        // ゲームを停止する
-        this.util.displayControl('stop');
+        this.utility.displayControl('stop');
         this.stop();
     }
 
-    // Resetボタンクリックイベント
     clickRstBtn() {
-        // ゲームをリセットする
-        this.util.displayControl('start');
+        this.utility.displayControl('start');
         location.reload();
     }
 
-    // キーボードイベント
     keyDown(e) {
-        if(!this.util || !this.isPlaying) return;
+        if(!this.utility) return;
 
-        const val = this.util.convertKeyCodeToMeaningStr(e.keyCode);
+        if(this.model.getIsPlaying() === false) return;
+
+        const val = this.utility.convertKeyCodeToMeaningStr(e.keyCode);
         
-        if(val === null)    return this.helpForPC();
+        if(val === null)    return this.usageForPC();
         if(val === 'space') return this.shoot();
         if(val === 'left')  return this.move('left');
         if(val === 'right') return this.move('right');
     }
     
-    helpForPC() {
+    usageForPC() {
         // TODO: もっといい方法ありそう
         alert(
             `space key => shoot
@@ -105,41 +106,36 @@ class Controler {
         );
     }
 
-    // 弾を発射する
     shoot() {
         if(!this.model) return;
         this.model.createBullet();
     }
-
-    // プレイヤーを移動する
+    
     move(direction) {
         if(!this.model) return;
 
-        const player = this.model.player
-        let distance = null;
-
-        if(direction === 'left') distance = distance = player.width * -1;
-        if(direction === 'right') distance = distance = player.width;
-        
-        if(!direction) return;
-
-        player.move(distance, 0);
+        const player = this.model.player;
+        if(direction === 'left') return player.moveLeft();
+        if(direction === 'right') return player.moveRight();
     }
 
+    // ゲームをスタートする
     start() {
-        this.isPlaying = true;
         this.model.gameStart();
         this.update();
     }
 
+    // ゲームをストップする
     stop() {
-        this.isPlaying = false;
         this.model.gameStop();
         cancelAnimationFrame(this.requestID);
     }
 
+    // コンテンツをアップデートする
     update() {
         if(!this.model || !this.view) return;
+
+        if(this.model.getIsPlaying() === false) return this.stop();
 
         this.model.update();
 

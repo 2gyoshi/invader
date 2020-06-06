@@ -1,41 +1,49 @@
 'use strict'
 
-class Background {
-    constructor(util) {
+// 背景クラス
+class Background extends ViewBase {
+    constructor(utility) {
+        super();
+        this.utility   = utility;
         this.domBody   = document.querySelector('body');
         this.domCanvas = document.querySelector('#background');
         this.context   = this.domCanvas.getContext('2d');
-        this.instanceUtil = util;
     }
-    
-    style() {
+
+    size() {
         if(!this.domBody || !this.domCanvas) return;
+
+        this.width  = this.domBody.clientWidth;
+        this.height = this.domBody.clientHeight;
         
-        const width  = this.domBody.clientWidth;
-        const height = this.domBody.clientHeight;
-        const top    = 0;
-        const left   = 0;
-    
-        this.domCanvas.setAttribute('width',`${width}px`);
-        this.domCanvas.setAttribute('height', `${height}px`);
-        this.domCanvas.style.position = 'absolute';
-        this.domCanvas.style.top = `${top}px`;
-        this.domCanvas.style.left = `${left}px`;
+        this.domCanvas.setAttribute('width',`${this.width}`);
+        this.domCanvas.setAttribute('height', `${this.height}`);
     }
 
-    draw() {
-        if(!this.domBody || !this.instanceUtil || !this.context) return;
+    position() {
+        if(!this.domCanvas) return;
 
-        const width  = this.domBody.clientWidth;
-        const height = this.domBody.clientHeight;
-        const util = this.instanceUtil;
+        this.top  = 0;
+        this.left = 0;
+
+        this.domCanvas.style.position = 'absolute';
+        this.domCanvas.style.top = `${this.top}px`;
+        this.domCanvas.style.left = `${this.left}px`;
+    }
+    
+    draw() {
+        if(!this.width || !this.height || !this.utility || !this.context) return;
+
+        const width   = this.width;
+        const height  = this.height;
+        const utility = this.utility;
         const context = this.context;
 
         context.fillStyle = '#FFFFFF';
         
         for(let i = 0; i < 1000; i++) {
-            let x = util.getRandomInt(0, width);
-            let y = util.getRandomInt(0, height);
+            let x = utility.getRandomInt(0, width);
+            let y = utility.getRandomInt(0, height);
             context.fillRect(x, y, 1, 1);
         }
     }

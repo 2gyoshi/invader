@@ -1,34 +1,31 @@
-'usestrict'
+'use strict'
 
-class Player extends Charactor {
-    constructor(field, width, height, left, top, distance, health, imgPath) {
-        super(field, width, height, left, top, distance, health, imgPath);
-        this.type = 'player';
-        
-        this.disposedImg = new Image();
-        this.disposedImg.src = this.imgPath.dispose;
+// プレイヤークラス
+class Player extends Character {
+    constructor(field, status, position, look) {
+        super(field, status, position, look);
     }
 
+    // 更新する
     update() {
-        // override nothiong
+        // orverride none;
     }
 
-    move(left, top) {
-        const min = this.field.left;
-        const max = (this.field.left + this.field.width) - this.width;
-        
-        // TODO: リサイズに対応する
-        if(this.left + left < min) return;
-        if(this.left + left > max) return;
+    // 左に移動する
+    moveLeft() {
+        const min = 0;
+        if(this.position.getX() <= min) return;
 
-        this.left += left;
-        this.top  += top;
+        const x = this.status.getDistance() * - 1;
+        this.position.moveX(x);
     }
 
-    dispose() {
-        this.displayImg = this.disposedImg;
-        setTimeout(() => this.isDisposed = true, 300);
+    // 右に移動する
+    moveRight() {
+        const max = this.field.getWidth() - this.status.getWidth();
+        if(this.position.getX() >= max) return;
 
-        return 0;
+        const x = this.status.getDistance();
+        this.position.moveX(x);
     }
 }

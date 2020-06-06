@@ -1,5 +1,6 @@
-'usestrict'
+'use strict'
 
+// ユーティリティクラス
 class Utility {
     // min以上、max未満の整数を取得する
     getRandomInt(min, max) {
@@ -8,8 +9,9 @@ class Utility {
         return Math.floor(Math.random() * (max - min)) + min;
     }
     
-    // TODO: どうにかする
+    // ボタンを管理する
     displayControl(status) {
+        // TODO: どうにかする
         const startBtn = document.querySelector('#js-start-btn');
         const resetBtn = document.querySelector('#js-reset-btn');
         const stopBtn  = document.querySelector('#js-stop-btn');
@@ -54,6 +56,7 @@ class Utility {
         if(code === 39) return 'right';
     }
     
+    // 引数を検証する
     checkArgument(fn, args) {
         args.forEach(e => {
             if(!e) throw new Error(`関数${fn}で引数が不正です`);

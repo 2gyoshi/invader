@@ -1,22 +1,18 @@
-'usestrict'
+'use strict'
 
-function main() {
-    const util = new Utility();
+window.addEventListener('load', () => {
+    const utility = new Utility();
 
-    // Fieldのサイズ、位置を設定する
-    
-    // Model?
-    const manager = new Manager(util);
+    // Model
+    const model = new GameManager(utility);
 
     // View
-    const fv = new Field();
-    const bv = new Background(util);
-    const view = new View(fv, bv);
-    view.init();
+    const vb   = new Background(utility);
+    const vf   = new Field();
+    const view = new ViewManager(vb, vf);
 
     // Controler
-    const controler = new Controler(util, manager, view);
+    const controler = new Controler(utility, model, view);
+    
     controler.init();
-}
-
-main();
+});

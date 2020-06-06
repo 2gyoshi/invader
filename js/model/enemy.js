@@ -1,25 +1,16 @@
-'usestrict'
+'use strict'
 
-class Enemy extends Charactor {
-    constructor(field, width, height, left, top, distance, health, imgPath) {
-        super(field, width, height, left, top, distance, health, imgPath);
-        this.type = 'enemy';
-
-        this.disposedImg = new Image();
-        this.disposedImg.src = this.imgPath.dispose;
+class Enemy extends NonPlayerCharacter {
+    constructor(field, status, position, look) {
+        super(field, status, position, look);
     }
 
     update() {
         super.update();
 
-        const max = (this.field.top + this.field.height) * 0.8;
-        if(this.top > max) this.dispose();
+        const fy = this.field.getTop();
+        const fh = this.field.getHeight()
+        const max = (fy + fh) * 0.8;
+        if(this.position.getY() > max) this.dead();
     }
-
-    dispose() {
-        this.displayImg = this.disposedImg;
-        setTimeout(() => this.isDisposed = true, 300);
-        return 1;
-    }
-
 }

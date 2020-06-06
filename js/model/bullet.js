@@ -1,15 +1,18 @@
-'usestrict'
+'use strict'
 
-class Bullet extends Charactor {
-    constructor(field, width, height, left, top, distance, health, img) {
-        super(field, width, height, left, top, distance, health, img);
-        this.type = 'bullet';
+class Bullet extends NonPlayerCharacter {
+    constructor(field, status, position, look) {
+        super(field, status, position, look);
     }
 
     update() {
         super.update();
-        if(this.top < 0) {
-            this.dispose();
-        }
+
+        const min = this.field.getTop();
+        if(this.position.getY() <= min) this.dead();
+    }
+
+    dead() {
+        this.makeDisposeTarget();
     }
 }

@@ -1,20 +1,12 @@
-'usestrict'
+'use strict'
 
-class Field {
+// ゲームのフィールドクラス
+class Field extends ViewBase {
     constructor() {
+        super();
         this.domBody   = document.querySelector('body');
         this.domCanvas = document.querySelector('#field');
         this.context   = this.domCanvas.getContext('2d');
-
-        this.width  = null;
-        this.height = null;
-        this.top    = null;
-        this.left   = null;
-    }
-
-    style() {
-        this.size();
-        this.position();
     }
 
     size() {
@@ -23,8 +15,8 @@ class Field {
         this.width  = config.field.width;
         this.height = this.domBody.clientHeight;
         
-        this.domCanvas.setAttribute('width',`${this.width}px`);
-        this.domCanvas.setAttribute('height', `${this.height}px`);
+        this.domCanvas.setAttribute('width',`${this.width}`);
+        this.domCanvas.setAttribute('height', `${this.height}`);
     }
 
     position() {
@@ -41,8 +33,20 @@ class Field {
     draw(collection) {
         if(!collection || !this.context) return;
         
+        let image  = null;
+        let left   = null;
+        let top    = null;
+        let width  = null;
+        let height = null;
+
         for(let e of collection) {
-            this.context.drawImage(e.displayImg, e.left, e.top, e.width, e.height);
+            image  = e.getLook();
+            left   = e.getLeft();
+            top    = e.getTop();
+            width  = e.getWidth();
+            height = e.getHeight();
+            
+            this.context.drawImage(e.getLook(), left, top, width, height);
         }
     }
 
