@@ -1,15 +1,21 @@
 'use strict'
 
-const utility   = new Utility();
-const viewField = new Field();
-const viewSpace = new Background(utility);
-const factory   = new Factory(utility, viewField);
-const modelMngr = new GameManager(utility, factory);
-const viewMngr  = new ViewManager(viewSpace, viewField);
-const controler = new Controler(utility, modelMngr, viewMngr);
+function main() {
+    const utility   = new Utility();
+    const viewField = new Field();
+    const viewSpace = new Background(utility);
+    const factory   = new Factory(utility, viewField);
+    const modelMngr = new GameManager(utility, factory);
+    const viewMngr  = new ViewManager(viewSpace, viewField);
+    const controler = new Controler(utility, modelMngr, viewMngr);
+    
+    new Swipe(modelMngr).init();
+    new Touch(modelMngr).init();
+    new KeyDown(modelMngr).init();
 
-window.addEventListener('load',   () => controler.init());
-window.addEventListener('resize', () => controler.resize());
+    window.addEventListener('load',   () => controler.init());
+    window.addEventListener('resize', () => controler.resize());
+}
 
 // Controlerクラス
 class Swipe {
@@ -75,14 +81,19 @@ class Touch {
 class KeyDown {
     constructor(model) {
         this.model = model;
+        this.disable = false;
     }
 
     init() {
-        window.addEventListener('keydown', this.keydown.bind(this), false)
+        window.addEventListener('keydown', this.keydown.bind(this), false);
+        window.addEventListener('keyup', this.keyup.bind(this), false);
     }
     
     keydown(e) {
         if(this.model.getIsPlaying() === false) return;
+        if(this.disable === true) return;
+
+        this.disable = true;
 
         const val = this.convertKeyCodeToMeaningStr(e.keyCode);
         
@@ -92,6 +103,10 @@ class KeyDown {
         if(val === 'right') return this.moveRight();
     }
     
+    keyup() {
+        this.disable = false;
+    }
+
     convertKeyCodeToMeaningStr(code) {
         if(!code) return null;
         if(code === 32) return 'space';
@@ -120,6 +135,5 @@ class KeyDown {
     }
 }
 
-new Swipe(modelMngr).init();
-new Touch(modelMngr).init();
-new KeyDown(modelMngr).init();
+
+main();
