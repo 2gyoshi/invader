@@ -22,6 +22,10 @@ class GameManager {
         this.collection = this.collection.filter(e => e !== item);
     }
 
+    getCollection() {
+        return this.collection;
+    }
+
     getPlayer() {
         return this.collection.find(e => e.getType() === config.player.type);
     }

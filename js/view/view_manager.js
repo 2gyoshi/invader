@@ -23,9 +23,9 @@ class ViewManager {
         this.field.init();
     }
 
-    resize() {
+    resize(collection) {
         this.background.resize();
-        this.field.resize();
+        this.field.resize(collection);
     }
 
     update(collection) {

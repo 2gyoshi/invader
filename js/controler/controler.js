@@ -21,7 +21,8 @@ class Controler {
     }
     
     resize() {
-        this.view.resize();
+        const collection = this.model.getCollection();
+        this.view.resize(collection);
     }
 
     setEventsForPC() {
@@ -35,8 +36,6 @@ class Controler {
     }
 
     addClickBtnEvents() {
-        if(!this.domStrBtn || !this.domStpBtn || !this.domRstBtn) return;
-
         this.domStrBtn.addEventListener('click', this.clickStrBtn.bind(this));
         this.domStpBtn.addEventListener('click', this.clickStpBtn.bind(this));
         this.domRstBtn.addEventListener('click', this.clickRstBtn.bind(this));
@@ -75,13 +74,11 @@ class Controler {
     }
 
     update() {
-        if(!this.model || !this.view) return;
-
         if(this.model.getIsPlaying() === false) return this.stop();
 
         this.model.update();
 
-        const collection = this.model.collection;
+        const collection = this.model.getCollection();
         this.view.update(collection);
         
         this.requestID = requestAnimationFrame(this.update.bind(this));

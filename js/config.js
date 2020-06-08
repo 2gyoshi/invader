@@ -27,6 +27,7 @@ const config = {
             normal: '../img/player.svg',
             dead: '../img/explosion.svg'
         },
+        top: 0.9,
     },
 
     bullet: {
@@ -52,13 +53,14 @@ const config = {
             normal: '../img/enemy.svg',
             dead: '../img/explosion.svg'
         },
+        top: 0.1,
     },
     
     boss: {
         type: 'boss',
         width: 250,
         height: 250,
-        life: 300,
+        life: 30,
         score: 100,
         distance: 0.5,
         look: {

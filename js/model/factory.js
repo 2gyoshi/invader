@@ -18,7 +18,7 @@ class Factory {
         const status   = new Status(type, width, height, life, score, distance);
 
         const left     = (field.width / 2) - (width / 2);
-        const top      = (field.top + field.height) * 0.8;
+        const top      = (field.height * config.player.top) - height;
         const position = new Position(left, top);
 
         const normal   = config.player.look.normal;
@@ -99,7 +99,7 @@ class Factory {
         const status   = new Status(type, width, height, life, score, distance);
 
         const left     = (field.width / 2) - (width / 2);
-        const top      = field.top - height;
+        const top      = config.field.top - height;
         const position = new Position(left, top);
 
         const normal   = config.boss.look.normal;
@@ -118,7 +118,7 @@ class Factory {
         let position = null;
 
         const fw = this.field.width;
-        const ft = this.field.top;
+        const fh = this.field.height;
         const ew = config.enemy.width;
 
         // Enemyの幅で等分するランダムな値を取得する
@@ -126,7 +126,7 @@ class Factory {
         const rand = this.utility.getRandomInt(0, max);
 
         const left = rand * ew;
-        const top = ft;
+        const top = fh * config.enemy.top;
 
         position = new Position(left, top);
 

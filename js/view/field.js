@@ -9,9 +9,12 @@ class Field extends ViewBase {
         this.context   = this.domCanvas.getContext('2d');
     }
 
-    size() {
-        if(!this.domBody || !this.domCanvas) return;
+    resize(collection) {
+        super.resize();
+        this.draw(collection);
+    }
 
+    size() {
         this.width  = config.field.width;
         this.height = this.domBody.clientHeight;
         
@@ -20,9 +23,7 @@ class Field extends ViewBase {
     }
 
     position() {
-        if(!this.domBody || !this.domCanvas || !this.width) return;
-
-        this.top = config.field.top;
+        this.top  = config.field.top;
         this.left = (this.domBody.clientWidth / 2) - (this.width / 2);
 
         this.domCanvas.style.position = 'absolute';
@@ -31,8 +32,8 @@ class Field extends ViewBase {
     }
 
     draw(collection) {
-        if(!collection || !this.context) return;
-        
+        if(!collection) return;
+
         let image  = null;
         let left   = null;
         let top    = null;
