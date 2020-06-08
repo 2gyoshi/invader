@@ -18,12 +18,11 @@ body {
     background: #425A69;
 }
 
-.canvas-wrapper {
-    position: relative;
-}
-
-.canvas-wrapper canvas {
+.center {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .r-top {
@@ -32,31 +31,26 @@ body {
     right: 10px;
 }
 
-.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.message {
+.msg {
+    width: 100%;
     font-size: 2vw;
+    font-weight: 900;    
     letter-spacing: .3em;
-    text-transform: uppercase;
     position: absolute;
+    text-align: center;
     top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
-.win {
+.gameclear {
     font-size: calc(2em + 1vw);
     color: #cdd949;
+    display: none;
 }
 
-.lose {
+.gameover {
     font-size: calc(2em + 1vw);
     color: #f7d6c2;
+    display: none;
 }
 
 button {

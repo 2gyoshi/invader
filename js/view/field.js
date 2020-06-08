@@ -5,7 +5,7 @@ class Field extends ViewBase {
     constructor() {
         super();
         this.domBody   = document.querySelector('body');
-        this.domCanvas = document.querySelector('#field');
+        this.domCanvas = document.querySelector('#js-field');
         this.context   = this.domCanvas.getContext('2d');
     }
 

@@ -6,10 +6,11 @@
         <link rel="stylesheet" href="../css/index.css" />
     </head>
     <body>
-        <canvas id="background"></canvas>
-        <canvas id="field"></canvas>
+        <canvas id="js-space"></canvas>
+        <canvas id="js-field"></canvas>
         
-        <div class="message"></div>
+        <div id="js-gameclear" class="msg gameclear">GAME CLEAR</div>
+        <div id="js-gameover"  class="msg gameover">GAME OVER</div>
         <div class="center">
             <button id="js-start-btn" class="start-btn">START</button>
             <button id="js-reset-btn" class="reset-btn">RESET</button>
@@ -37,6 +38,10 @@
         <script src="../js/view/field.js"></script>
         <script src="../js/view/view_manager.js"></script>
 
+        <script src="../js/controler/keydown.js"></script>
+        <script src="../js/controler/touch.js"></script>
+        <script src="../js/controler/swipe.js"></script>
+        <script src="../js/controler/event.js"></script>
         <script src="../js/controler/controler.js"></script>
         <script src="../js/main.js"></script>
     </body> 

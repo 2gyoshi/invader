@@ -6,7 +6,7 @@ class Background extends ViewBase {
         super();
         this.utility   = utility;
         this.domBody   = document.querySelector('body');
-        this.domCanvas = document.querySelector('#background');
+        this.domCanvas = document.querySelector('#js-space');
         this.context   = this.domCanvas.getContext('2d');
     }
 

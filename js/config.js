@@ -8,9 +8,48 @@ const config = {
 
     time: {
         zonbi: 200,
-        enemy: 3000
+        enemy: 3000,
     },
     
+    game: {
+        status: {
+            default: 'default',
+            playing: 'playing',
+            gameclear: 'gameclear',
+            gameover:  'gameover',
+        },
+    },
+
+    dom: {
+        button: {
+            id: {
+                start: 'js-start-btn',
+                stop:  'js-stop-btn',
+                reset: 'js-reset-btn',
+            },
+        },
+        
+        message: {
+            id: {
+                gameclear: 'js-gameclear',
+                gameover: 'js-gameover',
+            },
+        },
+
+        canvas: {
+            id: {
+                space: 'js-space',
+                field: 'js-field',
+            }
+        },
+    },
+
+    event: {
+        swipe: {
+            dist: 50,
+        }
+    },
+
     field: {
         width: 250,
         top: 0,

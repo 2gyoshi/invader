@@ -6,12 +6,12 @@ class GameManager {
         this.factory    = factory;
         this.collection = new Array();
         this.enemyTime  = new Date();
-        this.isPlaying  = false;
+        this.status     = '';
         this.score      = 0;
     }
 
     init() {
-        // nothing
+        this.status = config.game.status.default;
     }
 
     addItem(item) {
@@ -34,24 +34,29 @@ class GameManager {
         return this.collection.find(e => e.getType() === config.boss.type);
     }
 
-    getIsPlaying() {
-        return this.isPlaying;
+    getStatus() {
+        return this.status;
+    }
+
+    isPlaying() {
+        return this.getStatus() === config.game.status.playing;
     }
 
     gameStart() {
-        this.isPlaying = true;
         this.addPlayer();
+        this.status = config.game.status.playing;
     }
 
     gameStop() {
-        this.isPlaying = false;
+        this.status = config.game.status.default;
     }
 
-    gameOver(status) {
-        this.gameStop();
-        const message = document.querySelector('.message');
-        message.innerHTML = `<h1 class="${status}">${status}</h1>`;
-        this.utility.displayControl(status);
+    gameClear() {
+        this.status = config.game.status.gameclear;
+    }
+
+    gameOver() {
+        this.status = config.game.status.gameover;
     }
 
     update() {
@@ -100,10 +105,10 @@ class GameManager {
             
             this.removeItem(e);
 
-            // TODO: どうにかしたいけど
+            // TODO: いいやりかた思いついたら変える
             if(e.getType() === 'enemy')  this.score++;
-            if(e.getType() === 'boss')   this.gameOver('win');
-            if(e.getType() === 'player') this.gameOver('lose');
+            if(e.getType() === 'boss')   this.gameClear();
+            if(e.getType() === 'player') this.gameOver();
             
             e = null;
         }
