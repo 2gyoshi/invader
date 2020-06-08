@@ -47,19 +47,4 @@ class Utility {
                 break;
         }
     }
-
-    // keycodeを意味のわかる文字列に変換する
-    convertKeyCodeToMeaningStr(code) {
-        if(!code) return null;
-        if(code === 32) return 'space';
-        if(code === 37) return 'left';
-        if(code === 39) return 'right';
-    }
-    
-    // 引数を検証する
-    checkArgument(fn, args) {
-        args.forEach(e => {
-            if(!e) throw new Error(`関数${fn}で引数が不正です`);
-        });
-    }
 }

@@ -8,6 +8,7 @@ const config = {
 
     time: {
         zonbi: 200,
+        enemy: 3000
     },
     
     field: {
@@ -47,7 +48,6 @@ const config = {
         life: 1,
         score: 1,
         distance: 0.5,
-        appearenceTimeMs: 3000,
         look: {
             normal: '../img/enemy.svg',
             dead: '../img/explosion.svg'

@@ -10,6 +10,11 @@ class Background extends ViewBase {
         this.context   = this.domCanvas.getContext('2d');
     }
 
+    resize() {
+        this.size();
+        this.draw();
+    }
+
     size() {
         if(!this.domBody || !this.domCanvas) return;
 
