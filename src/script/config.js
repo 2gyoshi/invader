@@ -55,8 +55,8 @@ export const config = {
         score: 0,
         distance: 50,
         look: {
-            normal: '../img/player.svg',
-            dead: '../img/explosion.svg'
+            normal: './img/player.svg',
+            dead: './img/explosion.svg'
         },
         top: 0.9,
     },
@@ -68,7 +68,7 @@ export const config = {
         score: 0,
         distance: -5,
         look: {
-            normal: '../img/bullet.svg',
+            normal: './img/bullet.svg',
         },
     },
     enemy: {
@@ -79,8 +79,8 @@ export const config = {
         score: 1,
         distance: 0.5,
         look: {
-            normal: '../img/enemy.svg',
-            dead: '../img/explosion.svg'
+            normal: './img/enemy.svg',
+            dead: './img/explosion.svg'
         },
         top: 0.1,
     },
@@ -92,8 +92,8 @@ export const config = {
         score: 100,
         distance: 0.5,
         look: {
-            normal: '../img/boss.svg',
-            dead: '../img/explosion.svg'
+            normal: './img/boss.svg',
+            dead: './img/explosion.svg'
         },
     }
 };
