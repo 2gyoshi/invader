@@ -1,9 +1,10 @@
 'use strict'
 
 import {config}    from '../config';
-import {MStatus}   from './m_status';
+import {MSize}     from './m_size';
 import {MPosition} from './m_position';
 import {MLook}     from './m_look';
+import {MStatus}   from './m_status';
 import {MPlayer}   from './m_player';
 import {MBullet}   from './m_bullet';
 import {MEnemy}    from './m_enemy';
@@ -17,13 +18,9 @@ export class MFactory {
     createPlayer() {
         const field    = this.field;
 
-        const type     = config.player.type;
         const width    = config.player.width;
         const height   = config.player.height;
-        const life     = config.player.life;
-        const score    = config.player.score;
-        const distance = config.player.distance;
-        const status   = new MStatus(type, width, height, life, score, distance);
+        const size     = new MSize(width, height);
 
         const left     = (field.width / 2) - (width / 2);
         const top      = (field.height * config.player.top) - height;
@@ -35,7 +32,14 @@ export class MFactory {
         look.addImage(normal);
         look.addImage(dead);
 
-        const player = new MPlayer(field, status, position, look);
+        const type     = config.player.type;
+        const life     = config.player.life;
+        const score    = config.player.score;
+        const dist     = config.player.dist;
+        const grace    = config.player.grace;
+        const status   = new MStatus(type, life, dist, score, grace);
+
+        const player = new MPlayer(size, position, look, status, field);
 
         return player;
     }
@@ -45,13 +49,9 @@ export class MFactory {
 
         const field    = this.field;
 
-        const type     = config.bullet.type;
         const width    = config.bullet.width;
         const height   = config.bullet.height;
-        const life     = config.bullet.life;
-        const score    = config.bullet.score;
-        const distance = config.bullet.distance;
-        const status   = new MStatus(type, width, height, life, score, distance);
+        const size     = new MSize(width, height);
 
         const pLeft    = player.getLeft();
         const pTop     = player.getTop();
@@ -64,23 +64,24 @@ export class MFactory {
         const look     = new MLook();
         look.addImage(normal);
 
-        const bullet = new MBullet(field, status, position, look);
+        const type     = config.bullet.type;
+        const life     = config.bullet.life;
+        const score    = config.bullet.score;
+        const dist     = config.bullet.dist;
+        const grace    = config.bullet.grace;
+        const status   = new MStatus(type, life, dist, score, grace); 
+
+        const bullet = new MBullet(size, position, look, status, field);
 
         return bullet;
     }
 
     createEnemy() {
-        if(this.score >= 10) return this.createBoss();
-        
         const field    = this.field;
 
-        const type     = config.enemy.type;
         const width    = config.enemy.width;
         const height   = config.enemy.height;
-        const life     = config.enemy.life;
-        const score    = config.enemy.score;
-        const distance = config.enemy.distance;
-        const status   = new MStatus(type, width, height, life, score, distance);
+        const size     = new MSize(width, height);
 
         const position = this.getEnemyAppearancePosition();
 
@@ -90,7 +91,14 @@ export class MFactory {
         look.addImage(normal);
         look.addImage(dead);
 
-        const enemy = new MEnemy(field, status, position, look);
+        const type     = config.enemy.type;
+        const life     = config.enemy.life;
+        const score    = config.enemy.score;
+        const dist     = config.enemy.dist;
+        const grace    = config.enemy.grace;
+        const status   = new MStatus(type, life, dist, score, grace);
+
+        const enemy = new MEnemy(size, position, look, status, field);
 
         return enemy;
     }
@@ -98,13 +106,9 @@ export class MFactory {
     createBoss() {
         const field    = this.field;
 
-        const type     = config.boss.type;
         const width    = config.boss.width;
         const height   = config.boss.height;
-        const life     = config.boss.life;
-        const score    = config.boss.score;
-        const distance = config.boss.distance;
-        const status   = new MStatus(type, width, height, life, score, distance);
+        const size     = new MSize(width, height);
 
         const left     = (field.width / 2) - (width / 2);
         const top      = config.field.top - height;
@@ -116,7 +120,14 @@ export class MFactory {
         look.addImage(normal);
         look.addImage(dead);
 
-        const boss = new MEnemy(field, status, position, look);
+        const type     = config.boss.type;
+        const life     = config.boss.life;
+        const score    = config.boss.score;
+        const dist     = config.boss.dist;
+        const grace    = config.boss.grace;
+        const status   = new MStatus(type, life, dist, score, grace);
+
+        const boss = new MEnemy(size, position, look, status, field);
 
         return boss;
     }

@@ -1,10 +1,10 @@
 'use strict'
 
-import {MNonPlayer} from './m_base';
+import {MNonPlayer} from './m_character';
 
 export class MEnemy extends MNonPlayer {
-    constructor(field, status, position, look) {
-        super(field, status, position, look);
+    constructor(size, position, look, status, field) {
+        super(size, position, look, status, field);
     }
 
     update() {
@@ -13,6 +13,6 @@ export class MEnemy extends MNonPlayer {
         const fy = this.field.getTop();
         const fh = this.field.getHeight()
         const max = (fy + fh) * 0.8;
-        if(this.position.getY() > max) this.dead();
+        if(this.getTop() > max) this.dead();
     }
 }

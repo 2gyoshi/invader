@@ -1,27 +1,18 @@
 'use strict'
 
-import {config} from '../config';
-
 // ゲームオブジェクトのベースクラス
 export class MBase {
-    constructor(field, status, position, look) {
-        this.field     = field
-        this.status    = status;
+    constructor(size, position) {
+        this.size      = size;
         this.position  = position;
-        this.look      = look;
-        this.isDispose = false
     }
 
-    getType() {
-        return this.status.getType()
-    }
-    
     getWidth() {
-        return this.status.getWidth();
+        return this.size.getWidth();
     }
 
     getHeight() {
-        return this.status.getHeight();
+        return this.size.getHeight();
     }
 
     getLeft() {
@@ -31,63 +22,16 @@ export class MBase {
     getTop() {
         return this.position.getY();
     }
-    
-    getScore() {
-        return this.status.getScore();
+
+    size() {
+        throw new Error();
     }
 
-    getLook() {
-        return this.look.getItem();
-    }
-
-    update() {
-        throw new Error(config.message.abscall);
+    resize() {
+        throw new Error();
     }
 
     move() {
-        throw new Error(config.message.abscall);
-    }
-
-    isDead() {
-        return this.status.isDead();
-    }
-
-    isDisposeTarget() {
-        return this.isDispose;
-    }
-
-    damage() {
-        this.status.damage();
-        if(this.isDead()) this.dead();
-    }
-
-    // ライフが0になった後も処理したいためここではdisposeしない
-    dead() {
-        this.look.last();
-        setTimeout(this.makeDisposeTarget.bind(this), config.time.zonbi);
-    }
-
-    makeDisposeTarget() {
-        this.isDispose = true;
-    }
-
-    dispose() {
-        return this.status.getScore();
-    }
-}
-
-// NPCクラス
-export class MNonPlayer extends MBase {
-    constructor(field, status, position, look) {
-        super(field, status, position, look);
-    }
-
-    update() {
-        this.move();
-    }
-
-    move() {
-        const y = this.status.getDistance();
-        this.position.moveY(y);
+        throw new Error();
     }
 }

@@ -1,17 +1,17 @@
 'use strict'
 
-import {MNonPlayer} from './m_base';
+import {MNonPlayer} from './m_character';
 
 export class MBullet extends MNonPlayer {
-    constructor(field, status, position, look) {
-        super(field, status, position, look);
+    constructor(size, position, look, status, field) {
+        super(size, position, look, status, field);
     }
 
     update() {
         super.update();
 
         const min = this.field.getTop();
-        if(this.position.getY() <= min) this.dead();
+        if(this.getTop() <= min) this.dead();
     }
 
     dead() {

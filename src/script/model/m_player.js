@@ -1,33 +1,31 @@
 'use strict'
 
-import {MBase} from './m_base';
+import {MCharacter} from './m_character';
 
 // プレイヤークラス
-export class MPlayer extends MBase {
-    constructor(field, status, position, look) {
-        super(field, status, position, look);
+export class MPlayer extends MCharacter {
+    constructor(size, position, look, status, field) {
+        super(size, position, look, status, field);
     }
 
-    // 更新する
+    // 何もしない
     update() {
         // orverride none;
     }
 
-    // 左に移動する
     moveLeft() {
         const min = 0;
-        if(this.position.getX() <= min) return;
+        if(this.getLeft() <= min) return;
 
-        const x = this.status.getDistance() * - 1;
-        this.position.moveX(x);
+        const dist = this.getDist() * - 1;
+        this.position.moveX(dist);
     }
 
-    // 右に移動する
     moveRight() {
-        const max = this.field.getWidth() - this.status.getWidth();
-        if(this.position.getX() >= max) return;
+        const max = this.field.getWidth() - this.getWidth();
+        if(this.getLeft() >= max) return;
 
-        const x = this.status.getDistance();
-        this.position.moveX(x);
+        const dist = this.getDist();
+        this.position.moveX(dist);
     }
 }

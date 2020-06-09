@@ -2,37 +2,32 @@
 
 // ステータス管理クラス
 export class MStatus {
-    constructor(type, width, height, life, score, distance) {
-        this.type     = type;
-        this.width    = width;
-        this.height   = height;
-        this.life     = life;
-        this.score    = score;
-        this.distance = distance;
+    constructor(type, life, dist, score, grace) {
+        this.type  = type;
+        this.life  = life;
+        this.dist  = dist;
+        this.score = score;
+        this.grace = grace;
     }
 
     getType() {
         return this.type;
     }
-
-    getWidth() {
-        return this.width;
-    }
-
-    getHeight() {
-        return this.height;
-    }
-
+    
     getLife() {
         return this.life;
     }
-    
+
+    getDist() {
+        return this.dist;
+    }
+
     getScore() {
         return this.score;
     }
 
-    getDistance() {
-        return this.distance;
+    getGrace() {
+        return this.grace;
     }
 
     damage() {
