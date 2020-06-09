@@ -3,7 +3,7 @@
 import {config} from '../config';
 
 // ゲームオブジェクトのベースクラス
-export class Character {
+export class MBase {
     constructor(field, status, position, look) {
         this.field     = field
         this.status    = status;
@@ -77,7 +77,7 @@ export class Character {
 }
 
 // NPCクラス
-export class NonPlayerCharacter extends Character {
+export class MNonPlayer extends MBase {
     constructor(field, status, position, look) {
         super(field, status, position, look);
     }

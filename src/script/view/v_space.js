@@ -1,9 +1,9 @@
 'use strict'
 
-import {ViewBase} from './view_base';
+import {VBase} from './v_base';
 
 // 背景クラス
-export class Background extends ViewBase {
+export class VSpace extends VBase {
     constructor(utility) {
         super();
         this.utility   = utility;

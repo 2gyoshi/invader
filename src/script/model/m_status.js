@@ -1,7 +1,7 @@
 'use strict'
 
 // ステータス管理クラス
-export class Status {
+export class MStatus {
     constructor(type, width, height, life, score, distance) {
         this.type     = type;
         this.width    = width;

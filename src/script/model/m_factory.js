@@ -1,17 +1,17 @@
 'use strict'
 
-import {config} from '../config';
-import {Status} from './status';
-import {Position} from './position';
-import {Look} from './look';
-import {Player} from './player';
-import {Bullet} from './bullet';
-import {Enemy} from './enemy';
+import {config}    from '../config';
+import {MStatus}   from './m_status';
+import {MPosition} from './m_position';
+import {MLook}     from './m_look';
+import {MPlayer}   from './m_player';
+import {MBullet}   from './m_bullet';
+import {MEnemy}    from './m_enemy';
 
-export class Factory {
+export class MFactory {
     constructor(utility, field) {
         this.utility = utility;
-        this.field = field;
+        this.field   = field;
     }
 
     createPlayer() {
@@ -23,19 +23,19 @@ export class Factory {
         const life     = config.player.life;
         const score    = config.player.score;
         const distance = config.player.distance;
-        const status   = new Status(type, width, height, life, score, distance);
+        const status   = new MStatus(type, width, height, life, score, distance);
 
         const left     = (field.width / 2) - (width / 2);
         const top      = (field.height * config.player.top) - height;
-        const position = new Position(left, top);
+        const position = new MPosition(left, top);
 
         const normal   = config.player.look.normal;
         const dead     = config.player.look.dead;
-        const look     = new Look();
+        const look     = new MLook();
         look.addImage(normal);
         look.addImage(dead);
 
-        const player = new Player(field, status, position, look);
+        const player = new MPlayer(field, status, position, look);
 
         return player;
     }
@@ -51,20 +51,20 @@ export class Factory {
         const life     = config.bullet.life;
         const score    = config.bullet.score;
         const distance = config.bullet.distance;
-        const status   = new Status(type, width, height, life, score, distance);
+        const status   = new MStatus(type, width, height, life, score, distance);
 
         const pLeft    = player.getLeft();
         const pTop     = player.getTop();
         const pWidth   = player.getWidth();
         const left     = (pLeft + (pWidth / 2)) - (width / 2);
         const top      = pTop - (height * 2);
-        const position = new Position(left, top);
+        const position = new MPosition(left, top);
 
         const normal   = config.bullet.look.normal;
-        const look     = new Look();
+        const look     = new MLook();
         look.addImage(normal);
 
-        const bullet = new Bullet(field, status, position, look);
+        const bullet = new MBullet(field, status, position, look);
 
         return bullet;
     }
@@ -80,17 +80,17 @@ export class Factory {
         const life     = config.enemy.life;
         const score    = config.enemy.score;
         const distance = config.enemy.distance;
-        const status   = new Status(type, width, height, life, score, distance);
+        const status   = new MStatus(type, width, height, life, score, distance);
 
         const position = this.getEnemyAppearancePosition();
 
         const normal   = config.enemy.look.normal;
         const dead     = config.enemy.look.dead;
-        const look     = new Look();
+        const look     = new MLook();
         look.addImage(normal);
         look.addImage(dead);
 
-        const enemy = new Enemy(field, status, position, look);
+        const enemy = new MEnemy(field, status, position, look);
 
         return enemy;
     }
@@ -104,19 +104,19 @@ export class Factory {
         const life     = config.boss.life;
         const score    = config.boss.score;
         const distance = config.boss.distance;
-        const status   = new Status(type, width, height, life, score, distance);
+        const status   = new MStatus(type, width, height, life, score, distance);
 
         const left     = (field.width / 2) - (width / 2);
         const top      = config.field.top - height;
-        const position = new Position(left, top);
+        const position = new MPosition(left, top);
 
         const normal   = config.boss.look.normal;
         const dead     = config.boss.look.dead;
-        const look     = new Look();
+        const look     = new MLook();
         look.addImage(normal);
         look.addImage(dead);
 
-        const boss = new Enemy(field, status, position, look);
+        const boss = new MEnemy(field, status, position, look);
 
         return boss;
     }
@@ -136,7 +136,7 @@ export class Factory {
         const left = rand * ew;
         const top = fh * config.enemy.top;
 
-        position = new Position(left, top);
+        position = new MPosition(left, top);
 
         return position;
     }

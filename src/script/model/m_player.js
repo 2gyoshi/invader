@@ -1,9 +1,9 @@
 'use strict'
 
-import {Character} from './character';
+import {MBase} from './m_base';
 
 // プレイヤークラス
-export class Player extends Character {
+export class MPlayer extends MBase {
     constructor(field, status, position, look) {
         super(field, status, position, look);
     }

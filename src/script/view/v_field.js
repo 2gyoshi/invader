@@ -1,10 +1,10 @@
 'use strict'
 
 import {config} from '../config';
-import {ViewBase} from './view_base';
+import {VBase} from './v_base';
 
 // ゲームのフィールドクラス
-export class Field extends ViewBase {
+export class VField extends VBase {
     constructor() {
         super();
         this.domBody   = document.querySelector('body');

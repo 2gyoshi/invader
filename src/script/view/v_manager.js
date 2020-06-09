@@ -1,7 +1,7 @@
 'use strict'
 
 // Viewの管理クラス
-export class ViewManager {
+export class VManager {
     constructor(background, field) {
         this.background = background;
         this.field      = field;

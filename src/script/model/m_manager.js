@@ -2,7 +2,7 @@
 
 import {config} from '../config';
 
-export class GameManager {
+export class MManager {
     constructor(utility, factory) {
         this.utility    = utility;
         this.factory    = factory;

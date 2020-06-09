@@ -3,7 +3,7 @@
 import {config} from '../config';
 
 // ゲームのフィールドクラス
-export class ViewBase {
+export class VBase {
     constructor() {
         this.width     = null;
         this.height    = null;

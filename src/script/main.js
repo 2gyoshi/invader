@@ -1,41 +1,42 @@
 'use strict'
 
-import {Utility} from './util/utility';
-import {Field} from './view/field';
-import {Background} from './view/background';
-import {Factory} from './model/factory';
-import {GameManager} from './model/game_manager';
-import {ViewManager} from './view/view_manager';
-import {Swipe} from './controler/swipe';
-import {Touch} from './controler/touch';
-import {Keydown} from './controler/keydown';
-import {Event} from './controler/event';
-import {Controler} from './controler/controler';
+import {Utility}  from './util/utility';
+import {VField}   from './view/v_field';
+import {VSpace}   from './view/v_space';
+import {VManager} from './view/v_manager';
+import {MFactory} from './model/m_factory';
+import {MManager} from './model/m_manager';
+import {Swipe}    from './controler/swipe';
+import {Touch}    from './controler/touch';
+import {Keydown}  from './controler/keydown';
+import {Event}    from './controler/event';
+import {CManager} from './controler/c_manager';
 
 function main() {
-    const utility   = new Utility();
-    const viewField = new Field();
-    const viewSpace = new Background(utility);
-    const factory   = new Factory(utility, viewField);
-    const modelMngr = new GameManager(utility, factory);
-    const viewMngr  = new ViewManager(viewSpace, viewField);
-    const swipe     = new Swipe(modelMngr);
-    const touch     = new Touch(modelMngr);
-    const keydown   = new Keydown(modelMngr);
-    const event     = new Event(keydown, swipe, touch);
-    const controler = new Controler(utility, modelMngr, viewMngr, event);
+    const utility  = new Utility();
+    const vField   = new VField();
+    const vSpace   = new VSpace(utility);
+    const vManager = new VManager(vSpace, vField);
+    const mFactory = new MFactory(utility, vField);
+    const mManager = new MManager(utility, mFactory);
+    const swipe    = new Swipe(mManager);
+    const touch    = new Touch(mManager);
+    const keydown  = new Keydown(mManager);
+    const event    = new Event(keydown, swipe, touch);
+    const cManager = new CManager(utility, mManager, vManager, event);
 
     const domStrBtn = document.querySelector('#js-start-btn');
     const domStpBtn = document.querySelector('#js-stop-btn');
     const domRstBtn = document.querySelector('#js-reset-btn');
-    domStrBtn.addEventListener('click', controler.start.bind(controler));
-    domStpBtn.addEventListener('click', controler.stop.bind(controler));
-    domRstBtn.addEventListener('click', controler.reset.bind(controler));
-    domStrBtn.addEventListener('touchstart', controler.start.bind(controler));
-    domStpBtn.addEventListener('touchstart', controler.stop.bind(controler));
-    domRstBtn.addEventListener('touchstart', controler.reset.bind(controler));
-    window.addEventListener('load',   () => controler.init());
-    window.addEventListener('resize', () => controler.resize());
+    domStrBtn.addEventListener('click', cManager.start.bind(cManager));
+    domStpBtn.addEventListener('click', cManager.stop.bind(cManager));
+    domRstBtn.addEventListener('click', cManager.reset.bind(cManager));
+    domStrBtn.addEventListener('touchstart', cManager.start.bind(cManager));
+    domStpBtn.addEventListener('touchstart', cManager.stop.bind(cManager));
+    domRstBtn.addEventListener('touchstart', cManager.reset.bind(cManager));
+
+    window.addEventListener('load',   () => cManager.init());
+    window.addEventListener('resize', () => cManager.resize());
 }
 
 main();
