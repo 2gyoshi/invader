@@ -1,5 +1,17 @@
 'use strict'
 
+import {Utility} from './util/utility';
+import {Field} from './view/field';
+import {Background} from './view/background';
+import {Factory} from './model/factory';
+import {GameManager} from './model/game_manager';
+import {ViewManager} from './view/view_manager';
+import {Swipe} from './controler/swipe';
+import {Touch} from './controler/touch';
+import {Keydown} from './controler/keydown';
+import {Event} from './controler/event';
+import {Controler} from './controler/controler';
+
 function main() {
     const utility   = new Utility();
     const viewField = new Field();
@@ -12,8 +24,6 @@ function main() {
     const keydown   = new Keydown(modelMngr);
     const event     = new Event(keydown, swipe, touch);
     const controler = new Controler(utility, modelMngr, viewMngr, event);
-
-
 
     const domStrBtn = document.querySelector('#js-start-btn');
     const domStpBtn = document.querySelector('#js-stop-btn');

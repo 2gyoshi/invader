@@ -1,6 +1,6 @@
 'use strict'
 
-class Event {
+export class Event {
     constructor(keydown, swipe, touch) {
         this.keydown  = keydown;
         this.swipe    = swipe;

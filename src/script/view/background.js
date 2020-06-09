@@ -1,7 +1,9 @@
 'use strict'
 
+import {ViewBase} from './view_base';
+
 // 背景クラス
-class Background extends ViewBase {
+export class Background extends ViewBase {
     constructor(utility) {
         super();
         this.utility   = utility;

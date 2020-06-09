@@ -1,16 +1,14 @@
 'use strict'
 
 // ゲームセッティング
-const config = {
+export const config = {
     message:{
         abscall: 'abstract fanction called'
     },
-
     time: {
         zonbi: 200,
         enemy: 3000,
     },
-    
     game: {
         status: {
             default: 'default',
@@ -19,7 +17,6 @@ const config = {
             gameover:  'gameover',
         },
     },
-
     dom: {
         button: {
             id: {
@@ -28,14 +25,12 @@ const config = {
                 reset: 'js-reset-btn',
             },
         },
-        
         message: {
             id: {
                 gameclear: 'js-gameclear',
                 gameover: 'js-gameover',
             },
         },
-
         canvas: {
             id: {
                 space: 'js-space',
@@ -43,18 +38,15 @@ const config = {
             }
         },
     },
-
     event: {
         swipe: {
             dist: 50,
         }
     },
-
     field: {
         width: 250,
         top: 0,
     },
-
     player: {
         type: 'player',
         width: 50,
@@ -68,7 +60,6 @@ const config = {
         },
         top: 0.9,
     },
-
     bullet: {
         type: 'bullet',
         width: 5,
@@ -80,7 +71,6 @@ const config = {
             normal: '../img/bullet.svg',
         },
     },
-    
     enemy: {
         type: 'enemy',
         width: 50,
@@ -94,7 +84,6 @@ const config = {
         },
         top: 0.1,
     },
-    
     boss: {
         type: 'boss',
         width: 250,

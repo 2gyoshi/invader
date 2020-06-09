@@ -1,6 +1,8 @@
 'use strict'
 
-class Bullet extends NonPlayerCharacter {
+import {NonPlayerCharacter} from './character';
+
+export class Bullet extends NonPlayerCharacter {
     constructor(field, status, position, look) {
         super(field, status, position, look);
     }

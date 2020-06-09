@@ -1,7 +1,9 @@
 'use strict'
 
+import {Character} from './character';
+
 // プレイヤークラス
-class Player extends Character {
+export class Player extends Character {
     constructor(field, status, position, look) {
         super(field, status, position, look);
     }

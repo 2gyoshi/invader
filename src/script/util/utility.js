@@ -1,7 +1,9 @@
 'use strict'
 
+import {config} from '../config';
+
 // ユーティリティクラス
-class Utility {
+export class Utility {
     // min以上、max未満の整数を取得する
     getRandomInt(min, max) {
         min = Math.ceil(min);
@@ -52,5 +54,9 @@ class Utility {
             default:
                 break;
         }
+    }
+
+    getConfig() {
+        return config;
     }
 }

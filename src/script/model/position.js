@@ -1,7 +1,7 @@
 'use strict'
 
 // ポジションを管理するクラス
-class Position {
+export class Position {
     constructor(x, y) {
         this.x = x;
         this.y = y;

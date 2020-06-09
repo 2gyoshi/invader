@@ -1,6 +1,8 @@
 'use strict'
 
-class GameManager {
+import {config} from '../config';
+
+export class GameManager {
     constructor(utility, factory) {
         this.utility    = utility;
         this.factory    = factory;

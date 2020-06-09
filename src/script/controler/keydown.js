@@ -1,7 +1,7 @@
 'use strict'
 
 // キーボードイベントクラス
-class Keydown {
+export class Keydown {
     constructor(model) {
         this.model = model;
         this.disable = false;

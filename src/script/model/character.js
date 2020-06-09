@@ -1,7 +1,9 @@
 'use strict'
 
+import {config} from '../config';
+
 // ゲームオブジェクトのベースクラス
-class Character {
+export class Character {
     constructor(field, status, position, look) {
         this.field     = field
         this.status    = status;
@@ -75,7 +77,7 @@ class Character {
 }
 
 // NPCクラス
-class NonPlayerCharacter extends Character {
+export class NonPlayerCharacter extends Character {
     constructor(field, status, position, look) {
         super(field, status, position, look);
     }

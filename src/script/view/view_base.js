@@ -1,7 +1,9 @@
 'usestrict'
 
+import {config} from '../config';
+
 // ゲームのフィールドクラス
-class ViewBase {
+export class ViewBase {
     constructor() {
         this.width     = null;
         this.height    = null;

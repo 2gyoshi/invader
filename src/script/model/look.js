@@ -1,7 +1,7 @@
 'use strict'
 
 // 外見を管理するクラス
-class Look {
+export class Look {
     constructor() {
         this.index = 0;
         this.collection = new Array();

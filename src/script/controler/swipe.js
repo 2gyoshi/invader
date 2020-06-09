@@ -1,7 +1,9 @@
 'use strict'
 
+import {config} from '../config';
+
 // スワイプイベントクラス
-class Swipe {
+export class Swipe {
     constructor(model) {
         this.model = model;
         this.startX = 0;

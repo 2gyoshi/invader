@@ -1,6 +1,14 @@
 'use strict'
 
-class Factory {
+import {config} from '../config';
+import {Status} from './status';
+import {Position} from './position';
+import {Look} from './look';
+import {Player} from './player';
+import {Bullet} from './bullet';
+import {Enemy} from './enemy';
+
+export class Factory {
     constructor(utility, field) {
         this.utility = utility;
         this.field = field;

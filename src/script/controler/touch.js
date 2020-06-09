@@ -1,7 +1,9 @@
 'use strict'
 
+import {config} from '../config';
+
 // タッチイベントクラス
-class Touch {
+export class Touch {
     constructor(model) {
         this.model  = model;
         this.startX = 0;

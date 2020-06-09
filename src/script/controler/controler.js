@@ -1,7 +1,7 @@
 'use strict'
 
 // Controlerクラス
-class Controler {
+export class Controler {
     constructor(utility, model, view, event) {
         this.utility   = utility;
         this.model     = model;
