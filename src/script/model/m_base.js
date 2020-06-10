@@ -32,7 +32,7 @@ export class MBase {
     }
 
     setTop(y) {
-        this.position.setX(y);
+        this.position.setY(y);
     }
 
     getTop() {

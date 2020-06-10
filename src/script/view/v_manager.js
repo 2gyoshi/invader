@@ -3,8 +3,8 @@
 // Viewの管理クラス
 export class VManager {
     constructor(space, field) {
-        this.space      = space;
-        this.field      = field;
+        this.space = space;
+        this.field = field;
     }
 
     getSpace() {
@@ -15,14 +15,14 @@ export class VManager {
         return this.field;
     }
 
-    init(mSpace, mField) {
-        this.space.init(mSpace);
-        this.field.init(mField);
+    init() {
+        this.space.init();
+        this.field.init();
     }
 
-    resize(mSpace, mField) {
-        this.space.resize(mSpace);
-        this.field.resize(mField);
+    resize() {
+        this.space.resize();
+        this.field.resize();
     }
 
     update(collection) {

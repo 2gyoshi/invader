@@ -5,14 +5,14 @@ import {config} from '../config';
 // ユーティリティクラス
 export class Utility {
     // min以上、max未満の整数を取得する
-    getRandomInt(min, max) {
+    static getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
     }
     
     // TODO: いい方法を考えたら変える
-    controlDom(status) {
+    static controlDom(status) {
         const btnId    = config.dom.button.id;
         const msgId    = config.dom.message.id;
         const startBtn = document.querySelector(`#${btnId.start}`);
@@ -41,6 +41,7 @@ export class Utility {
             case config.game.status.gameclear:
                 startBtn.style.display = 'none';
                 resetBtn.style.display = 'block';
+                stopBtn.style.display  = 'none';
                 msgClear.style.display = 'block';
                 msgOver.style.display  = 'none';
                 break;
@@ -56,7 +57,23 @@ export class Utility {
         }
     }
 
-    getConfig() {
-        return config;
+    static getSpaceProp() {
+        const body = document.querySelector('body');
+        const w = body.clientWidth;
+        const h = body.clientHeight;
+        const x = 0;
+        const y = 0;
+    
+        return {w: w, h: h, x: x, y: y};
+    }
+
+    static getFieldProp() {
+        const body = document.querySelector('body');
+        const w = config.field.width;
+        const h = body.clientHeight;
+        const x = (body.clientWidth / 2) - (w / 2);
+        const y = 0;
+     
+        return {w: w, h: h, x: x, y: y};
     }
 }

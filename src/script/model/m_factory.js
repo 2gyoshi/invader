@@ -1,6 +1,7 @@
 'use strict'
 
 import {config}    from '../config';
+import {Utility}   from '../util/utility';
 import {MSize}     from './m_size';
 import {MPosition} from './m_position';
 import {MLook}     from './m_look';
@@ -14,24 +15,8 @@ import {MField}    from './m_area';
 
 
 export class MFactory {
-    constructor(utility) {
-        this.utility = utility;
-    }
-
-    // TODO: tmp
-    
-    getSpaceProp() {
-        const body = document.querySelector('body');
-        const w = body.clientWidth;
-        const h = body.clientHeight;
-        const x = 0;
-        const y = 0;
-    
-        return {w: w, h: h, x: x, y: y};
-    }
-
     createSpace() {
-        const prop  = this.getSpaceProp();
+        const prop  = Utility.getSpaceProp();
         const size  = new MSize(prop.w, prop.h);
         const pos   = new MPosition(prop.x, prop.y);
         const space = new MSpace(size, pos);
@@ -39,18 +24,8 @@ export class MFactory {
         return space;
     }
 
-    getFieldProp() {
-        const body = document.querySelector('body');
-        const w = config.field.width;
-        const h = body.clientHeight;
-        const x = (body.clientWidth / 2) - (w / 2);
-        const y = 0;
-     
-        return {w: w, h: h, x: x, y: y};
-    }
-
     createField() {
-        const prop  = this.getFieldProp();
+        const prop  = Utility.getFieldProp();
         const size  = new MSize(prop.w, prop.h);
         const pos   = new MPosition(prop.x, prop.y);
         const field = new MField(size, pos);
@@ -177,7 +152,7 @@ export class MFactory {
 
         // Enemyの幅で等分するランダムな値を取得する
         const max = fw / ew;
-        const rand = this.utility.getRandomInt(0, max);
+        const rand = Utility.getRandomInt(0, max);
 
         const left = rand * ew
         const top = fh * config.enemy.top;

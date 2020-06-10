@@ -1,6 +1,5 @@
 'use strict'
 
-import {Utility}  from './util/utility';
 import {VField}   from './view/v_field';
 import {VSpace}   from './view/v_space';
 import {VManager} from './view/v_manager';
@@ -13,17 +12,20 @@ import {Event}    from './controler/event';
 import {CManager} from './controler/c_manager';
 
 function main() {
-    const utility  = new Utility();
-    const vField   = new VField();
-    const vSpace   = new VSpace(utility);
+    const mFactory = new MFactory();
+    const mSpace   = mFactory.createSpace();
+    const mField   = mFactory.createField();
+    const mManager = new MManager(mFactory, mSpace, mField);
+
+    const vSpace   = new VSpace(mSpace);
+    const vField   = new VField(mField);
     const vManager = new VManager(vSpace, vField);
-    const mFactory = new MFactory(utility, vField);
-    const mManager = new MManager(utility, mFactory);
+    
     const swipe    = new Swipe(mManager);
     const touch    = new Touch(mManager);
     const keydown  = new Keydown(mManager);
     const event    = new Event(keydown, swipe, touch);
-    const cManager = new CManager(utility, mManager, vManager, event);
+    const cManager = new CManager(mManager, vManager, event);
 
     const domStrBtn = document.querySelector('#js-start-btn');
     const domStpBtn = document.querySelector('#js-stop-btn');

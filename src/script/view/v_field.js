@@ -3,19 +3,18 @@
 // ゲームのフィールドクラス
 export class VField {
     constructor(model) {
-        this.model = model;
-        this.domCanvas = document.querySelector('#js-field');
-        this.context   = this.domCanvas.getContext('2d');
+        this.model   = model;
+        this.canvas  = document.querySelector('#js-field');
+        this.context = this.canvas.getContext('2d');
     }
 
-    init(model) {
-        this.model = model;
+    init() {
         this.style();
         this.draw();
     }
 
-    resize(model) {
-        this.init(model);
+    resize() {
+        this.init();
     }
     
     style() {
@@ -26,16 +25,16 @@ export class VField {
     size() {
         const width  = this.model.getWidth();
         const height = this.model.getHeight();
-        this.domCanvas.setAttribute('width',`${width}`);
-        this.domCanvas.setAttribute('height', `${height}`);
+        this.canvas.setAttribute('width',`${width}`);
+        this.canvas.setAttribute('height', `${height}`);
     }
 
     position() {
         const top  = this.model.getTop();
         const left = this.model.getLeft();
-        this.domCanvas.style.position = 'absolute';
-        this.domCanvas.style.top = `${top}px`;
-        this.domCanvas.style.left = `${left}px`;
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.top = `${top}px`;
+        this.canvas.style.left = `${left}px`;
     }
 
     draw(collection) {

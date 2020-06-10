@@ -1,9 +1,10 @@
 'use strict'
 
+import {Utility}  from '../util/utility';
+
 // Controlerクラス
 export class CManager {
-    constructor(utility, model, view, event) {
-        this.utility   = utility;
+    constructor(model, view, event) {
         this.model     = model;
         this.view      = view;
         this.event     = event;
@@ -11,11 +12,7 @@ export class CManager {
 
     init() {
         this.model.init();
-
-        const mSpace = this.model.space;
-        const mField = this.model.field;
-        this.view.init(mSpace, mField);
-        
+        this.view.init();
         this.event.init();
     }
     
@@ -48,7 +45,7 @@ export class CManager {
 
     controlDom() {
         const status = this.model.getStatus();
-        this.utility.controlDom(status);
+        Utility.controlDom(status);
     }
 
     update() {

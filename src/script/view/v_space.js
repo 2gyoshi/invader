@@ -1,23 +1,22 @@
 'use strict'
 
+import {Utility}  from '../util/utility';
 
 // 背景クラス
 export class VSpace {
-    constructor(utility, model) {
-        this.utility   = utility;
-        this.model     = model;
-        this.domCanvas = document.querySelector('#js-space');
-        this.context   = this.domCanvas.getContext('2d');
+    constructor(model) {
+        this.model   = model;
+        this.canvas  = document.querySelector('#js-space');
+        this.context = this.canvas.getContext('2d');
     }
 
-    init(model) {
-        this.model = model;
+    init() {
         this.style();
         this.draw();
     }
 
-    resize(model) {
-        this.init(model);
+    resize() {
+        this.init();
     }
     
     style() {
@@ -28,29 +27,28 @@ export class VSpace {
     size() {
         const width  = this.model.getWidth();
         const height = this.model.getHeight();
-        this.domCanvas.setAttribute('width',`${width}`);
-        this.domCanvas.setAttribute('height', `${height}`);
+        this.canvas.setAttribute('width',`${width}`);
+        this.canvas.setAttribute('height', `${height}`);
     }
 
     position() {
         const top  = this.model.getTop();
         const left = this.model.getLeft();
-        this.domCanvas.style.position = 'absolute';
-        this.domCanvas.style.top = `${top}px`;
-        this.domCanvas.style.left = `${left}px`;
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.top = `${top}px`;
+        this.canvas.style.left = `${left}px`;
     }
 
     draw() {
         const width   = this.model.getWidth();
         const height  = this.model.getHeight();
-        const utility = this.utility;
         const context = this.context;
 
         context.fillStyle = '#FFFFFF';
         
         for(let i = 0; i < 1000; i++) {
-            let x = utility.getRandomInt(0, width);
-            let y = utility.getRandomInt(0, height);
+            let x = Utility.getRandomInt(0, width);
+            let y = Utility.getRandomInt(0, height);
             context.fillRect(x, y, 1, 1);
         }
     }

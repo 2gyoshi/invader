@@ -3,8 +3,7 @@
 import {config} from '../config';
 
 export class MManager {
-    constructor(utility, factory) {
-        this.utility    = utility;
+    constructor(factory, space, field) {
         this.factory    = factory;
         this.collection = new Array();
         this.enemyTime  = new Date();
@@ -12,23 +11,18 @@ export class MManager {
         this.score      = 0;
         
         // TODO: tmp
-        this.space = null;
-        this.field = null;
+        this.space = space;
+        this.field = field;
     }
 
     init() {
         this.status = config.game.status.default;
-
-        // TODO: tmp
-        this.space = this.factory.createSpace();
-        this.field = this.factory.createField();
     }
 
     resize() {
         // TODO: tmp
         this.space.resize();
         this.field.resize();
-        console.log(this.space, this.field)
     }
 
     addItem(item) {
