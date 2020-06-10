@@ -1,37 +1,41 @@
 'use strict'
 
-import {config} from '../config';
-import {VBase} from './v_base';
-
 // ゲームのフィールドクラス
-export class VField extends VBase {
-    constructor() {
-        super();
-        this.domBody   = document.querySelector('body');
+export class VField {
+    constructor(model) {
+        this.model = model;
         this.domCanvas = document.querySelector('#js-field');
         this.context   = this.domCanvas.getContext('2d');
     }
 
-    resize(collection) {
-        super.resize();
-        this.draw(collection);
+    init(model) {
+        this.model = model;
+        this.style();
+        this.draw();
+    }
+
+    resize(model) {
+        this.init(model);
+    }
+    
+    style() {
+        this.size();
+        this.position();
     }
 
     size() {
-        this.width  = config.field.width;
-        this.height = this.domBody.clientHeight;
-        
-        this.domCanvas.setAttribute('width',`${this.width}`);
-        this.domCanvas.setAttribute('height', `${this.height}`);
+        const width  = this.model.getWidth();
+        const height = this.model.getHeight();
+        this.domCanvas.setAttribute('width',`${width}`);
+        this.domCanvas.setAttribute('height', `${height}`);
     }
 
     position() {
-        this.top  = config.field.top;
-        this.left = (this.domBody.clientWidth / 2) - (this.width / 2);
-
+        const top  = this.model.getTop();
+        const left = this.model.getLeft();
         this.domCanvas.style.position = 'absolute';
-        this.domCanvas.style.top = `${this.top}px`;
-        this.domCanvas.style.left = `${this.left}px`;
+        this.domCanvas.style.top = `${top}px`;
+        this.domCanvas.style.left = `${left}px`;
     }
 
     draw(collection) {
@@ -55,11 +59,13 @@ export class VField extends VBase {
     }
 
     erase() {
-        this.context.clearRect(0, 0, this.width, this.height);
+        const width  = this.model.getWidth();
+        const height = this.model.getHeight();
+        this.context.clearRect(0, 0, width, height);
     }
 
     update(collection) {
         this.erase();
-        this.draw(collection)
+        this.draw(collection);
     }
 }

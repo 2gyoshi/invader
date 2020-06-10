@@ -10,10 +10,25 @@ export class MManager {
         this.enemyTime  = new Date();
         this.status     = '';
         this.score      = 0;
+        
+        // TODO: tmp
+        this.space = null;
+        this.field = null;
     }
 
     init() {
         this.status = config.game.status.default;
+
+        // TODO: tmp
+        this.space = this.factory.createSpace();
+        this.field = this.factory.createField();
+    }
+
+    resize() {
+        // TODO: tmp
+        this.space.resize();
+        this.field.resize();
+        console.log(this.space, this.field)
     }
 
     addItem(item) {
@@ -80,24 +95,25 @@ export class MManager {
 
     addPlayer() {
         if(this.getPlayer()) return;
-        const player = this.factory.createPlayer();
+        const player = this.factory.createPlayer(this.field);
+        console.log(player)
         this.addItem(player);
     }
 
     addBullet() {
         const player = this.getPlayer();
-        const bullet = this.factory.createBullet(player);
+        const bullet = this.factory.createBullet(player, this.field);
         this.addItem(bullet);
     }
 
     addEnemy() {
-        const enemy = this.factory.createEnemy();
+        const enemy = this.factory.createEnemy(this.field);
         this.addItem(enemy);
     }
 
     addBoss() {
         if(this.getBoss()) return;
-        const boss = this.factory.createBoss();
+        const boss = this.factory.createBoss(this.field);
         this.addItem(boss);
     }
 

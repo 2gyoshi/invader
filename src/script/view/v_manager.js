@@ -2,30 +2,27 @@
 
 // Viewの管理クラス
 export class VManager {
-    constructor(background, field) {
-        this.background = background;
+    constructor(space, field) {
+        this.space      = space;
         this.field      = field;
-        this.domBody    = document.querySelector('body');
-        this.domFCanvas = document.querySelector('#field');
-        this.domBCanvas = document.querySelector('#background');
     }
 
-    getBackground() {
-        return this.background;
+    getSpace() {
+        return this.space;
     }
 
     getField() {
         return this.field;
     }
 
-    init() {
-        this.background.init();
-        this.field.init();
+    init(mSpace, mField) {
+        this.space.init(mSpace);
+        this.field.init(mField);
     }
 
-    resize(collection) {
-        this.background.resize();
-        this.field.resize(collection);
+    resize(mSpace, mField) {
+        this.space.resize(mSpace);
+        this.field.resize(mField);
     }
 
     update(collection) {

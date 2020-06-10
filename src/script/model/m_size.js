@@ -16,20 +16,21 @@ export class MSize {
     }
 
     setHeight(h) {
-        this.wiheightdth = h;
+        this.height = h;
     }
 
     getHeight() {
         return this.height;
     }
 
-    size(w, h) {
-        this.setWidth(w);
-        this.setHeight(h);
-    }
+    // TODO: どうしよう
+    // size(w, h) {
+    //     this.setWidth(w);
+    //     this.setHeight(h);
+    // }
 
-    resize(w, h) {
-        this.size(w, h);
-    }
+    // resize(w, h) {
+    //     this.size(w, h);
+    // }
 
 }

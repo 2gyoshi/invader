@@ -1,48 +1,48 @@
 'use strict'
 
-import {VBase} from './v_base';
 
 // 背景クラス
-export class VSpace extends VBase {
-    constructor(utility) {
-        super();
+export class VSpace {
+    constructor(utility, model) {
         this.utility   = utility;
-        this.domBody   = document.querySelector('body');
+        this.model     = model;
         this.domCanvas = document.querySelector('#js-space');
         this.context   = this.domCanvas.getContext('2d');
     }
 
-    resize() {
-        this.size();
+    init(model) {
+        this.model = model;
+        this.style();
         this.draw();
     }
 
-    size() {
-        if(!this.domBody || !this.domCanvas) return;
+    resize(model) {
+        this.init(model);
+    }
+    
+    style() {
+        this.size();
+        this.position();
+    }
 
-        this.width  = this.domBody.clientWidth;
-        this.height = this.domBody.clientHeight;
-        
-        this.domCanvas.setAttribute('width',`${this.width}`);
-        this.domCanvas.setAttribute('height', `${this.height}`);
+    size() {
+        const width  = this.model.getWidth();
+        const height = this.model.getHeight();
+        this.domCanvas.setAttribute('width',`${width}`);
+        this.domCanvas.setAttribute('height', `${height}`);
     }
 
     position() {
-        if(!this.domCanvas) return;
-
-        this.top  = 0;
-        this.left = 0;
-
+        const top  = this.model.getTop();
+        const left = this.model.getLeft();
         this.domCanvas.style.position = 'absolute';
-        this.domCanvas.style.top = `${this.top}px`;
-        this.domCanvas.style.left = `${this.left}px`;
+        this.domCanvas.style.top = `${top}px`;
+        this.domCanvas.style.left = `${left}px`;
     }
-    
-    draw() {
-        if(!this.width || !this.height || !this.utility || !this.context) return;
 
-        const width   = this.width;
-        const height  = this.height;
+    draw() {
+        const width   = this.model.getWidth();
+        const height  = this.model.getHeight();
         const utility = this.utility;
         const context = this.context;
 

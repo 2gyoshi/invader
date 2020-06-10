@@ -7,31 +7,44 @@ export class MBase {
         this.position  = position;
     }
 
+    setWidth(w) {
+        this.size.setWidth(w);
+    }
+
     getWidth() {
         return this.size.getWidth();
+    }
+
+    setHeight(h) {
+        this.size.setHeight(h);
     }
 
     getHeight() {
         return this.size.getHeight();
     }
 
+    setLeft(x) {
+        this.position.setX(x);
+    }
+
     getLeft() {
         return this.position.getX();
+    }
+
+    setTop(y) {
+        this.position.setX(y);
     }
 
     getTop() {
         return this.position.getY();
     }
 
-    size() {
-        throw new Error();
+    move(x, y) {
+        this.position.moveX(x);
+        this.position.moveY(y)
     }
 
-    resize() {
-        throw new Error();
-    }
-
-    move() {
+    update() {
         throw new Error();
     }
 }

@@ -11,13 +11,18 @@ export class CManager {
 
     init() {
         this.model.init();
-        this.view.init();
+
+        const mSpace = this.model.space;
+        const mField = this.model.field;
+        this.view.init(mSpace, mField);
+        
         this.event.init();
     }
     
     resize() {
         const collection = this.model.getCollection();
         this.view.resize(collection);
+        this.model.resize();
     }
 
     start() {

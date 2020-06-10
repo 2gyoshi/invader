@@ -9,21 +9,62 @@ import {MPlayer}   from './m_player';
 import {MBullet}   from './m_bullet';
 import {MEnemy}    from './m_enemy';
 
+import {MSpace}    from './m_area';
+import {MField}    from './m_area';
+
+
 export class MFactory {
-    constructor(utility, field) {
+    constructor(utility) {
         this.utility = utility;
-        this.field   = field;
     }
 
-    createPlayer() {
-        const field    = this.field;
+    // TODO: tmp
+    
+    getSpaceProp() {
+        const body = document.querySelector('body');
+        const w = body.clientWidth;
+        const h = body.clientHeight;
+        const x = 0;
+        const y = 0;
+    
+        return {w: w, h: h, x: x, y: y};
+    }
 
+    createSpace() {
+        const prop  = this.getSpaceProp();
+        const size  = new MSize(prop.w, prop.h);
+        const pos   = new MPosition(prop.x, prop.y);
+        const space = new MSpace(size, pos);
+
+        return space;
+    }
+
+    getFieldProp() {
+        const body = document.querySelector('body');
+        const w = config.field.width;
+        const h = body.clientHeight;
+        const x = (body.clientWidth / 2) - (w / 2);
+        const y = 0;
+     
+        return {w: w, h: h, x: x, y: y};
+    }
+
+    createField() {
+        const prop  = this.getFieldProp();
+        const size  = new MSize(prop.w, prop.h);
+        const pos   = new MPosition(prop.x, prop.y);
+        const field = new MField(size, pos);
+
+        return field;
+    }
+
+    createPlayer(field) {
         const width    = config.player.width;
         const height   = config.player.height;
         const size     = new MSize(width, height);
 
-        const left     = (field.width / 2) - (width / 2);
-        const top      = (field.height * config.player.top) - height;
+        const left     = (field.getWidth() / 2) - (width / 2);
+        const top      = (field.getHeight() * config.player.top) - height;
         const position = new MPosition(left, top);
 
         const normal   = config.player.look.normal;
@@ -44,10 +85,8 @@ export class MFactory {
         return player;
     }
 
-    createBullet(player) {
+    createBullet(player, field) {
         if(!player) return;
-
-        const field    = this.field;
 
         const width    = config.bullet.width;
         const height   = config.bullet.height;
@@ -76,14 +115,12 @@ export class MFactory {
         return bullet;
     }
 
-    createEnemy() {
-        const field    = this.field;
-
+    createEnemy(field) {
         const width    = config.enemy.width;
         const height   = config.enemy.height;
         const size     = new MSize(width, height);
 
-        const position = this.getEnemyAppearancePosition();
+        const position = this.getEnemyAppearancePosition(field);
 
         const normal   = config.enemy.look.normal;
         const dead     = config.enemy.look.dead;
@@ -103,15 +140,13 @@ export class MFactory {
         return enemy;
     }
 
-    createBoss() {
-        const field    = this.field;
-
+    createBoss(field) {
         const width    = config.boss.width;
         const height   = config.boss.height;
         const size     = new MSize(width, height);
 
-        const left     = (field.width / 2) - (width / 2);
-        const top      = config.field.top - height;
+        const left     = (field.getWidth() / 2) - (width / 2);
+        const top      = field.getTop() - height;
         const position = new MPosition(left, top);
 
         const normal   = config.boss.look.normal;
@@ -133,18 +168,18 @@ export class MFactory {
     }
 
     // enemyの出現位置を取得する
-    getEnemyAppearancePosition() {
+    getEnemyAppearancePosition(field) {
         let position = null;
 
-        const fw = this.field.width;
-        const fh = this.field.height;
+        const fw = field.getWidth();
+        const fh = field.getHeight();
         const ew = config.enemy.width;
 
         // Enemyの幅で等分するランダムな値を取得する
         const max = fw / ew;
         const rand = this.utility.getRandomInt(0, max);
 
-        const left = rand * ew;
+        const left = rand * ew
         const top = fh * config.enemy.top;
 
         position = new MPosition(left, top);
