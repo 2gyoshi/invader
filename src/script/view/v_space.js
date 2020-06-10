@@ -1,10 +1,12 @@
 'use strict'
 
-import {Utility}  from '../util/utility';
+import {VBase}   from './v_base';
+import {Utility} from '../util/utility';
 
 // 背景クラス
-export class VSpace {
+export class VSpace extends VBase {
     constructor(model) {
+        super();
         this.model   = model;
         this.canvas  = document.querySelector('#js-space');
         this.context = this.canvas.getContext('2d');

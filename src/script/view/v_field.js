@@ -1,8 +1,11 @@
 'use strict'
 
+import {VBase} from './v_base';
+
 // ゲームのフィールドクラス
-export class VField {
+export class VField extends VBase {
     constructor(model) {
+        super();
         this.model   = model;
         this.canvas  = document.querySelector('#js-field');
         this.context = this.canvas.getContext('2d');
