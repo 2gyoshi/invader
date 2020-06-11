@@ -85,7 +85,7 @@ export class MFactory {
         const grace    = config.bullet.grace;
         const status   = new MStatus(type, life, dist, score, grace); 
 
-        const bullet = new MBullet(size, position, look, status, field);
+        const bullet = new MBullet(size, position, look, status);
 
         return bullet;
     }
@@ -110,7 +110,7 @@ export class MFactory {
         const grace    = config.enemy.grace;
         const status   = new MStatus(type, life, dist, score, grace);
 
-        const enemy = new MEnemy(size, position, look, status, field);
+        const enemy = new MEnemy(size, position, look, status);
 
         return enemy;
     }
@@ -137,7 +137,7 @@ export class MFactory {
         const grace    = config.boss.grace;
         const status   = new MStatus(type, life, dist, score, grace);
 
-        const boss = new MEnemy(size, position, look, status, field);
+        const boss = new MEnemy(size, position, look, status);
 
         return boss;
     }

@@ -99,7 +99,7 @@ export const config = {
         type: 'boss',
         width: 250,
         height: 250,
-        life: 30,
+        life: 50,
         score: 100,
         dist: 0.5,
         grace: 200,

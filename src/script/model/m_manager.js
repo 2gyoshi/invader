@@ -1,6 +1,7 @@
 'use strict'
 
 import {config} from '../config';
+import {MRule}  from './m_rule';
 
 export class MManager {
     constructor(mFactory, mSpace, mField, mCrash) {
@@ -12,6 +13,8 @@ export class MManager {
         this.enemyTime  = new Date();
         this.status     = '';
         this.score      = 0;
+        
+        this.rule = new MRule(mField);
     }
 
     init() {
@@ -73,6 +76,7 @@ export class MManager {
         this.createEnemy();
         this.characters.forEach(e => e.update());
         this.crash();
+        this.rule.update(this.characters);
         this.disposeItem();
     }
 
@@ -121,9 +125,9 @@ export class MManager {
             this.removeItem(e);
 
             // TODO: いいやりかた思いついたら変える
-            if(e.getType() === 'enemy')  this.score++;
-            if(e.getType() === 'boss')   this.gameClear();
-            if(e.getType() === 'player') this.gameOver();
+            if(e.getType() === config.enemy.type)  this.score++;
+            if(e.getType() === config.boss.type)   this.gameClear();
+            if(e.getType() === config.player.type) this.gameOver();
             
             e = null;
         }

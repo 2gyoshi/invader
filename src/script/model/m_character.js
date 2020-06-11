@@ -66,8 +66,8 @@ export class MCharacter extends MBase {
 
 // NPCクラス
 export class MNonPlayer extends MCharacter {
-    constructor(size, position, look, status, field) {
-        super(size, position, look, status, field);
+    constructor(size, position, look, status) {
+        super(size, position, look, status);
     }
 
     update() {
