@@ -1,10 +1,10 @@
 'use strict'
 
-import {MBase} from './m_base';
+import {M_Base} from './m_base';
 import {Utility} from '../util/utility';
 
 // ゲームのフィールドクラス
-export class MSpace extends MBase {
+export class M_Space extends M_Base {
     constructor(size, position) {
         super(size, position);
     }
@@ -16,7 +16,7 @@ export class MSpace extends MBase {
     }
 }
 
-export class MField extends MBase{
+export class M_Field extends M_Base{
     constructor(size, position) {
         super(size, position);
     }

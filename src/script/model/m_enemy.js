@@ -1,8 +1,8 @@
 'use strict'
 
-import {MNonPlayer} from './m_character';
+import {M_NonPlayer} from './m_character';
 
-export class MEnemy extends MNonPlayer {
+export class M_Enemy extends M_NonPlayer {
     constructor(size, position, look, status) {
         super(size, position, look, status);
     }

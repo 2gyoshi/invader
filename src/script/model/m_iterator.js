@@ -1,7 +1,7 @@
 'use strict'
 
 // イテレータークラス
-export class MIterator {
+export class M_Iterator {
     constructor() {
         this.index = 0;
         this.collection = new Array();

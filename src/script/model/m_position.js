@@ -1,7 +1,7 @@
 'use strict'
 
 // ポジションを管理するクラス
-export class MPosition {
+export class M_Position {
     constructor(x, y) {
         this.x = x;
         this.y = y;

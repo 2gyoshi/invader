@@ -2,7 +2,7 @@
 
 import {config} from '../config';
 
-export class MRule {
+export class M_Rule {
     constructor(field) {
         this.field = field;
     }

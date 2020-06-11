@@ -1,6 +1,6 @@
 'use strict'
 
-export class MCrash {
+export class M_Crash {
     getCrashObjList(array) {
         return array.filter(e => this.isCrash(e, array));
     }

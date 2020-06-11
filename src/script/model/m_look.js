@@ -1,9 +1,9 @@
 'use strict'
 
-import {MIterator} from './m_iterator';
+import {M_Iterator} from './m_iterator';
 
 // 外見を管理するクラス
-export class MLook extends MIterator {
+export class M_Look extends M_Iterator {
     constructor() {
         super();
     }

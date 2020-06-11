@@ -1,7 +1,7 @@
 'usestrict'
 
 // ゲームのフィールドクラス
-export class VBase {
+export class V_Base {
     constructor() {
         this.canvas  = null;
         this.context = null;

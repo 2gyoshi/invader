@@ -1,9 +1,9 @@
 'use strict'
 
-import {VBase} from './v_base';
+import {V_Base} from './v_base';
 
 // ゲームのフィールドクラス
-export class VField extends VBase {
+export class V_Field extends V_Base {
     constructor(model) {
         super();
         this.model   = model;

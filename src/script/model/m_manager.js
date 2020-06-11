@@ -1,20 +1,20 @@
 'use strict'
 
 import {config} from '../config';
-import {MRule}  from './m_rule';
 
-export class MManager {
-    constructor(mFactory, mSpace, mField, mCrash) {
+export class M_Manager {
+    constructor(mFactory, mSpace, mField, mCrash, mRule) {
         this.factory    = mFactory;
         this.space      = mSpace;
         this.field      = mField;
+        // TODO: crashとruleを統合したい
         this.mCrash     = mCrash; 
+        this.mRule      = mRule;
         this.characters = new Array();
         this.enemyTime  = new Date();
         this.status     = '';
         this.score      = 0;
         
-        this.rule = new MRule(mField);
     }
 
     init() {
@@ -75,8 +75,9 @@ export class MManager {
     update() {
         this.createEnemy();
         this.characters.forEach(e => e.update());
+        // TODO: 気持ち悪い
         this.crash();
-        this.rule.update(this.characters);
+        this.mRule.update(this.characters);
         this.disposeItem();
     }
 

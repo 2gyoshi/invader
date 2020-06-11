@@ -1,7 +1,7 @@
 'use strict'
 
 // ゲームのフィールドクラス
-export class MSize {
+export class M_Size {
     constructor(width, height) {
         this.width = width;
         this.height = height;

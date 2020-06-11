@@ -1,13 +1,14 @@
 'use strict'
 
 // TODO: リネーム
-import {MFactory}  from './model/m_factory';
-import {MCrash}    from './model/m_crash';
-import {MManager}  from './model/m_manager';
+import {M_Factory} from './model/m_factory';
+import {M_Crash}   from './model/m_crash';
+import {M_Rule}    from './model/m_rule';
+import {M_Manager} from './model/m_manager';
 
-import {VField}    from './view/v_field';
-import {VSpace}    from './view/v_space';
-import {VManager}  from './view/v_manager';
+import {V_Field}   from './view/v_field';
+import {V_Space}   from './view/v_space';
+import {V_Manager} from './view/v_manager';
 
 import {E_Keydown} from './event/e_keydown';
 import {E_Swipe}   from './event/e_swipe';
@@ -15,18 +16,19 @@ import {E_Touch}   from './event/e_touch';
 import {E_Manager} from './event/e_manager';
 
 import {C_Player}  from './controler/c_player';
-import {CManager}  from './controler/c_manager';
+import {C_Manager} from './controler/c_manager';
 
 function main() {
-    const mFactory = new MFactory();
+    const mFactory = new M_Factory();
     const mSpace   = mFactory.createSpace();
     const mField   = mFactory.createField();
-    const mCrash   = new MCrash();
-    const mManager = new MManager(mFactory, mSpace, mField, mCrash);
+    const mRule    = new M_Rule(mField);
+    const mCrash   = new M_Crash();
+    const mManager = new M_Manager(mFactory, mSpace, mField, mCrash, mRule);
 
-    const vSpace   = new VSpace(mSpace);
-    const vField   = new VField(mField);
-    const vManager = new VManager(vSpace, vField);
+    const vSpace   = new V_Space(mSpace);
+    const vField   = new V_Field(mField);
+    const vManager = new V_Manager(vSpace, vField);
 
     const cPlayer  = new C_Player(mManager);
     
@@ -36,10 +38,9 @@ function main() {
     eKeydown.addController(cPlayer);
     eSwipe.addController(cPlayer);
     eTouch.addController(cPlayer);
-
     const eManager = new E_Manager(eKeydown, eSwipe, eTouch);
     
-    const cManager = new CManager(mManager, vManager, eManager);
+    const cManager = new C_Manager(mManager, vManager, eManager);
 
     const domStrBtn = document.querySelector('#js-start-btn');
     const domStpBtn = document.querySelector('#js-stop-btn');

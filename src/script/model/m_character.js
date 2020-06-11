@@ -1,8 +1,8 @@
 'use strict'
 
-import {MBase} from './m_base';
+import {M_Base} from './m_base';
 
-export class MCharacter extends MBase {
+export class M_Character extends M_Base {
     constructor(size, position, look, status, field) {
         super(size, position)
         this.look      = look;
@@ -65,7 +65,7 @@ export class MCharacter extends MBase {
 }
 
 // NPCクラス
-export class MNonPlayer extends MCharacter {
+export class M_NonPlayer extends M_Character {
     constructor(size, position, look, status) {
         super(size, position, look, status);
     }

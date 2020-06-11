@@ -1,10 +1,10 @@
 'use strict'
 
-import {VBase}   from './v_base';
+import {V_Base}   from './v_base';
 import {Utility} from '../util/utility';
 
 // 背景クラス
-export class VSpace extends VBase {
+export class V_Space extends V_Base {
     constructor(model) {
         super();
         this.model   = model;

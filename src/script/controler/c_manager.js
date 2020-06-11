@@ -3,7 +3,7 @@
 import {Utility}  from '../util/utility';
 
 // Controlerクラス
-export class CManager {
+export class C_Manager {
     constructor(model, view, event) {
         this.model     = model;
         this.view      = view;
