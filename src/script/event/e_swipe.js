@@ -1,11 +1,12 @@
 'use strict'
 
 import {config} from '../config';
+import {E_Base} from './e_base';
 
 // スワイプイベントクラス
-export class Swipe {
-    constructor(model) {
-        this.model = model;
+export class E_Swipe extends E_Base {
+    constructor() {
+        super();
         this.startX = 0;
         this.endX   = 0;
     }
@@ -19,6 +20,8 @@ export class Swipe {
     touchStart(event) {
         event.preventDefault();
         this.startX = event.touches[0].pageX;
+        // 前回の座標が残ってるとタッチ時に移動してしまうことがある
+        this.endX   = event.touches[0].pageX;
     }
 
     touchMove(event) {
@@ -32,18 +35,14 @@ export class Swipe {
     }
 
     moveLeft() {
-        if(this.model.isPlaying() === false) return;
         if ((this.startX - this.endX) < config.event.swipe.dist) return;
-
-        const player = this.model.getPlayer();
-        player.moveLeft();
+        this.setEventName('left');
+        this.notify();
     }
 
     moveRight() {
-        if(this.model.isPlaying() === false) return;
         if((this.endX - this.startX) < config.event.swipe.dist) return;
-
-        const player = this.model.getPlayer();
-        player.moveRight();
+        this.setEventName('right');
+        this.notify();
     }
 }

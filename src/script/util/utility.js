@@ -76,4 +76,14 @@ export class Utility {
      
         return {w: w, h: h, x: x, y: y};
     }
+
+    static convertKeyCodeToMeaningStr(code) {
+        if(!code) return null;
+
+        if(code === 32) return 'space';
+        if(code === 37) return 'left';
+        if(code === 39) return 'right';
+        
+        return null;
+    }
 }
