@@ -30,7 +30,7 @@ export class MStatus {
         return this.grace;
     }
 
-    damage() {
+    hit() {
         this.life--;
     }
 

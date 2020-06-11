@@ -3,16 +3,15 @@
 import {config} from '../config';
 
 export class MManager {
-    constructor(factory, space, field) {
-        this.factory    = factory;
-        this.collection = new Array();
+    constructor(mFactory, mSpace, mField, mCrash) {
+        this.factory    = mFactory;
+        this.space      = mSpace;
+        this.field      = mField;
+        this.mCrash     = mCrash; 
+        this.characters = new Array();
         this.enemyTime  = new Date();
         this.status     = '';
         this.score      = 0;
-        
-        // TODO: tmp
-        this.space = space;
-        this.field = field;
     }
 
     init() {
@@ -26,23 +25,23 @@ export class MManager {
     }
 
     addItem(item) {
-        this.collection.push(item);
+        this.characters.push(item);
     }
 
     removeItem(item) {
-        this.collection = this.collection.filter(e => e !== item);
+        this.characters = this.characters.filter(e => e !== item);
     }
 
     getCollection() {
-        return this.collection;
+        return this.characters;
     }
 
     getPlayer() {
-        return this.collection.find(e => e.getType() === config.player.type);
+        return this.characters.find(e => e.getType() === config.player.type);
     }
 
     getBoss() {
-        return this.collection.find(e => e.getType() === config.boss.type);
+        return this.characters.find(e => e.getType() === config.boss.type);
     }
 
     getStatus() {
@@ -72,8 +71,8 @@ export class MManager {
 
     update() {
         this.createEnemy();
-        this.collection.forEach(e => e.update());
-        this.collection.forEach(e => this.collision(e));
+        this.characters.forEach(e => e.update());
+        this.crash();
         this.disposeItem();
     }
 
@@ -90,7 +89,6 @@ export class MManager {
     addPlayer() {
         if(this.getPlayer()) return;
         const player = this.factory.createPlayer(this.field);
-        console.log(player)
         this.addItem(player);
     }
 
@@ -111,8 +109,13 @@ export class MManager {
         this.addItem(boss);
     }
 
+    crash() {
+        const crashItems = this.mCrash.getCrashObjList(this.characters);
+        crashItems.forEach(e => e.hit());
+    }
+
     disposeItem() {
-        for(let e of this.collection) {
+        for(let e of this.characters) {
             if(e.isDisposeTarget() === false) continue;
             
             this.removeItem(e);
@@ -125,44 +128,4 @@ export class MManager {
             e = null;
         }
     }
-
-    collision(target) {
-        // オブジェクトの中点を取得する
-        const p1 = this.getCenterPosition(target);
-        let p2, checkX, checkY;
-
-        for(let e of this.collection) {
-            if(target === e) continue;
-
-            // オブジェクトの中点を取得する
-            p2 = this.getCenterPosition(e);
-
-            // X軸の重なりを判定
-            checkX = Math.abs(p1.x - p2.x) < p1.w + p2.w;
-            
-            // Y軸の重なりを判定
-            checkY = Math.abs(p1.y - p2.y) < p1.h + p2.h;
-            
-            // どちらかの値がfalseなら衝突している
-            if(checkX === false || checkY === false) continue;
-            
-            target.damage();
-
-            break;
-        }
-    }
-
-    getCenterPosition(object) {
-        let result = null;
-
-        const w = object.getWidth() / 2;
-        const h = object.getHeight() / 2;
-        const x = object.getLeft() + w;
-        const y = object.getTop() + h;
-        
-        result = {x: x, y: y, w: w, h: h};
-
-        return result;
-    }
-
 }

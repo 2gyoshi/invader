@@ -1,10 +1,13 @@
 'use strict'
 
+import {MFactory} from './model/m_factory';
+import {MCrash}   from './model/m_crash';
+import {MManager} from './model/m_manager';
+
 import {VField}   from './view/v_field';
 import {VSpace}   from './view/v_space';
 import {VManager} from './view/v_manager';
-import {MFactory} from './model/m_factory';
-import {MManager} from './model/m_manager';
+
 import {Swipe}    from './controler/swipe';
 import {Touch}    from './controler/touch';
 import {Keydown}  from './controler/keydown';
@@ -15,7 +18,8 @@ function main() {
     const mFactory = new MFactory();
     const mSpace   = mFactory.createSpace();
     const mField   = mFactory.createField();
-    const mManager = new MManager(mFactory, mSpace, mField);
+    const mCrash   = new MCrash();
+    const mManager = new MManager(mFactory, mSpace, mField, mCrash);
 
     const vSpace   = new VSpace(mSpace);
     const vField   = new VField(mField);

@@ -43,8 +43,8 @@ export class MCharacter extends MBase {
         throw new Error();
     }
 
-    damage() {
-        this.status.damage();
+    hit() {
+        this.status.hit();
         if(this.isDead()) this.dead();
     }
 
