@@ -23,14 +23,15 @@ function main() {
     const mFactory  = new M_Factory();
     const mSpace    = mFactory.createSpace();
     const mField    = mFactory.createField();
+    const mCharList = mFactory.createCharacterList();
 
-    const mCrash    = new M_Crash();
-    const mFieldOut = new M_FieldOut(mField);
+    const mCrash    = new M_Crash(mCharList);
+    const mFieldOut = new M_FieldOut(mField, mCharList);
     const mRule     = new M_Rule();
     mRule.addRule(mCrash);
     mRule.addRule(mFieldOut);
     
-    const mManager  = new M_Manager(mFactory, mSpace, mField, mRule);
+    const mManager  = new M_Manager(mFactory, mSpace, mField, mRule, mCharList);
 
     const vSpace    = new V_Space(mSpace);
     const vField    = new V_Field(mField);

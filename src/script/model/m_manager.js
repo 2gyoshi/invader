@@ -3,12 +3,13 @@
 import {config} from '../config';
 
 export class M_Manager {
-    constructor(mFactory, mSpace, mField, mRule) {
-        this.mFactory   = mFactory;
-        this.mSpace     = mSpace;
-        this.mField     = mField;
-        this.mRule      = mRule;
-        this.characters = new Array();
+    constructor(factory, space, field, rule, charaList) {
+        this.factory       = factory;
+        this.space         = space;
+        this.field         = field;
+        this.rule          = rule;
+        this.characterList = charaList;
+        // TODO: どうにかしたい
         this.enemyTime  = new Date();
         this.status     = '';
         this.score      = 0;
@@ -19,32 +20,28 @@ export class M_Manager {
     }
 
     resize() {
-        this.mSpace.resize();
-        this.mField.resize();
-    }
-
-    addItem(item) {
-        this.characters.push(item);
+        this.space.resize();
+        this.field.resize();
     }
 
     removeItem(item) {
-        this.characters = this.characters.filter(e => e !== item);
-    }
-
-    getCollection() {
-        return this.characters;
-    }
-
-    getField() {
-        return this.mField;
+        this.characterList.removeCharacter(item);
     }
 
     getPlayer() {
-        return this.characters.find(e => e.getType() === config.player.type);
+        return this.characterList.getPlayer();
     }
 
     getBoss() {
-        return this.characters.find(e => e.getType() === config.boss.type);
+        return this.characterList.getBoss();
+    }
+
+    getCollection() {
+        return this.characterList.getCharacterList();
+    }
+
+    getField() {
+        return this.field;
     }
 
     getStatus() {
@@ -74,8 +71,8 @@ export class M_Manager {
 
     update() {
         this.createEnemy();
-        this.characters.forEach(e => e.update());
-        this.mRule.update(this.characters);
+        this.characterList.update();
+        this.rule.update();
         this.disposeItem();
     }
 
@@ -91,29 +88,34 @@ export class M_Manager {
 
     addPlayer() {
         if(this.getPlayer()) return;
-        const player = this.mFactory.createPlayer(this.mField);
-        this.addItem(player);
+
+        const player = this.factory.createPlayer();
+        this.characterList.addCharacter(player);
     }
 
     addBullet() {
-        const player = this.getPlayer();
-        const bullet = this.mFactory.createBullet(player, this.mField);
-        this.addItem(bullet);
+        const player = this.getPlayer()
+        if(!player) return;
+
+        const bullet = this.factory.createBullet(player);
+        this.characterList.addCharacter(bullet);
     }
 
     addEnemy() {
-        const enemy = this.mFactory.createEnemy(this.mField);
-        this.addItem(enemy);
+        const enemy = this.factory.createEnemy();
+        this.characterList.addCharacter(enemy);
     }
 
     addBoss() {
         if(this.getBoss()) return;
-        const boss = this.mFactory.createBoss(this.mField);
-        this.addItem(boss);
+
+        const boss = this.factory.createBoss();
+        this.characterList.addCharacter(boss);
     }
 
     disposeItem() {
-        for(let e of this.characters) {
+        const array = this.characterList.getCharacterList();
+        for(let e of array) {
             if(e.isDisposeTarget() === false) continue;
             
             this.removeItem(e);

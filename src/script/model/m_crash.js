@@ -1,17 +1,18 @@
 'use strict'
 
 export class M_Crash {
-    update(array) {
-        const crashObjeList = array.filter(e => this.isCrash(e, array));
-        this.crash(crashObjeList);
+    constructor(list) {
+        this.characterList = list;
     }
 
-    crash(array) {
-        array.forEach(e => e.hit());
+    update() {
+        const origin = this.characterList.getCharacterList();
+        const filtered = origin.filter(e => this.isCrash(e))
+        this.crash(filtered);
     }
     
     // TODO: もっといいアルゴリズムを考える
-    isCrash(e, array) {
+    isCrash(e) {
         const t1 = e;
 
         // オブジェクトの中点を取得する
@@ -21,6 +22,8 @@ export class M_Crash {
         const s1 = this.getObjectSizeFromCenter(t1);
 
         let result = false;
+
+        const array = this.characterList.getCharacterList()
         let p2, s2, checkX, checkY;
 
         for(let t2 of array) {
@@ -60,5 +63,9 @@ export class M_Crash {
         const h = object.getHeight() / 2;
         
         return {w: w, h: h};
+    }
+
+    crash(array) {
+        array.forEach(e => e.hit());
     }
 }

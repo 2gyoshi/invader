@@ -1,19 +1,24 @@
 'use strict'
 
-import {config}    from '../config';
-import {Utility}   from '../util/utility';
-import {M_Size}     from './m_size';
-import {M_Position} from './m_position';
-import {M_Look}     from './m_look';
-import {M_Status}   from './m_status';
-import {M_Space}    from './m_space';
-import {M_Field}    from './m_field';
-import {M_Player}   from './m_player';
-import {M_Bullet}   from './m_bullet';
-import {M_Enemy}    from './m_enemy';
+import {config}           from '../config';
+import {Utility}          from '../util/utility';
+import {M_Size}           from './m_size';
+import {M_Position}       from './m_position';
+import {M_Look}           from './m_look';
+import {M_Status}         from './m_status';
+import {M_Space}          from './m_space';
+import {M_Field}          from './m_field';
+import {M_Player}         from './m_player';
+import {M_Bullet}         from './m_bullet';
+import {M_Enemy}          from './m_enemy';
+import {M_CharacterList}  from './m_character_List'
 
 // Modelのファクトリークラス
 export class M_Factory {
+    createCharacterList() {
+        return new M_CharacterList();
+    }
+
     createSpace() {
         const prop  = Utility.getSpaceProp();
         const size  = new M_Size(prop.w, prop.h);

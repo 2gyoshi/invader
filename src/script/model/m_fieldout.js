@@ -3,13 +3,15 @@
 import {config} from '../config';
 
 export class M_FieldOut {
-    constructor(field) {
+    constructor(field, list) {
         this.field = field;
+        this.characterList  = list;
     }
 
-    update(array) {
-        const fieldOutObjList = array.filter(e => this.isFieldOut(e));(array);
-        this.fieldOut(fieldOutObjList);
+    update() {
+        const origin = this.characterList.getCharacterList();
+        const filtered = origin.filter(e => this.isFieldOut(e))
+        this.fieldOut(filtered);
     }
 
     isFieldOut(e) {

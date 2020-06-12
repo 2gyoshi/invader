@@ -9,7 +9,7 @@ export class M_Rule {
         this.rules.push(rule);
     }
 
-    update(array) {
-        this.rules.forEach(e => e.update(array));
+    update() {
+        this.rules.forEach(e => e.update());
     }
 }
