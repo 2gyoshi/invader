@@ -32,13 +32,15 @@ export class M_Factory {
         return field;
     }
 
-    createPlayer(field) {
+    createPlayer() {
+        const fp       = Utility.getFieldProp();
+
         const width    = config.player.width;
         const height   = config.player.height;
         const size     = new M_Size(width, height);
 
-        const left     = (field.getWidth() / 2) - (width / 2);
-        const top      = (field.getHeight() * config.player.top) - height;
+        const left     = (fp.w / 2) - (width / 2);
+        const top      = (fp.h * config.player.top) - height;
         const position = new M_Position(left, top);
 
         const normal   = config.player.look.normal;
@@ -89,12 +91,12 @@ export class M_Factory {
         return bullet;
     }
 
-    createEnemy(field) {
+    createEnemy() {
         const width    = config.enemy.width;
         const height   = config.enemy.height;
         const size     = new M_Size(width, height);
 
-        const position = this.getEnemyAppearancePosition(field);
+        const position = this.getEnemyAppearPos();
 
         const normal   = config.enemy.look.normal;
         const dead     = config.enemy.look.dead;
@@ -115,12 +117,14 @@ export class M_Factory {
     }
 
     createBoss(field) {
+        const fp = Utility.getFieldProp();
+
         const width    = config.boss.width;
         const height   = config.boss.height;
         const size     = new M_Size(width, height);
 
-        const left     = (field.getWidth() / 2) - (width / 2);
-        const top      = field.getTop() - height;
+        const left     = (fp.w / 2) - (width / 2);
+        const top      = fp.y - height;
         const position = new M_Position(left, top);
 
         const normal   = config.boss.look.normal;
@@ -142,19 +146,17 @@ export class M_Factory {
     }
 
     // enemyの出現位置を取得する
-    getEnemyAppearancePosition(field) {
+    getEnemyAppearPos() {
+        const fp = Utility.getFieldProp();
+        
         let position = null;
 
-        const fw = field.getWidth();
-        const fh = field.getHeight();
-        const ew = config.enemy.width;
-
-        // Enemyの幅で等分するランダムな値を取得する
-        const max = fw / ew;
+        // Enemyの幅で等分する
+        const max  = fp.w / config.enemy.width;
         const rand = Utility.getRandomInt(0, max);
 
-        const left = rand * ew
-        const top = fh * config.enemy.top;
+        const left = rand * config.enemy.width;
+        const top  = fp.h * config.enemy.top;
 
         position = new M_Position(left, top);
 
