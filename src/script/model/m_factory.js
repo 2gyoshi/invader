@@ -6,14 +6,13 @@ import {M_Size}     from './m_size';
 import {M_Position} from './m_position';
 import {M_Look}     from './m_look';
 import {M_Status}   from './m_status';
+import {M_Space}    from './m_space';
+import {M_Field}    from './m_field';
 import {M_Player}   from './m_player';
 import {M_Bullet}   from './m_bullet';
 import {M_Enemy}    from './m_enemy';
 
-import {M_Space}    from './m_area';
-import {M_Field}    from './m_area';
-
-
+// Modelのファクトリークラス
 export class M_Factory {
     createSpace() {
         const prop  = Utility.getSpaceProp();
@@ -55,12 +54,12 @@ export class M_Factory {
         const grace    = config.player.grace;
         const status   = new M_Status(type, life, dist, score, grace);
 
-        const player = new M_Player(size, position, look, status, field);
+        const player = new M_Player(size, position, look, status);
 
         return player;
     }
 
-    createBullet(player, field) {
+    createBullet(player) {
         if(!player) return;
 
         const width    = config.bullet.width;

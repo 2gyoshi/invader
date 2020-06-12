@@ -9,18 +9,25 @@ export class C_Player extends C_Base {
     }
 
     run(event) {
-        if(event.getEventName() === 'left')  return this.left();
-        if(event.getEventName() === 'right') return this.right();
+        if(event.getEventName() === 'left')  return this.moveLeft();
+        if(event.getEventName() === 'right') return this.moveRight();
         if(event.getEventName() === 'shoot') return this.shoot();
     }
 
-    left(){
+    moveLeft(){
         const player = this.model.getPlayer();
+        const min = 0;
+        if(player.getLeft() <= min) return;
+
         player.moveLeft();
     }
 
-    right(){
+    moveRight(){
+        const field = this.model.getField();
         const player = this.model.getPlayer();
+        const max = field.getWidth() - player.getWidth();
+        if(player.getLeft() >= max) return;
+
         player.moveRight();
     }
 

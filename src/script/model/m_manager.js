@@ -35,6 +35,10 @@ export class M_Manager {
         return this.characters;
     }
 
+    getField() {
+        return this.mField;
+    }
+
     getPlayer() {
         return this.characters.find(e => e.getType() === config.player.type);
     }

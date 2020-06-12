@@ -1,6 +1,15 @@
 'use strict'
 
 export class M_Crash {
+    update(array) {
+        const crashObjeList = array.filter(e => this.isCrash(e, array));
+        this.crash(crashObjeList);
+    }
+
+    crash(array) {
+        array.forEach(e => e.hit());
+    }
+    
     // TODO: もっといいアルゴリズムを考える
     isCrash(e, array) {
         const t1 = e;
@@ -30,10 +39,10 @@ export class M_Crash {
             // Y軸の重なりを判定
             checkY = Math.abs(p1.y - p2.y) < s1.h + s2.h;
             
-            // どちらかの値もtrueなら衝突している
+            // 両方の値がtrueなら衝突している
             result = checkX === true && checkY === true;
 
-            if(result === true)     break;
+            if(result === true) break;
         }
 
         return result;
@@ -51,14 +60,5 @@ export class M_Crash {
         const h = object.getHeight() / 2;
         
         return {w: w, h: h};
-    }
-
-    update(array) {
-        const crashObjeList = array.filter(e => this.isCrash(e, array));
-        this.crash(crashObjeList);
-    }
-
-    crash(array) {
-        array.forEach(e => e.hit());
     }
 }
