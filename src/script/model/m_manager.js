@@ -3,18 +3,15 @@
 import {config} from '../config';
 
 export class M_Manager {
-    constructor(mFactory, mSpace, mField, mCrash, mRule) {
-        this.factory    = mFactory;
-        this.space      = mSpace;
-        this.field      = mField;
-        // TODO: crashとruleを統合したい
-        this.mCrash     = mCrash; 
+    constructor(mFactory, mSpace, mField, mRule) {
+        this.mFactory   = mFactory;
+        this.mSpace     = mSpace;
+        this.mField     = mField;
         this.mRule      = mRule;
         this.characters = new Array();
         this.enemyTime  = new Date();
         this.status     = '';
         this.score      = 0;
-        
     }
 
     init() {
@@ -22,9 +19,8 @@ export class M_Manager {
     }
 
     resize() {
-        // TODO: tmp
-        this.space.resize();
-        this.field.resize();
+        this.mSpace.resize();
+        this.mField.resize();
     }
 
     addItem(item) {
@@ -75,8 +71,6 @@ export class M_Manager {
     update() {
         this.createEnemy();
         this.characters.forEach(e => e.update());
-        // TODO: 気持ち悪い
-        this.crash();
         this.mRule.update(this.characters);
         this.disposeItem();
     }
@@ -93,30 +87,25 @@ export class M_Manager {
 
     addPlayer() {
         if(this.getPlayer()) return;
-        const player = this.factory.createPlayer(this.field);
+        const player = this.mFactory.createPlayer(this.mField);
         this.addItem(player);
     }
 
     addBullet() {
         const player = this.getPlayer();
-        const bullet = this.factory.createBullet(player, this.field);
+        const bullet = this.mFactory.createBullet(player, this.mField);
         this.addItem(bullet);
     }
 
     addEnemy() {
-        const enemy = this.factory.createEnemy(this.field);
+        const enemy = this.mFactory.createEnemy(this.mField);
         this.addItem(enemy);
     }
 
     addBoss() {
         if(this.getBoss()) return;
-        const boss = this.factory.createBoss(this.field);
+        const boss = this.mFactory.createBoss(this.mField);
         this.addItem(boss);
-    }
-
-    crash() {
-        const crashItems = this.mCrash.getCrashObjList(this.characters);
-        crashItems.forEach(e => e.hit());
     }
 
     disposeItem() {

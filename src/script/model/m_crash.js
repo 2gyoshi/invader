@@ -1,10 +1,6 @@
 'use strict'
 
 export class M_Crash {
-    getCrashObjList(array) {
-        return array.filter(e => this.isCrash(e, array));
-    }
-
     // TODO: もっといいアルゴリズムを考える
     isCrash(e, array) {
         const t1 = e;
@@ -57,4 +53,12 @@ export class M_Crash {
         return {w: w, h: h};
     }
 
+    update(array) {
+        const crashObjeList = array.filter(e => this.isCrash(e, array));
+        this.crash(crashObjeList);
+    }
+
+    crash(array) {
+        array.forEach(e => e.hit());
+    }
 }
