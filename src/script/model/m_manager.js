@@ -1,6 +1,8 @@
 'use strict'
 
-import {config} from '../config';
+import { config } from '../config/config';
+import { M_Score } from './e_enemy';
+import { M_EnemyTimer } from './e_enemy';
 
 export class M_Manager {
     constructor(factory, space, field, rule, charaList) {
@@ -9,10 +11,10 @@ export class M_Manager {
         this.field         = field;
         this.rule          = rule;
         this.characterList = charaList;
-        // TODO: どうにかしたい
-        this.enemyTime  = new Date();
         this.status     = '';
-        this.score      = 0;
+
+        this.score = new M_Score();
+        this.timer = new M_EnemyTimer();
     }
 
     init() {
@@ -25,7 +27,7 @@ export class M_Manager {
     }
 
     removeItem(item) {
-        this.characterList.removeCharacter(item);
+        
     }
 
     getPlayer() {
@@ -70,20 +72,21 @@ export class M_Manager {
     }
 
     update() {
+        this.checkStatus();
         this.createEnemy();
         this.characterList.update();
         this.rule.update();
         this.disposeItem();
     }
 
+    checkStatus() {
+        if(this.score.getScore() > 99) return this.gameClear();
+        if(this.score.getScore() < 0)  return this.gameOver();
+    }
+
     createEnemy() {
-        if(this.score >= 10) return this.addBoss();
-
-        const now = Date.now();
-        if(now - this.enemyTime < config.time.enemy) return;
-
-        this.enemyTime = now;
-        this.addEnemy();
+        if(this.score.getScore() > 9) return this.addBoss();
+        if(this.timer.update() === true) return this.addEnemy() 
     }
 
     addPlayer() {
@@ -117,14 +120,10 @@ export class M_Manager {
         const array = this.characterList.getCharacterList();
         for(let e of array) {
             if(e.isDisposeTarget() === false) continue;
-            
-            this.removeItem(e);
 
             // TODO: いいやりかた思いついたら変える
-            if(e.getType() === config.enemy.type)  this.score++;
-            if(e.getType() === config.boss.type)   this.gameClear();
-            if(e.getType() === config.player.type) this.gameOver();
-            
+            this.score.changeScore(e.getScore());
+            this.characterList.removeCharacter(e);
             e = null;
         }
     }

@@ -1,6 +1,5 @@
 'use strict'
 
-// TODO: リネーム
 import {M_Factory}  from './model/m_factory';
 import {M_FieldOut} from './model/m_fieldout';
 import {M_Crash}    from './model/m_crash';

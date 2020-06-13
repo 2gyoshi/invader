@@ -57,7 +57,7 @@ export const config = {
         width: 50,
         height: 50,
         life: 1,
-        score: 0,
+        score: -100,
         dist: 50,
         grace: 200,
         look: {
@@ -99,7 +99,7 @@ export const config = {
         type: 'boss',
         width: 250,
         height: 250,
-        life: 50,
+        life: 100,
         score: 100,
         dist: 0.5,
         grace: 200,

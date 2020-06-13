@@ -1,6 +1,6 @@
 'use strict'
 
-import {config} from '../config';
+import {config} from '../config/config';
 import {E_Base} from './e_base';
 
 // スワイプイベントクラス

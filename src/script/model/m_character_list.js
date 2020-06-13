@@ -1,6 +1,6 @@
 'use strict'
 
-import { config } from "../config";
+import { config } from "../config/config";
 
 export class  M_CharacterList {
     constructor() {

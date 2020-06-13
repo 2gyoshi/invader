@@ -1,6 +1,6 @@
 'use strict'
 
-import {config}           from '../config';
+import {config}           from '../config/config';
 import {Utility}          from '../util/utility';
 import {M_Size}           from './m_size';
 import {M_Position}       from './m_position';
@@ -121,7 +121,7 @@ export class M_Factory {
         return enemy;
     }
 
-    createBoss(field) {
+    createBoss() {
         const fp = Utility.getFieldProp();
 
         const width    = config.boss.width;
