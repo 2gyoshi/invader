@@ -1,5 +1,6 @@
 'use strict'
 
+import {config}   from '../config/config';
 import {Utility}  from '../util/utility';
 
 // Controlerクラス
@@ -23,34 +24,36 @@ export class C_Manager {
     }
 
     start() {
-        this.model.gameStart();
+        this.model.start();
         this.controlDom();
         this.update();
+    }
+
+    stop() {
+        this.model.stop();
+        this.controlDom();
+        cancelAnimationFrame(this.requestID);
     }
 
     reset() {
         location.reload();
     }
 
-    stop() {
-        this.model.gameStop();
-        this.controlDom();
-        cancelAnimationFrame(this.requestID);
-    }
-
-    finish() {
-        this.controlDom();
-        cancelAnimationFrame(this.requestID);
-    }
-
     controlDom() {
-        const status = this.model.getStatus();
-        Utility.controlDom(status);
+        const isPlaying = this.model.isPlaying();
+        if(isPlaying === true) return Utility.controlDom(config.game.status.playing);
+        
+        // ゲームが止まってる状態ならここにくる
+        const score = this.model.getScore();
+        if(score < 0) return Utility.controlDom(config.game.status.gameover);
+        if(score > 99) return Utility.controlDom(config.game.status.gameclear);
+        // 途中だったらここに入って来る
+        return Utility.controlDom(config.game.status.default);
     }
 
     update() {
         // stopボタンは別メソッドがあるため考慮しない
-        if(this.model.isPlaying() === false) return this.finish();
+        if(this.model.isPlaying() === false) return this.stop();
 
         this.model.update();
 

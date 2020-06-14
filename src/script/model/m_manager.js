@@ -1,24 +1,19 @@
 'use strict'
 
-import { config } from '../config/config';
-import { M_Score } from './e_enemy';
-import { M_EnemyTimer } from './e_enemy';
-
 export class M_Manager {
-    constructor(factory, space, field, rule, charaList) {
-        this.factory       = factory;
-        this.space         = space;
-        this.field         = field;
-        this.rule          = rule;
-        this.characterList = charaList;
-        this.status     = '';
-
-        this.score = new M_Score();
-        this.timer = new M_EnemyTimer();
+    constructor(factory, space, field, rule, characters, score, timer, state) {
+        this.factory    = factory;
+        this.space      = space;
+        this.field      = field;
+        this.rule       = rule;
+        this.characters = characters;
+        this.score      = score;
+        this.timer      = timer;
+        this.state      = state;
     }
 
     init() {
-        this.status = config.game.status.default;
+        this.state.stop();
     }
 
     resize() {
@@ -26,66 +21,56 @@ export class M_Manager {
         this.field.resize();
     }
 
-    removeItem(item) {
-        
-    }
-
     getPlayer() {
-        return this.characterList.getPlayer();
+        return this.characters.getPlayer();
     }
 
     getBoss() {
-        return this.characterList.getBoss();
+        return this.characters.getBoss();
     }
 
+    // TODO: rename
     getCollection() {
-        return this.characterList.getCharacterList();
+        return this.characters.getCharacterList();
     }
 
     getField() {
         return this.field;
     }
 
-    getStatus() {
-        return this.status;
+    getScore() {
+        return this.score.getScore()
     }
 
     isPlaying() {
-        return this.getStatus() === config.game.status.playing;
+        return this.state.getIsPlaying();
     }
 
-    gameStart() {
+    start() {
         this.addPlayer();
-        this.status = config.game.status.playing;
+        this.state.start();
     }
 
-    gameStop() {
-        this.status = config.game.status.default;
-    }
-
-    gameClear() {
-        this.status = config.game.status.gameclear;
-    }
-
-    gameOver() {
-        this.status = config.game.status.gameover;
+    stop() {
+        this.state.stop();
     }
 
     update() {
-        this.checkStatus();
+        this.changeState();
         this.createEnemy();
-        this.characterList.update();
+        this.characters.update();
         this.rule.update();
-        this.disposeItem();
+        this.dispose();
     }
 
-    checkStatus() {
-        if(this.score.getScore() > 99) return this.gameClear();
-        if(this.score.getScore() < 0)  return this.gameOver();
+    changeState() {
+        if(this.getScore() < 0)  return this.stop();
+        if(this.getScore() > 99) return this.stop();
     }
 
     createEnemy() {
-        if(this.score.getScore() > 9) return this.addBoss();
+        if(this.getScore() > 9) return this.addBoss();
+        // TODO：わかりやすくする
         if(this.timer.update() === true) return this.addEnemy() 
     }
 
@@ -93,7 +78,7 @@ export class M_Manager {
         if(this.getPlayer()) return;
 
         const player = this.factory.createPlayer();
-        this.characterList.addCharacter(player);
+        this.characters.addCharacter(player);
     }
 
     addBullet() {
@@ -101,29 +86,29 @@ export class M_Manager {
         if(!player) return;
 
         const bullet = this.factory.createBullet(player);
-        this.characterList.addCharacter(bullet);
+        this.characters.addCharacter(bullet);
     }
 
     addEnemy() {
         const enemy = this.factory.createEnemy();
-        this.characterList.addCharacter(enemy);
+        this.characters.addCharacter(enemy);
     }
 
     addBoss() {
         if(this.getBoss()) return;
 
         const boss = this.factory.createBoss();
-        this.characterList.addCharacter(boss);
+        this.characters.addCharacter(boss);
     }
 
-    disposeItem() {
-        const array = this.characterList.getCharacterList();
+    dispose() {
+        const array = this.characters.getCharacterList();
         for(let e of array) {
             if(e.isDisposeTarget() === false) continue;
 
             // TODO: いいやりかた思いついたら変える
             this.score.changeScore(e.getScore());
-            this.characterList.removeCharacter(e);
+            this.characters.removeCharacter(e);
             e = null;
         }
     }

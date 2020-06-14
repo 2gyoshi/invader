@@ -16,17 +16,3 @@ export class M_EnemyTimer {
         return true;
     }
 }
-
-export class M_Score {
-    constructor() {
-        this.score = 0;
-    }
-
-    changeScore(score) {
-        this.score += score;
-    }
-
-    getScore() {
-        return this.score;
-    }
-}

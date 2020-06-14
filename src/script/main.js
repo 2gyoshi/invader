@@ -18,19 +18,26 @@ import {E_Manager}  from './event/e_manager';
 import {C_Player}   from './controler/c_player';
 import {C_Manager}  from './controler/c_manager';
 
+// tmp
+import { M_Score } from './model/m_score';
+import { M_EnemyTimer } from './model/m_enemy_timer';
+import { M_GameState } from './model/m_game_state';
+
 function main() {
+    // tmp
     const mFactory  = new M_Factory();
     const mSpace    = mFactory.createSpace();
     const mField    = mFactory.createField();
     const mCharList = mFactory.createCharacterList();
-
     const mCrash    = new M_Crash(mCharList);
     const mFieldOut = new M_FieldOut(mField, mCharList);
     const mRule     = new M_Rule();
     mRule.addRule(mCrash);
     mRule.addRule(mFieldOut);
-    
-    const mManager  = new M_Manager(mFactory, mSpace, mField, mRule, mCharList);
+    const score = new M_Score();
+    const timer = new M_EnemyTimer();
+    const state = new M_GameState();    
+    const mManager  = new M_Manager(mFactory, mSpace, mField, mRule, mCharList, score, timer, state);
 
     const vSpace    = new V_Space(mSpace);
     const vField    = new V_Field(mField);

@@ -12,7 +12,7 @@ export class Utility {
     }
     
     // TODO: いい方法を考えたら変える
-    static controlDom(status) {
+    static controlDom(state) {
         const btnId    = config.dom.button.id;
         const msgId    = config.dom.message.id;
         const startBtn = document.querySelector(`#${btnId.start}`);
@@ -23,7 +23,7 @@ export class Utility {
 
         if(!startBtn || !resetBtn || !stopBtn || !msgClear || !msgOver) return;
         
-        switch (status) {
+        switch (state) {
             case config.game.status.default:
                 startBtn.style.display = 'block';
                 resetBtn.style.display = 'block';
