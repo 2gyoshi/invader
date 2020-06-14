@@ -6,10 +6,10 @@ export class M_Manager {
         this.space      = space;
         this.field      = field;
         this.rule       = rule;
-        this.characters = characters;
         this.score      = score;
         this.timer      = timer;
         this.state      = state;
+        this.characters = characters;
     }
 
     init() {
@@ -70,8 +70,7 @@ export class M_Manager {
 
     createEnemy() {
         if(this.getScore() > 9) return this.addBoss();
-        // TODO：わかりやすくする
-        if(this.timer.update() === true) return this.addEnemy() 
+        if(this.timer.isAppearTime() === true) return this.addEnemy() 
     }
 
     addPlayer() {

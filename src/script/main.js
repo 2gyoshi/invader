@@ -22,6 +22,8 @@ import {C_Manager}  from './controler/c_manager';
 import { M_Score } from './model/m_score';
 import { M_EnemyTimer } from './model/m_enemy_timer';
 import { M_GameState } from './model/m_game_state';
+import { E_Button } from './event/e_button';
+import { C_GameManager } from './controler/c_game_manager'
 
 function main() {
     // tmp
@@ -43,27 +45,21 @@ function main() {
     const vField    = new V_Field(mField);
     const vManager  = new V_Manager(vSpace, vField);
 
+    const cPlayer   = new C_Player(mManager);
+    const cGManager = new C_GameManager(mManager, vManager);
+    const cManager  = new C_Manager(mManager, vManager);
+
     const eKeydown  = new E_Keydown();
     const eSwipe    = new E_Swipe();
     const eTouch    = new E_Touch();
-    const eManager  = new E_Manager(eKeydown, eSwipe, eTouch);
-
-    const cPlayer   = new C_Player(mManager);
+    const eButton   = new E_Button()
+    const eManager  = new E_Manager(eKeydown, eSwipe, eTouch, eButton);
     eKeydown.addController(cPlayer);
     eSwipe.addController(cPlayer);
     eTouch.addController(cPlayer);
-    
-    const cManager  = new C_Manager(mManager, vManager, eManager);
+    eButton.addController(cGManager);
 
-    const domStrBtn = document.querySelector('#js-start-btn');
-    const domStpBtn = document.querySelector('#js-stop-btn');
-    const domRstBtn = document.querySelector('#js-reset-btn');
-    domStrBtn.addEventListener('click', cManager.start.bind(cManager));
-    domStpBtn.addEventListener('click', cManager.stop.bind(cManager));
-    domRstBtn.addEventListener('click', cManager.reset.bind(cManager));
-    domStrBtn.addEventListener('touchstart', cManager.start.bind(cManager));
-    domStpBtn.addEventListener('touchstart', cManager.stop.bind(cManager));
-    domRstBtn.addEventListener('touchstart', cManager.reset.bind(cManager));
+    eManager.init()
 
     window.addEventListener('load',   () => cManager.init());
     window.addEventListener('resize', () => cManager.resize());

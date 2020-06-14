@@ -5,14 +5,14 @@ import { config } from '../config/config';
 // Enemyタイマークラス
 export class M_EnemyTimer {
     constructor() {
-        this.preApperTime = Date.now();
+        this.preAppearTime = Date.now();
     }
 
-    update() {
+    isAppearTime() {
         const now = Date.now();
-        if(now - this.preApperTime < config.time.enemy) return false;
+        if(now - this.preAppearTime < config.time.enemy) return false;
 
-        this.preApperTime = now;
+        this.preAppearTime = now;
         return true;
     }
 }
