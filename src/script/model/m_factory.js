@@ -11,7 +11,16 @@ import {M_Field}          from './m_field';
 import {M_Player}         from './m_player';
 import {M_Bullet}         from './m_bullet';
 import {M_Enemy}          from './m_enemy';
-import {M_CharacterList}  from './m_character_List'
+import {M_CharacterList}  from './m_character_List';
+
+// TODO: tmp
+import { M_RuleManager }     from './m_rule';
+import { M_Score } from './m_score';
+import { M_EnemyTimer } from './m_enemy_timer';
+import { M_GameState } from './m_game_state';
+
+import { M_FieldOut } from './m_fieldout';
+import { M_Crash }    from './m_crash';
 
 // Modelのファクトリークラス
 export class M_Factory {
@@ -37,6 +46,7 @@ export class M_Factory {
         return field;
     }
 
+    // TODO: いちいち作らないようにする
     createPlayer() {
         const fp       = Utility.getFieldProp();
 
@@ -166,6 +176,30 @@ export class M_Factory {
         position = new M_Position(left, top);
 
         return position;
+    }
+
+    createScore() {
+        return new M_Score();
+    }
+
+    createEnemyTimer() {
+        return new M_EnemyTimer();
+    }
+
+    createGameState() {
+        return new M_GameState();   
+    }
+
+    createRuleManager(mCrashMgr, mFieldMgr) {
+        return new M_RuleManager(mCrashMgr, mFieldMgr);
+    }
+
+    createCrashManager(mCharList) {
+        return new M_Crash(mCharList);
+    }
+
+    createFieldManager(mField, mCharList) {
+        return new M_FieldOut(mField, mCharList);
     }
 
 }

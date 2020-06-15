@@ -1,15 +1,13 @@
 'use strict'
 
-export class M_Rule {
-    constructor() {
-        this.rules = new Array();
-    }
-
-    addRule(rule) {
-        this.rules.push(rule);
+export class M_RuleManager {
+    constructor(mCrashMgr, mFieldMgr) {
+        this.mCrashMgr = mCrashMgr
+        this.mFieldMgr = mFieldMgr
     }
 
     update() {
-        this.rules.forEach(e => e.update());
+        this.mCrashMgr.update();
+        this.mFieldMgr.update();
     }
 }

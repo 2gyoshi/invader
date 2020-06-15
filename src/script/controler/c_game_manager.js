@@ -15,9 +15,23 @@ export class C_GameManager extends C_Base {
 
     run(event) {
         // TODO: 共通化する
+        if(event.getEventName() === 'load')  return this.load();
+        if(event.getEventName() === 'resize')  return this.resize();
         if(event.getEventName() === 'start') return this.start();
         if(event.getEventName() === 'stop')  return this.stop();
         if(event.getEventName() === 'reset')  return this.reset();
+    }
+
+    load() {
+        this.model.init();
+        this.view.init();
+        // this.event.init();
+    }
+    
+    resize() {
+        const collection = this.model.getCollection();
+        this.view.resize(collection);
+        this.model.resize();
     }
 
     start() {

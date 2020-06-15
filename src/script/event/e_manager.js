@@ -1,17 +1,19 @@
 'use strict'
 
 export class E_Manager {
-    constructor(eKeydown, eSwipe, eTouch, eButton) {
-        this.eKeydown  = eKeydown;
-        this.eSwipe    = eSwipe;
-        this.eTouch    = eTouch;
-        this.eButton   = eButton;
+    constructor() {
+        this.items = new Array(); 
+    }
+
+    addItem(item) {
+        this.items.push(item);
+    }
+
+    removeItem(item) {
+        this.items = this.items.filter(e => e !== item);
     }
 
     init() {
-        this.eKeydown.init();
-        this.eSwipe.init();
-        this.eTouch.init();
-        this.eButton.init()
+        this.items.forEach(e => e.init());
     }
 }

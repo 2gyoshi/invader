@@ -1,68 +1,65 @@
 'use strict'
 
-import {M_Factory}  from './model/m_factory';
-import {M_FieldOut} from './model/m_fieldout';
-import {M_Crash}    from './model/m_crash';
-import {M_Rule}     from './model/m_rule';
+// tmp
 import {M_Manager}  from './model/m_manager';
 
-import {V_Field}    from './view/v_field';
-import {V_Space}    from './view/v_space';
-import {V_Manager}  from './view/v_manager';
-
-import {E_Keydown}  from './event/e_keydown';
-import {E_Swipe}    from './event/e_swipe';
-import {E_Touch}    from './event/e_touch';
-import {E_Manager}  from './event/e_manager';
-
-import {C_Player}   from './controler/c_player';
-import {C_Manager}  from './controler/c_manager';
-
-// tmp
-import { M_Score } from './model/m_score';
-import { M_EnemyTimer } from './model/m_enemy_timer';
-import { M_GameState } from './model/m_game_state';
-import { E_Button } from './event/e_button';
-import { C_GameManager } from './controler/c_game_manager'
+import { M_Factory } from './model/m_factory';
+import { V_Factory } from './view/v_factory';
+import { C_Factory } from './controler/c_factory';
+import { E_Factory } from './event/e_factory';
 
 function main() {
-    // tmp
+    // Model
     const mFactory  = new M_Factory();
     const mSpace    = mFactory.createSpace();
     const mField    = mFactory.createField();
+    const mScore    = mFactory.createScore();
+    const mTimer    = mFactory.createEnemyTimer();
+    const mState    = mFactory.createGameState();
     const mCharList = mFactory.createCharacterList();
-    const mCrash    = new M_Crash(mCharList);
-    const mFieldOut = new M_FieldOut(mField, mCharList);
-    const mRule     = new M_Rule();
-    mRule.addRule(mCrash);
-    mRule.addRule(mFieldOut);
-    const score = new M_Score();
-    const timer = new M_EnemyTimer();
-    const state = new M_GameState();    
-    const mManager  = new M_Manager(mFactory, mSpace, mField, mRule, mCharList, score, timer, state);
+    const mCrashMgr = mFactory.createCrashManager(mCharList);
+    const mFieldMgr = mFactory.createFieldManager(mField, mCharList);
+    const mRuleMgr  = mFactory.createRuleManager(mCrashMgr, mFieldMgr);
+    const mMgr  = new M_Manager(mFactory, mSpace, mField, mRuleMgr, mCharList, mScore, mTimer, mState);
 
-    const vSpace    = new V_Space(mSpace);
-    const vField    = new V_Field(mField);
-    const vManager  = new V_Manager(vSpace, vField);
+    // View
+    const vFactory = new V_Factory();
+    const vSpace = vFactory.createSpace(mSpace);
+    const vField = vFactory.createField(mField);
+    const vMgr   = vFactory.createManager(vSpace, vField);
 
-    const cPlayer   = new C_Player(mManager);
-    const cGManager = new C_GameManager(mManager, vManager);
-    const cManager  = new C_Manager(mManager, vManager);
+    // Controler
+    const cFactory = new C_Factory();
+    const cPlayer  = cFactory.createPlayerControler(mMgr)
+    const cGameMgr = cFactory.createGameControler(mMgr, vMgr)
 
-    const eKeydown  = new E_Keydown();
-    const eSwipe    = new E_Swipe();
-    const eTouch    = new E_Touch();
-    const eButton   = new E_Button()
-    const eManager  = new E_Manager(eKeydown, eSwipe, eTouch, eButton);
-    eKeydown.addController(cPlayer);
-    eSwipe.addController(cPlayer);
-    eTouch.addController(cPlayer);
-    eButton.addController(cGManager);
+    // Event
+    const ef = new E_Factory();
+    const ek = ef.createKeydownEvent();
+    const es = ef.createSwipeEvent();
+    const et = ef.createTouchEvent();
+    const eb = ef.createButtonEvent();
+    const ew = ef.createWindowEvent();
+    const eMgr = ef.createEventManager();
 
-    eManager.init()
+    ek.addController(cPlayer);
+    es.addController(cPlayer);
+    et.addController(cPlayer);
+    eb.addController(cGameMgr);
+    ew.addController(cGameMgr);
+    
+    eMgr.addItem(ek);
+    eMgr.addItem(es);
+    eMgr.addItem(et);
+    eMgr.addItem(eb); 
+    eMgr.addItem(ew);
 
-    window.addEventListener('load',   () => cManager.init());
-    window.addEventListener('resize', () => cManager.resize());
+    // Main Controler
+    const cMgr = cFactory.createControlerManager();
+    cMgr.addItem(mMgr);
+    cMgr.addItem(vMgr);
+    cMgr.addItem(eMgr);
+    cMgr.init();
 }
 
 main();
