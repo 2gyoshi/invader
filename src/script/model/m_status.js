@@ -3,38 +3,34 @@
 // ステータス管理クラス
 export class M_Status {
     constructor(type, life, dist, score, grace) {
-        this.type  = type;
-        this.life  = life;
-        this.dist  = dist;
-        this.score = score;
-        this.grace = grace;
+        this._type  = type;
+        this._life  = life;
+        this._dist  = dist;
+        this._score = score;
+        this._grace = grace;
     }
 
-    getType() {
-        return this.type;
+    get type() {
+        return this._type;
     }
     
-    getLife() {
-        return this.life;
+    get life() {
+        return this._life;
     }
 
-    getDist() {
-        return this.dist;
+    get dist() {
+        return this._dist;
     }
 
-    getScore() {
-        return this.score;
+    get score() {
+        return this._score;
     }
 
-    getGrace() {
-        return this.grace;
+    get grace() {
+        return this._grace;
     }
 
     hit() {
-        this.life--;
-    }
-
-    isDead() {
-        return this.life <= 0;
+        this._life--;
     }
 }

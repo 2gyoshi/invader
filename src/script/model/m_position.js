@@ -3,36 +3,31 @@
 // ポジションを管理するクラス
 export class M_Position {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
     }
 
-    setX(x) {
-        this.x = x;
+    set x(x) {
+        this._x = x;
     }
     
-    getX() {
-        return this.x;
+    get x() {
+        return this._x;
     }
 
-    setY(y) {
-        this.y = y
+    set y(y) {
+        this._y = y
     }
 
-    getY() {
-        return this.y;
+    get y() {
+        return this._y;
     }
     
-    move(x, y) {
-        this.moveX(x);
-        this.moveY(y);
-    }
-
     moveX(x) {
-        this.x = this.getX() + x;
+        this._x = this._x + x;
     }
 
     moveY(y) {
-        this.y = this.getY() + y;
+        this._y = this._y + y;
     }
 }

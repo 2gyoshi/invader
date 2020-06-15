@@ -1,7 +1,7 @@
 'use strict'
 
-import {M_Base} from './m_base';
-import {Utility} from '../util/utility';
+import { M_Base }  from './m_base';
+import { Utility } from '../util/utility';
 
 // フィールドのModelクラス
 export class M_Field extends M_Base{

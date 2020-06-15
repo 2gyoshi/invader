@@ -13,7 +13,7 @@ export class M_Manager {
     }
 
     init() {
-        this.state.stop();
+        this.stop();
     }
 
     resize() {
@@ -39,20 +39,20 @@ export class M_Manager {
     }
 
     getScore() {
-        return this.score.getScore()
+        return this.score.score;
     }
 
     isPlaying() {
-        return this.state.getIsPlaying();
+        return this.state.isPlaying;
     }
 
     start() {
         this.addPlayer();
-        this.state.start();
+        this.state.isPlaying = true;
     }
 
     stop() {
-        this.state.stop();
+        this.state.isPlaying = false;
     }
 
     update() {
@@ -103,7 +103,7 @@ export class M_Manager {
     dispose() {
         const array = this.characters.getCharacterList();
         for(let e of array) {
-            if(e.isDisposeTarget() === false) continue;
+            if(e.isDispose === false) continue;
 
             // TODO: いいやりかた思いついたら変える
             this.score.changeScore(e.getScore());

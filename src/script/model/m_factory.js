@@ -1,26 +1,25 @@
 'use strict'
 
-import {config}           from '../config/config';
-import {Utility}          from '../util/utility';
-import {M_Size}           from './m_size';
-import {M_Position}       from './m_position';
-import {M_Look}           from './m_look';
-import {M_Status}         from './m_status';
-import {M_Space}          from './m_space';
-import {M_Field}          from './m_field';
-import {M_Player}         from './m_player';
-import {M_Bullet}         from './m_bullet';
-import {M_Enemy}          from './m_enemy';
-import {M_CharacterList}  from './m_character_List';
+import { config }          from '../config/config';
+import { Utility }         from '../util/utility';
+import { M_Size }          from './m_size';
+import { M_Position }      from './m_position';
+import { M_Look }          from './m_look';
+import { M_Status }        from './m_status';
+import { M_Space }         from './m_space';
+import { M_Field }         from './m_field';
+import { M_Player }        from './m_player';
+import { M_NonPlayer }     from './m_non_player';
+import { M_CharacterList } from './m_character_List';
 
 // TODO: tmp
-import { M_RuleManager }     from './m_rule';
-import { M_Score } from './m_score';
-import { M_EnemyTimer } from './m_enemy_timer';
-import { M_GameState } from './m_game_state';
+import { M_RuleManager }   from './m_rule';
+import { M_Score }         from './m_score';
+import { M_EnemyTimer }    from './m_enemy_timer';
+import { M_GameState }     from './m_game_state';
 
-import { M_FieldOut } from './m_fieldout';
-import { M_Crash }    from './m_crash';
+import { M_FieldOut }      from './m_fieldout';
+import { M_Crash }         from './m_crash';
 
 // Modelのファクトリークラス
 export class M_Factory {
@@ -101,7 +100,7 @@ export class M_Factory {
         const grace    = config.bullet.grace;
         const status   = new M_Status(type, life, dist, score, grace); 
 
-        const bullet = new M_Bullet(size, position, look, status);
+        const bullet = new M_NonPlayer(size, position, look, status);
 
         return bullet;
     }
@@ -126,7 +125,7 @@ export class M_Factory {
         const grace    = config.enemy.grace;
         const status   = new M_Status(type, life, dist, score, grace);
 
-        const enemy = new M_Enemy(size, position, look, status);
+        const enemy = new M_NonPlayer(size, position, look, status);
 
         return enemy;
     }
@@ -155,7 +154,7 @@ export class M_Factory {
         const grace    = config.boss.grace;
         const status   = new M_Status(type, life, dist, score, grace);
 
-        const boss = new M_Enemy(size, position, look, status);
+        const boss = new M_NonPlayer(size, position, look, status);
 
         return boss;
     }

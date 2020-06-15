@@ -1,42 +1,42 @@
 'use strict'
 
-import {M_Base} from './m_base';
+import { M_Base } from './m_base';
 
 export class M_Character extends M_Base {
     constructor(size, position, look, status, field) {
         super(size, position)
-        this.look      = look;
-        this.status    = status;
-        this.field     = field;
-        this.isDispose = false;
+        this._look      = look;
+        this._status    = status;
+        this._field     = field;
+        this._isDispose = false;
     }
 
     getLook() {
-        return this.look.getItem();
+        return this._look.getItem();
     }
 
     getType() {
-        return this.status.getType();
+        return this._status.type;
     }
 
     getDist() {
-        return this.status.getDist();
+        return this._status.dist;
     }
 
     getScore() {
-        return this.status.getScore();
+        return this._status.score;
     }
 
     getGrace() {
-        return this.status.getGrace();
+        return this._status.grace;
     }
 
     isDead() {
-        return this.status.isDead();
+        return this._status.life <= 0;
     }
 
-    isDisposeTarget() {
-        return this.isDispose;
+    get isDispose() {
+        return this._isDispose;
     }
 
     update() {
@@ -44,23 +44,23 @@ export class M_Character extends M_Base {
     }
 
     hit() {
-        this.status.hit();
+        this._status.hit();
         if(this.isDead()) this.dead();
     }
 
     // ライフが0になった後も処理したいためここではdisposeしない
     dead() {
-        this.look.last();
+        this._look.last();
         const time = this.getGrace();
         setTimeout(this.makeDisposeTarget.bind(this), time);
     }
 
     makeDisposeTarget() {
-        this.isDispose = true;
+        this._isDispose = true;
     }
 
     dispose() {
-        return this.status.getScore();
+        return this._status.getScore();
     }
 }
 

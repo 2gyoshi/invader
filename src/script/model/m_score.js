@@ -3,14 +3,14 @@
 // スコアを管理するクラス
 export class M_Score {
     constructor() {
-        this.score = 0;
+        this._score = 0;
     }
 
     changeScore(score) {
-        this.score += score;
+        this._score += score;
     }
 
-    getScore() {
-        return this.score;
+    get score() {
+        return this._score;
     }
 }

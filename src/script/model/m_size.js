@@ -3,34 +3,23 @@
 // ゲームのフィールドクラス
 export class M_Size {
     constructor(width, height) {
-        this.width = width;
-        this.height = height;
+        this._width  = width;
+        this._height = height;
     }
 
-    setWidth(w) {
-        this.width = w;
+    set width(w) {
+        this._width = w;
     }
 
-    getWidth() {
-        return this.width;
+    get width() {
+        return this._width;
     }
 
-    setHeight(h) {
-        this.height = h;
+    set height(h) {
+        this._height = h;
     }
 
-    getHeight() {
-        return this.height;
+    get height() {
+        return this._height;
     }
-
-    // TODO: どうしよう
-    // size(w, h) {
-    //     this.setWidth(w);
-    //     this.setHeight(h);
-    // }
-
-    // resize(w, h) {
-    //     this.size(w, h);
-    // }
-
 }

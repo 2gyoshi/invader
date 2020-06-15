@@ -3,38 +3,38 @@
 // イテレータークラス
 export class M_Iterator {
     constructor() {
-        this.index = 0;
-        this.collection = new Array();
+        this._index = 0;
+        this._items = new Array();
     }
 
     addItem(item) {
-        this.collection.push(item);
+        this._items.push(item);
     }
 
     getItem() {
-        return this.collection[this.index];
+        return this._items[this._index];
     }
 
     first() {
-        this.index = this.getFirstIndex();
+        this._index = this.getFirstIndex();
     }
 
     last() {
-        this.index = this.getLastIndex();
+        this._index = this.getLastIndex();
     }
 
     next() {
         if(!this.hasNext()) return;
-        this.index++;
+        this._index++;
     }
 
     prev() {
         if(!this.hasPrev()) return;
-        this.index--;
+        this._index--;
     }
     
     getCurrentIndex() {
-        return this.index;
+        return this._index;
     }
 
     getFirstIndex() {
@@ -42,7 +42,7 @@ export class M_Iterator {
     }
 
     getLastIndex() {
-        return this.collection.length - 1;
+        return this._items.length - 1;
     }
 
     hasNext() {

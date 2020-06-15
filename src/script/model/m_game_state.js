@@ -3,18 +3,14 @@
 // ゲームの状態を管理するクラス
 export class M_GameState {
     constructor() {
-        this.isPlaying = false;
+        this._isPlaying = false;
     }
 
-    getIsPlaying() {
-        return this.isPlaying;
+    get isPlaying() {
+        return this._isPlaying;
     }
 
-    start() {
-        this.isPlaying = true;
-    }
-
-    stop() {
-        this.isPlaying = false;
+    set isPlaying(bool) {
+        this._isPlaying = bool;
     }
 }

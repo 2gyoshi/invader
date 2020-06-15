@@ -1,6 +1,6 @@
 'use strict'
 
-import {M_Iterator} from './m_iterator';
+import { M_Iterator } from './m_iterator';
 
 // 外見を管理するクラス
 export class M_Look extends M_Iterator {
