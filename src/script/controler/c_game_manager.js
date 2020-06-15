@@ -1,10 +1,8 @@
 'use strict'
 
-import {C_Base} from './c_base';
-
-// TODO: tmp
-import { config } from '../config/config';
+import { config }  from '../config/config';
 import { Utility } from '../util/utility';
+import { C_Base }  from './c_base';
 
 export class C_GameManager extends C_Base {
     constructor(model, view) {
@@ -13,12 +11,11 @@ export class C_GameManager extends C_Base {
     }
 
     run(event) {
-        // TODO: 共通化する
-        if(event.eventName === 'load')   return this.load();
-        if(event.eventName === 'resize') return this.resize();
-        if(event.eventName === 'start')  return this.start();
-        if(event.eventName === 'stop')   return this.stop();
-        if(event.eventName === 'reset')  return this.reset();
+        if(event.eventName === config.event.type.load)   return this.load();
+        if(event.eventName === config.event.type.resize) return this.resize();
+        if(event.eventName === config.event.type.start)  return this.start();
+        if(event.eventName === config.event.type.stop)   return this.stop();
+        if(event.eventName === config.event.type.reset)  return this.reset();
     }
 
     load() {
@@ -50,18 +47,18 @@ export class C_GameManager extends C_Base {
 
     controlDom() {
         const isPlaying = this._model.isPlaying();
-        if(isPlaying === true) return Utility.controlDom(config.game.status.playing);
+        if(isPlaying === true) return Utility.controlDom(config.game.state.playing);
         
         // ゲームが止まってる状態ならここにくる
         const score = this._model.getScore();
-        if(score < 0) return Utility.controlDom(config.game.status.gameover);
-        if(score > 99) return Utility.controlDom(config.game.status.gameclear);
-        // 途中だったらここに入って来る
-        return Utility.controlDom(config.game.status.default);
+        if(score < 0) return Utility.controlDom(config.game.state.lose);
+        if(score > 99) return Utility.controlDom(config.game.state.win);
+       
+        // 途中だったらならここにくる
+        return Utility.controlDom(config.game.state.default);
     }
 
     update() {
-        // stopボタンは別メソッドがあるため考慮しない
         if(this._model.isPlaying() === false) return this.stop();
 
         this._model.update();

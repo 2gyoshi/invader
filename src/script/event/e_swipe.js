@@ -1,7 +1,7 @@
 'use strict'
 
-import {config} from '../config/config';
-import {E_Base} from './e_base';
+import { config } from '../config/config';
+import { E_Base } from './e_base';
 
 // スワイプイベントクラス
 export class E_Swipe extends E_Base {
@@ -36,13 +36,13 @@ export class E_Swipe extends E_Base {
 
     moveLeft() {
         if ((this._x1 - this._x2) < config.event.swipe.dist) return;
-        this._eventName = 'left';
+        this._eventName = config.event.type.left;
         this.notify();
     }
 
     moveRight() {
         if((this._x2 - this._x1) < config.event.swipe.dist) return;
-        this._eventName = 'right';
+        this._eventName = config.event.type.right;
         this.notify();
     }
 }

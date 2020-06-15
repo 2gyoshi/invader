@@ -1,7 +1,7 @@
 'use strict'
 
-import {Utility} from '../util/utility';
-import {E_Base} from './e_base';
+import { config }  from '../config/config';
+import { E_Base }  from './e_base';
 
 export class E_Keydown extends E_Base {
     constructor() {
@@ -20,17 +20,23 @@ export class E_Keydown extends E_Base {
 
         this._disable = true;
 
-        const val = Utility.convertKeyCodeToMeaningStr(e.keyCode);
-        
-        // TODO: 共通化する
-        if(val === null)    this._eventName = 'default';
-        if(val === 'space') this._eventName = 'shoot';
-        if(val === 'left')  this._eventName = 'left';
-        if(val === 'right') this._eventName = 'right';
+        const val = this.convertKeyCodeToMeaningStr(e.keyCode);
+        if(val === null)    this._eventName = config.event.type.none;
+        if(val === 'space') this._eventName = config.event.type.shoot;
+        if(val === 'left')  this._eventName = config.event.type.left;
+        if(val === 'right') this._eventName = config.event.type.right;
 
         this.notify();
     }
-    
+
+    convertKeyCodeToMeaningStr(code) {
+        if(code === 32) return 'space';
+        if(code === 37) return 'left';
+        if(code === 39) return 'right';
+        
+        return null;
+    }
+
     keyup() {
         this._disable = false;
     }

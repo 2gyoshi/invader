@@ -35,7 +35,7 @@ export class E_Touch extends E_Base {
     }
 
     shoot() {
-        this._eventName = 'shoot';
+        this._eventName = config.event.type.shoot;
         this.notify();
     }
 }

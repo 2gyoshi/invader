@@ -1,8 +1,8 @@
 'use strict'
 
-import {V_Field}    from './v_field';
-import {V_Space}    from './v_space';
-import {V_Manager}  from './v_manager';
+import { V_Field }  from './v_field';
+import { V_Space }  from './v_space';
+import { V_Manager} from './v_manager';
 
 export class V_Factory {
     createSpace(model) {

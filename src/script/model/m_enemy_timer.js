@@ -10,7 +10,7 @@ export class M_EnemyTimer {
 
     isAppearTime() {
         const now = Date.now();
-        if(now - this.preAppearTime < config.time.enemy) return false;
+        if(now - this.preAppearTime < config.enemy.interval) return false;
 
         this.preAppearTime = now;
         return true;

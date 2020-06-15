@@ -1,6 +1,7 @@
 'use strict'
 
-import {E_Base} from './e_base';
+import { config } from '../config/config';
+import { E_Base } from './e_base';
 
 export class E_Window extends E_Base {
     constructor() {
@@ -13,12 +14,12 @@ export class E_Window extends E_Base {
     }
 
     load() {
-        this._eventName = 'load';
+        this._eventName = config.event.type.load;
         this.notify(this);
     }
 
     resize() {
-        this._eventName = 'resize';
+        this._eventName = config.event.type.resize;
         this.notify(this);
     }
 }

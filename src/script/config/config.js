@@ -2,115 +2,101 @@
 
 // ゲームセッティング
 export const config = {
-    event: {
-        name: {
-            gameStart: 'gameStart',
-            gameStop:  'gameStop',
-            gameReset: 'gameReset',
-            moveLeft:  'moveLeft',
-            moveRight: 'moveRight',
-            shoot:     'shoot'
-        },
-
-        swipe: {
-            dist: 50,
-        }
-    },
-
-    time: {
-        enemy: 3000,
-    },
-
-    game: {
-        status: {
-            default: 'default',
-            playing: 'playing',
-            gameclear: 'gameclear',
-            gameover:  'gameover',
-        },
-    },
-
-    dom: {
+    domId: {
         button: {
-            id: {
-                start: 'js-start-btn',
-                stop:  'js-stop-btn',
-                reset: 'js-reset-btn',
-            },
+            start: 'js-start-btn',
+            stop:  'js-stop-btn',
+            reset: 'js-reset-btn',
         },
         message: {
-            id: {
-                gameclear: 'js-gameclear',
-                gameover: 'js-gameover',
-            },
+            win:  'js-gameclear',
+            lose: 'js-gameover',
         },
         canvas: {
-            id: {
-                space: 'js-space',
-                field: 'js-field',
-            }
-        },
+            space: 'js-space',
+            field: 'js-field',
+        }
     },
-
+    event: {
+        type: {
+            load:   'load',
+            resize: 'resize',
+            start:  'start',
+            stop:   'stop',
+            reset:  'reset',
+            left:   'left',
+            right:  'right',
+            shoot:  'shoot',
+            none:   'none'
+        },
+        swipe: {
+            dist: 50
+        }
+    },
+    game: {
+        state: {
+            default: 'default',
+            playing: 'playing',
+            win:     'win',
+            lose:    'lose'
+        }
+    },
     field: {
         width: 250,
-        top: 0,
+        top: 0
     },
-
     player: {
-        type: 'player',
-        width: 50,
+        type:  'player',
+        width:  50,
         height: 50,
-        life: 1,
-        score: -100,
-        dist: 50,
-        grace: 200,
+        life:   1,
+        score:  -100,
+        dist:   50,
+        grace:  200,
         look: {
             normal: './img/player.svg',
-            dead: './img/explosion.svg'
+            dead:   './img/explosion.svg'
         },
-        top: 0.9,
+        top: 0.9
     },
-
     bullet: {
-        type: 'bullet',
-        width: 5,
+        type:  'bullet',
+        width:  5,
         height: 10,
-        life: 1,
-        score: 0,
-        dist: -5,
-        grace: 0,
+        life:   1,
+        score:  0,
+        dist:   -5,
+        grace:  0,
         look: {
             normal: './img/bullet.svg',
-        },
+        }
     },
-    
     enemy: {
-        type: 'enemy',
-        width: 50,
+        type:  'enemy',
+        width:  50,
         height: 50,
-        life: 1,
-        score: 1,
-        dist: 0.5,
-        grace: 200,
+        life:   1,
+        score:  1,
+        dist:   0.5,
+        grace:  200,
         look: {
             normal: './img/enemy.svg',
-            dead: './img/explosion.svg'
+            dead:   './img/explosion.svg'
         },
-        top: 0.1,
+        top:      0.1,
+        interval: 3000
     },
-    
     boss: {
-        type: 'boss',
-        width: 250,
+        type:   'boss',
+        width:  250,
         height: 250,
-        life: 100,
-        score: 100,
-        dist: 0.5,
-        grace: 200,
+        life:   100,
+        score:  100,
+        dist:   0.5,
+        grace:  200,
         look: {
             normal: './img/boss.svg',
-            dead: './img/explosion.svg'
-        },
+            dead:   './img/explosion.svg'
+        }
     }
 };

@@ -2,8 +2,8 @@
 
 export class E_Base {
     constructor() {
-        this._itemList = new Array();
-        this._eventName   = '';
+        this._itemList  = new Array();
+        this._eventName = '';
     }
 
     get eventName() {

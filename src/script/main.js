@@ -1,7 +1,7 @@
 'use strict'
 
 // tmp
-import {M_Manager}  from './model/m_manager';
+import { M_Manager } from './model/m_manager';
 
 import { M_Factory } from './model/m_factory';
 import { V_Factory } from './view/v_factory';

@@ -1,5 +1,6 @@
 'use strict'
 
+import { config }  from '../config/config';
 import { E_Base } from './e_base';
 
 // タッチイベントクラス
@@ -24,22 +25,21 @@ export class E_Button extends E_Base {
     }
 
     pressButton(e) {
-        const target = e.target;
-        if(target === this.domStrBtn) this.start();
-        if(target === this.domStpBtn) this.stop();
-        if(target === this.domRstBtn) this.reset();
+        if(e.target === this.domStrBtn) this.start();
+        if(e.target === this.domStpBtn) this.stop();
+        if(e.target === this.domRstBtn) this.reset();
         this.notify(this);
     }
 
     start() {
-        this._eventName = 'start';
+        this._eventName = config.event.type.start;
     }
 
     stop() {
-        this._eventName = 'stop';
+        this._eventName = config.event.type.stop;
     }
 
     reset() {
-        this._eventName = 'reset';
+        this._eventName = config.event.type.reset;
     }
 }
