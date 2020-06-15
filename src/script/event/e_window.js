@@ -13,12 +13,12 @@ export class E_Window extends E_Base {
     }
 
     load() {
-        this.setEventName('load');
+        this._eventName = 'load';
         this.notify(this);
     }
 
     resize() {
-        this.setEventName('resize');
+        this._eventName = 'resize';
         this.notify(this);
     }
 }

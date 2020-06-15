@@ -1,6 +1,6 @@
 'use strict'
 
-import {E_Base} from './e_base';
+import { E_Base } from './e_base';
 
 // タッチイベントクラス
 export class E_Button extends E_Base {
@@ -32,14 +32,14 @@ export class E_Button extends E_Base {
     }
 
     start() {
-        this.setEventName('start');
+        this._eventName = 'start';
     }
 
     stop() {
-        this.setEventName('stop');
+        this._eventName = 'stop';
     }
 
     reset() {
-        this.setEventName('reset');
+        this._eventName = 'reset';
     }
 }

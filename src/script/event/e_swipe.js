@@ -7,8 +7,8 @@ import {E_Base} from './e_base';
 export class E_Swipe extends E_Base {
     constructor() {
         super();
-        this.startX = 0;
-        this.endX   = 0;
+        this._x1 = 0;
+        this._x2 = 0;
     }
 
     init() {
@@ -19,30 +19,30 @@ export class E_Swipe extends E_Base {
 
     touchStart(event) {
         event.preventDefault();
-        this.startX = event.touches[0].pageX;
+        this._x1 = event.touches[0].pageX;
         // 前回の座標が残ってるとタッチ時に移動してしまうことがある
-        this.endX   = event.touches[0].pageX;
+        this._x2   = event.touches[0].pageX;
     }
 
     touchMove(event) {
         event.preventDefault();
-        this.endX = event.changedTouches[0].pageX;
+        this._x2 = event.changedTouches[0].pageX;
     }
 
     touchEnd() {
-        if (this.startX > this.endX) return this.moveLeft();
-        if (this.startX < this.endX) return this.moveRight();
+        if (this._x1 > this._x2) return this.moveLeft();
+        if (this._x1 < this._x2) return this.moveRight();
     }
 
     moveLeft() {
-        if ((this.startX - this.endX) < config.event.swipe.dist) return;
-        this.setEventName('left');
+        if ((this._x1 - this._x2) < config.event.swipe.dist) return;
+        this._eventName = 'left';
         this.notify();
     }
 
     moveRight() {
-        if((this.endX - this.startX) < config.event.swipe.dist) return;
-        this.setEventName('right');
+        if((this._x2 - this._x1) < config.event.swipe.dist) return;
+        this._eventName = 'right';
         this.notify();
     }
 }

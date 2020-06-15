@@ -2,27 +2,24 @@
 
 export class E_Base {
     constructor() {
-        this.controllers = new Array();
-        this.eventName  = '';
+        this._itemList = new Array();
+        this._eventName   = '';
     }
 
-    addController(controller) {
-        this.controllers.push(controller);
+    get eventName() {
+        return this._eventName;
     }
 
-    deleteController(controller) {
-        this.controllers.remove(controller)
+    // TODO: rename
+    addController(item) {
+        this._itemList.push(item);
     }
 
-    setEventName(en) {
-        this.eventName = en;
-    }
-
-    getEventName() {
-        return this.eventName;
+    deleteController(item) {
+        this._itemList.remove(item)
     }
 
     notify() {
-        this.controllers.forEach(e => e.run(this));
+        this._itemList.forEach(e => e.run(this));
     }
 }

@@ -2,8 +2,19 @@
 
 // ゲームセッティング
 export const config = {
-    message:{
-        abscall: 'abstract fanction called'
+    event: {
+        name: {
+            gameStart: 'gameStart',
+            gameStop:  'gameStop',
+            gameReset: 'gameReset',
+            moveLeft:  'moveLeft',
+            moveRight: 'moveRight',
+            shoot:     'shoot'
+        },
+
+        swipe: {
+            dist: 50,
+        }
     },
 
     time: {
@@ -39,12 +50,6 @@ export const config = {
                 field: 'js-field',
             }
         },
-    },
-
-    event: {
-        swipe: {
-            dist: 50,
-        }
     },
 
     field: {

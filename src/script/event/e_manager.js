@@ -2,18 +2,18 @@
 
 export class E_Manager {
     constructor() {
-        this.items = new Array(); 
+        this._items = new Array(); 
     }
 
     addItem(item) {
-        this.items.push(item);
+        this._items.push(item);
     }
 
     removeItem(item) {
-        this.items = this.items.filter(e => e !== item);
+        this._items = this._items.filter(e => e !== item);
     }
 
     init() {
-        this.items.forEach(e => e.init());
+        this._items.forEach(e => e.init());
     }
 }

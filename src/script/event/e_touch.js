@@ -7,8 +7,8 @@ import {E_Base} from './e_base';
 export class E_Touch extends E_Base {
     constructor() {
         super();
-        this.startX = 0;
-        this.endX   = 0
+        this._x1 = 0;
+        this._x2 = 0
     }
 
     init() {
@@ -19,23 +19,23 @@ export class E_Touch extends E_Base {
 
     touchStart(event) {
         event.preventDefault();
-        this.startX = event.touches[0].pageX;
+        this._x1 = event.touches[0].pageX;
         // 前回の座標が残ってるとタッチ時が反応しなくなることがある
-        this.endX   = event.touches[0].pageX;
+        this._x2 = event.touches[0].pageX;
     }
 
     touchMove(event) {
         event.preventDefault();
-        this.endX = event.changedTouches[0].pageX;
+        this._x2 = event.changedTouches[0].pageX;
     }
 
     touchEnd() {
-        if(Math.abs(this.endX - this.startX) >= config.event.swipe.dist) return;
+        if(Math.abs(this._x2 - this._x1) >= config.event.swipe.dist) return;
         this.shoot();
     }
 
     shoot() {
-        this.setEventName('shoot');
+        this._eventName = 'shoot';
         this.notify();
     }
 }
