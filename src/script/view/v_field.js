@@ -4,9 +4,10 @@ import {V_Base} from './v_base';
 
 // ゲームのフィールドクラス
 export class V_Field extends V_Base {
-    constructor(model) {
+    constructor(mField, mCharaMgr) {
         super();
-        this.model   = model;
+        this._mField     = mField;
+        this._mCharaMgr  = mCharaMgr;
         this.canvas  = document.querySelector('#js-field');
         this.context = this.canvas.getContext('2d');
     }
@@ -26,22 +27,22 @@ export class V_Field extends V_Base {
     }
 
     size() {
-        const width  = this.model.getWidth();
-        const height = this.model.getHeight();
+        const width  = this._mField.getWidth();
+        const height = this._mField.getHeight();
         this.canvas.setAttribute('width',`${width}`);
         this.canvas.setAttribute('height', `${height}`);
     }
 
     position() {
-        const top  = this.model.getTop();
-        const left = this.model.getLeft();
+        const top  = this._mField.getTop();
+        const left = this._mField.getLeft();
         this.canvas.style.position = 'absolute';
         this.canvas.style.top = `${top}px`;
         this.canvas.style.left = `${left}px`;
     }
 
-    draw(collection) {
-        if(!collection) return;
+    draw() {
+        const list = this._mCharaMgr.getList();
 
         let image  = null;
         let left   = null;
@@ -49,7 +50,7 @@ export class V_Field extends V_Base {
         let width  = null;
         let height = null;
 
-        for(let e of collection) {
+        for(let e of list) {
             image  = e.getLook();
             left   = e.getLeft();
             top    = e.getTop();
@@ -61,13 +62,13 @@ export class V_Field extends V_Base {
     }
 
     erase() {
-        const width  = this.model.getWidth();
-        const height = this.model.getHeight();
+        const width  = this._mField.getWidth();
+        const height = this._mField.getHeight();
         this.context.clearRect(0, 0, width, height);
     }
 
-    update(collection) {
+    update() {
         this.erase();
-        this.draw(collection);
+        this.draw();
     }
 }

@@ -25,7 +25,7 @@ export class V_Manager {
         this.field.resize();
     }
 
-    update(collection) {
-        this.field.update(collection);
+    update() {
+        this.field.update();
     }
 }

@@ -9,8 +9,8 @@ export class V_Factory {
         return new V_Space(model);
     }
 
-    createField(model) {
-        return new V_Field(model);
+    createField(field, list) {
+        return new V_Field(field, list);
     }
 
     createManager(vSpace, vField) {

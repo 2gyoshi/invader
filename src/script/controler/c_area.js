@@ -4,9 +4,10 @@ import { config }  from '../config/config';
 import { C_Base }  from './c_base';
 
 export class C_Area extends C_Base {
-    constructor(areaMgr) {
+    constructor(areaMgr, vMgr) {
         super();
         this._areaMgr = areaMgr;
+        this._vMgr = vMgr;
     }
 
     run(event) {
@@ -20,5 +21,6 @@ export class C_Area extends C_Base {
     
     resize() {
         this._areaMgr.resize();
+        this._vMgr.resize();
     }
 }

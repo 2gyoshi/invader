@@ -51,8 +51,7 @@ export class C_Game extends C_Base {
         if(this._model.isPlaying() === false) return this.stop();
 
         this._model.update();
-        const collection = this._model.getCollection();
-        this._view.update(collection);
+        this._view.update();
         
         this._requestID = requestAnimationFrame(this.update.bind(this));
     }

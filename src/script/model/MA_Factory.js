@@ -10,6 +10,7 @@ import { MA_GameState }   from './MA_GameState';
 import { MA_FieldOut }    from './MA_FieldOut';
 import { MA_Crash }       from './MA_Crash';
 import { MA_AreaMgr }     from './MA_AreaMgr';
+import { MA_GameMgr }     from './MA_GameMgr';
 
 // Modelのファクトリークラス
 export class MA_Factory {
@@ -47,5 +48,9 @@ export class MA_Factory {
 
     createFieldMgr(field, charList) {
         return new MA_FieldOut(field, charList);
+    }
+
+    createGameMgr(ruleMgr, charaMgr, scoreMgr, timeMgr, stateMgr) {
+        return new MA_GameMgr(ruleMgr, charaMgr, scoreMgr, timeMgr, stateMgr);
     }
 }

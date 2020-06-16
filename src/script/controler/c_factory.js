@@ -10,8 +10,8 @@ export class C_Factory {
         return new C_Player(charaMgr, areaMgr);
     }
 
-    createAreaControler(model) {
-        return new C_Area(model);
+    createAreaControler(model, view) {
+        return new C_Area(model, view);
     }
 
     createGameControler(model, view) {
