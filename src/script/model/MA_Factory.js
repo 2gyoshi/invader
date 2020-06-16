@@ -1,7 +1,8 @@
 'use strict'
 
 // TODO: tmp
-import { MA_CharaList }   from './MA_CharaMgr';
+import { MA_List }        from './MA_List';
+import { MA_CharaMgr }    from './MA_CharaMgr';
 import { MA_RuleManager } from './MA_RuleMgr';
 import { MA_Score }       from './MA_Score';
 import { MA_EnemyTimer }  from './MA_EnemyTimer';
@@ -12,35 +13,39 @@ import { MA_AreaMgr }     from './MA_AreaMgr';
 
 // Modelのファクトリークラス
 export class MA_Factory {
-    createCharacterList() {
-        return new MA_CharaList();
+    createList() {
+        return new MA_List();
     }
 
-    createScore() {
+    createCharaMgr(list, factory) {
+        return new MA_CharaMgr(list, factory);
+    }
+
+    createAreaMgr(space, field) {
+        return new MA_AreaMgr(space, field);
+    }
+
+    createScoreMgr() {
         return new MA_Score();
     }
 
-    createEnemyTimer() {
+    createTimeMgr() {
         return new MA_EnemyTimer();
     }
 
-    createGameState() {
+    createStateMgr() {
         return new MA_GameState();   
     }
 
-    createRuleManager(mCrashMgr, mFieldMgr) {
-        return new MA_RuleManager(mCrashMgr, mFieldMgr);
+    createRuleMgr(crash, fieldout) {
+        return new MA_RuleManager(crash, fieldout);
     }
 
-    createCrashManager(mCharList) {
-        return new MA_Crash(mCharList);
+    createCrashMgr(charList) {
+        return new MA_Crash(charList);
     }
 
-    createFieldManager(mField, mCharList) {
-        return new MA_FieldOut(mField, mCharList);
-    }
-
-    createAreaManager(space, field) {
-        return new MA_AreaMgr(space, field);
+    createFieldMgr(field, charList) {
+        return new MA_FieldOut(field, charList);
     }
 }

@@ -4,9 +4,9 @@ import { MC_Character } from './MC_Character';
 
 // プレイヤークラス
 export class MC_Player extends MC_Character {
-    constructor(size, position, look, status, factory) {
+    constructor(size, position, look, status, mgr) {
         super(size, position, look, status);
-        this._factory = factory;
+        this._mgr = mgr;
     }
 
     // 何もしない
@@ -15,7 +15,7 @@ export class MC_Player extends MC_Character {
     }
 
     shoot() {
-        this._factory.createBullet(this);
+        this._mgr.addBullet(this);
     }
 
     moveLeft() {

@@ -1,22 +1,18 @@
 'use strict'
 
-import { config }          from '../config/config';
-import { Utility }         from '../util/utility';
-import { MA_Size }          from './MA_Size';
-import { MA_Position }      from './MA_Position';
-import { MA_Look }          from './MA_Look';
-import { MA_Status }        from './MA_Status';
-import { MC_Space }         from './MC_Space';
-import { MC_Field }         from './MC_field';
-import { MC_Player }        from './MC_Player';
-import { MC_NonPlayer }     from './MC_NonPlayer';
+import { config }       from '../config/config';
+import { Utility }      from '../util/utility';
+import { MA_Size }      from './MA_Size';
+import { MA_Position }  from './MA_Position';
+import { MA_Look }      from './MA_Look';
+import { MA_Status }    from './MA_Status';
+import { MC_Space }     from './MC_Space';
+import { MC_Field }     from './MC_field';
+import { MC_Player }    from './MC_Player';
+import { MC_NonPlayer } from './MC_NonPlayer';
 
 // Modelのファクトリークラス
 export class MC_Factory {
-    constructor(charaList) {
-        this._charaList = charaList;
-    }
-
     createSpace() {
         const prop  = Utility.getSpaceProp();
         const size  = new MA_Size(prop.w, prop.h);
@@ -35,8 +31,7 @@ export class MC_Factory {
         return field;
     }
 
-    // TODO: いちいち作らないようにする
-    createPlayer() {
+    createPlayer(mgr) {
         const fp       = Utility.getFieldProp();
 
         const width    = config.player.width;
@@ -60,7 +55,7 @@ export class MC_Factory {
         const grace    = config.player.grace;
         const status   = new MA_Status(type, life, dist, score, grace);
 
-        return new MC_Player(size, position, look, status, this);
+        return new MC_Player(size, position, look, status, mgr);
     }
 
     createBullet(player) {
@@ -88,10 +83,7 @@ export class MC_Factory {
         const grace    = config.bullet.grace;
         const status   = new MA_Status(type, life, dist, score, grace); 
 
-        const bullet = new MC_NonPlayer(size, position, look, status);
-
-        // TODO: 検討する
-        this._charaList.addItem(bullet);
+        return new MC_NonPlayer(size, position, look, status);
     }
 
     createEnemy() {

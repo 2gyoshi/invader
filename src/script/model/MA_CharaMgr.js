@@ -2,10 +2,10 @@
 
 export class MA_CharaMgr {
     constructor(list, factory) {
-        this._list    = list;
-        this._factory = factory;
-        this._player  = null;
-        this._boss    = null;
+        this._list      = list;
+        this._factory   = factory;
+        this._player    = null;
+        this._boss      = null;
     }
 
     getList() {
@@ -14,7 +14,7 @@ export class MA_CharaMgr {
 
     addPlayer() {
         if(this._player !== null) return;
-        const player = this._factory.createPlayer();
+        const player = this._factory.createPlayer(this);
         this._player = player;
         this._list.addItem(player);
     }
@@ -33,6 +33,11 @@ export class MA_CharaMgr {
 
     getBoss() {
         return this._boss;
+    }
+
+    addBullet() {
+        const bullet = this._factory.createBullet(this._player);
+        this._list.addItem(bullet);
     }
 
     addEnemy() {
