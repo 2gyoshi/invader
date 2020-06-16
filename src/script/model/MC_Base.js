@@ -1,7 +1,7 @@
 'use strict'
 
 // ゲームオブジェクトのベースクラス
-export class M_Base {
+export class MC_Base {
     constructor(size, position) {
         this.size      = size;
         this.position  = position;

@@ -2,14 +2,14 @@
 
 import { config } from '../config/config';
 
-export class M_FieldOut {
+export class MA_FieldOut {
     constructor(field, list) {
         this.field = field;
-        this.characterList  = list;
+        this._list  = list;
     }
 
     update() {
-        const origin = this.characterList.getCharacterList();
+        const origin = this._list.getList();
         const filtered = origin.filter(e => this.isFieldOut(e))
         this.fieldOut(filtered);
     }

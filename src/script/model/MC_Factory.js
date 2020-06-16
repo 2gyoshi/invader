@@ -2,45 +2,35 @@
 
 import { config }          from '../config/config';
 import { Utility }         from '../util/utility';
-import { M_Size }          from './m_size';
-import { M_Position }      from './m_position';
-import { M_Look }          from './m_look';
-import { M_Status }        from './m_status';
-import { M_Space }         from './m_space';
-import { M_Field }         from './m_field';
-import { M_Player }        from './m_player';
-import { M_NonPlayer }     from './m_non_player';
-import { M_CharacterList } from './m_character_List';
-
-// TODO: tmp
-import { M_RuleManager }   from './m_rule';
-import { M_Score }         from './m_score';
-import { M_EnemyTimer }    from './m_enemy_timer';
-import { M_GameState }     from './m_game_state';
-
-import { M_FieldOut }      from './m_fieldout';
-import { M_Crash }         from './m_crash';
+import { MA_Size }          from './MA_Size';
+import { MA_Position }      from './MA_Position';
+import { MA_Look }          from './MA_Look';
+import { MA_Status }        from './MA_Status';
+import { MC_Space }         from './MC_Space';
+import { MC_Field }         from './MC_field';
+import { MC_Player }        from './MC_Player';
+import { MC_NonPlayer }     from './MC_NonPlayer';
 
 // Modelのファクトリークラス
-export class M_Factory {
-    createCharacterList() {
-        return new M_CharacterList();
+export class MC_Factory {
+    constructor(charaList) {
+        this._charaList = charaList;
     }
 
     createSpace() {
         const prop  = Utility.getSpaceProp();
-        const size  = new M_Size(prop.w, prop.h);
-        const pos   = new M_Position(prop.x, prop.y);
-        const space = new M_Space(size, pos);
+        const size  = new MA_Size(prop.w, prop.h);
+        const pos   = new MA_Position(prop.x, prop.y);
+        const space = new MC_Space(size, pos);
 
         return space;
     }
 
     createField() {
         const prop  = Utility.getFieldProp();
-        const size  = new M_Size(prop.w, prop.h);
-        const pos   = new M_Position(prop.x, prop.y);
-        const field = new M_Field(size, pos);
+        const size  = new MA_Size(prop.w, prop.h);
+        const pos   = new MA_Position(prop.x, prop.y);
+        const field = new MC_Field(size, pos);
 
         return field;
     }
@@ -51,15 +41,15 @@ export class M_Factory {
 
         const width    = config.player.width;
         const height   = config.player.height;
-        const size     = new M_Size(width, height);
+        const size     = new MA_Size(width, height);
 
         const left     = (fp.w / 2) - (width / 2);
         const top      = (fp.h * config.player.top) - height;
-        const position = new M_Position(left, top);
+        const position = new MA_Position(left, top);
 
         const normal   = config.player.look.normal;
         const dead     = config.player.look.dead;
-        const look     = new M_Look();
+        const look     = new MA_Look();
         look.addImage(normal);
         look.addImage(dead);
 
@@ -68,11 +58,9 @@ export class M_Factory {
         const score    = config.player.score;
         const dist     = config.player.dist;
         const grace    = config.player.grace;
-        const status   = new M_Status(type, life, dist, score, grace);
+        const status   = new MA_Status(type, life, dist, score, grace);
 
-        const player = new M_Player(size, position, look, status);
-
-        return player;
+        return new MC_Player(size, position, look, status, this);
     }
 
     createBullet(player) {
@@ -80,17 +68,17 @@ export class M_Factory {
 
         const width    = config.bullet.width;
         const height   = config.bullet.height;
-        const size     = new M_Size(width, height);
+        const size     = new MA_Size(width, height);
 
         const pLeft    = player.getLeft();
         const pTop     = player.getTop();
         const pWidth   = player.getWidth();
         const left     = (pLeft + (pWidth / 2)) - (width / 2);
         const top      = pTop - (height * 2);
-        const position = new M_Position(left, top);
+        const position = new MA_Position(left, top);
 
         const normal   = config.bullet.look.normal;
-        const look     = new M_Look();
+        const look     = new MA_Look();
         look.addImage(normal);
 
         const type     = config.bullet.type;
@@ -98,23 +86,24 @@ export class M_Factory {
         const score    = config.bullet.score;
         const dist     = config.bullet.dist;
         const grace    = config.bullet.grace;
-        const status   = new M_Status(type, life, dist, score, grace); 
+        const status   = new MA_Status(type, life, dist, score, grace); 
 
-        const bullet = new M_NonPlayer(size, position, look, status);
+        const bullet = new MC_NonPlayer(size, position, look, status);
 
-        return bullet;
+        // TODO: 検討する
+        this._charaList.addItem(bullet);
     }
 
     createEnemy() {
         const width    = config.enemy.width;
         const height   = config.enemy.height;
-        const size     = new M_Size(width, height);
+        const size     = new MA_Size(width, height);
 
         const position = this.getEnemyAppearPos();
 
         const normal   = config.enemy.look.normal;
         const dead     = config.enemy.look.dead;
-        const look     = new M_Look();
+        const look     = new MA_Look();
         look.addImage(normal);
         look.addImage(dead);
 
@@ -123,11 +112,9 @@ export class M_Factory {
         const score    = config.enemy.score;
         const dist     = config.enemy.dist;
         const grace    = config.enemy.grace;
-        const status   = new M_Status(type, life, dist, score, grace);
+        const status   = new MA_Status(type, life, dist, score, grace);
 
-        const enemy = new M_NonPlayer(size, position, look, status);
-
-        return enemy;
+        return new MC_NonPlayer(size, position, look, status);
     }
 
     createBoss() {
@@ -135,15 +122,15 @@ export class M_Factory {
 
         const width    = config.boss.width;
         const height   = config.boss.height;
-        const size     = new M_Size(width, height);
+        const size     = new MA_Size(width, height);
 
         const left     = (fp.w / 2) - (width / 2);
         const top      = fp.y - height;
-        const position = new M_Position(left, top);
+        const position = new MA_Position(left, top);
 
         const normal   = config.boss.look.normal;
         const dead     = config.boss.look.dead;
-        const look     = new M_Look();
+        const look     = new MA_Look();
         look.addImage(normal);
         look.addImage(dead);
 
@@ -152,11 +139,9 @@ export class M_Factory {
         const score    = config.boss.score;
         const dist     = config.boss.dist;
         const grace    = config.boss.grace;
-        const status   = new M_Status(type, life, dist, score, grace);
+        const status   = new MA_Status(type, life, dist, score, grace);
 
-        const boss = new M_NonPlayer(size, position, look, status);
-
-        return boss;
+        return new MC_NonPlayer(size, position, look, status);
     }
 
     // enemyの出現位置を取得する
@@ -172,33 +157,8 @@ export class M_Factory {
         const left = rand * config.enemy.width;
         const top  = fp.h * config.enemy.top;
 
-        position = new M_Position(left, top);
+        position = new MA_Position(left, top);
 
         return position;
     }
-
-    createScore() {
-        return new M_Score();
-    }
-
-    createEnemyTimer() {
-        return new M_EnemyTimer();
-    }
-
-    createGameState() {
-        return new M_GameState();   
-    }
-
-    createRuleManager(mCrashMgr, mFieldMgr) {
-        return new M_RuleManager(mCrashMgr, mFieldMgr);
-    }
-
-    createCrashManager(mCharList) {
-        return new M_Crash(mCharList);
-    }
-
-    createFieldManager(mField, mCharList) {
-        return new M_FieldOut(mField, mCharList);
-    }
-
 }

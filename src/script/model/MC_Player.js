@@ -1,16 +1,21 @@
 'use strict'
 
-import {M_Character} from './m_character';
+import { MC_Character } from './MC_Character';
 
 // プレイヤークラス
-export class M_Player extends M_Character {
-    constructor(size, position, look, status) {
+export class MC_Player extends MC_Character {
+    constructor(size, position, look, status, factory) {
         super(size, position, look, status);
+        this._factory = factory;
     }
 
     // 何もしない
     update() {
         // orverride none;
+    }
+
+    shoot() {
+        this._factory.createBullet(this);
     }
 
     moveLeft() {

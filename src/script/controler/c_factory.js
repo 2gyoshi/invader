@@ -1,16 +1,21 @@
 'use strict'
 
-import { C_Player }   from './c_player';
-import { C_GameManager } from './c_game_manager';
-import { C_Manager }  from './c_manager';
+import { C_Player }  from './c_player';
+import { C_Game }    from './c_game';
+import { C_Area }    from './c_area';
+import { C_Manager } from './c_manager';
 
 export class C_Factory {
-    createPlayerControler(mMgr) {
-        return new C_Player(mMgr);
+    createPlayerControler(charaMgr, areaMgr) {
+        return new C_Player(charaMgr, areaMgr);
     }
 
-    createGameControler(mMgr, vMgr) {
-        return new C_GameManager(mMgr, vMgr);
+    createAreaControler(model) {
+        return new C_Area(model);
+    }
+
+    createGameControler(model, view) {
+        return new C_Game(model, view);
     }
 
     createControlerManager() {

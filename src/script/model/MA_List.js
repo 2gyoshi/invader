@@ -1,18 +1,37 @@
 'use strict'
 
-// イテレータークラス
-export class M_Iterator {
+export class MA_List {
     constructor() {
         this._index = 0;
-        this._items = new Array();
+        this._list  = new Array();
     }
 
     addItem(item) {
-        this._items.push(item);
+        this._list.push(item);
+    }
+
+    removeItem(item) {
+        this._list = this._list.filter(e => e !== item);
+    }
+
+    getList() {
+        return this._list;
     }
 
     getItem() {
-        return this._items[this._index];
+        return this._list[this._index];
+    }
+    
+    getCurrentIndex() {
+        return this._index;
+    }
+
+    getFirstIndex() {
+        return 0;
+    }
+
+    getLastIndex() {
+        return this._list.length - 1;
     }
 
     first() {
@@ -32,18 +51,6 @@ export class M_Iterator {
         if(!this.hasPrev()) return;
         this._index--;
     }
-    
-    getCurrentIndex() {
-        return this._index;
-    }
-
-    getFirstIndex() {
-        return 0;
-    }
-
-    getLastIndex() {
-        return this._items.length - 1;
-    }
 
     hasNext() {
         return this.getCurrentIndex() !== this.getLastIndex();
@@ -51,5 +58,9 @@ export class M_Iterator {
 
     hasPrev() {
         return this.getCurrentIndex() !== this.getFirstIndex()
+    }
+
+    getCurrentItem() {
+        return this._list[this._index];
     }
 }

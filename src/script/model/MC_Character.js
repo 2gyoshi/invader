@@ -1,8 +1,8 @@
 'use strict'
 
-import { M_Base } from './m_base';
+import { MC_Base } from './MC_Base';
 
-export class M_Character extends M_Base {
+export class MC_Character extends MC_Base {
     constructor(size, position, look, status, field) {
         super(size, position)
         this._look      = look;
@@ -35,7 +35,7 @@ export class M_Character extends M_Base {
         return this._status.life <= 0;
     }
 
-    get isDispose() {
+    getIsDispose() {
         return this._isDispose;
     }
 
@@ -61,21 +61,5 @@ export class M_Character extends M_Base {
 
     dispose() {
         return this._status.getScore();
-    }
-}
-
-// NPCクラス
-export class M_NonPlayer extends M_Character {
-    constructor(size, position, look, status) {
-        super(size, position, look, status);
-    }
-
-    update() {
-        this.move();
-    }
-
-    move() {
-        const dist = this.getDist();
-        this.position.moveY(dist);
     }
 }

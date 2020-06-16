@@ -3,7 +3,7 @@
 import { config } from '../config/config';
 
 // Enemyタイマークラス
-export class M_EnemyTimer {
+export class MA_EnemyTimer {
     constructor() {
         this.preAppearTime = Date.now();
     }

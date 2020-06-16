@@ -1,10 +1,10 @@
 'use strict'
 
-import { M_Base }  from './m_base';
+import { MC_Base }  from './MC_Base';
 import { Utility } from '../util/utility';
 
 // フィールドのModelクラス
-export class M_Field extends M_Base{
+export class MC_Field extends MC_Base {
     constructor(size, position) {
         super(size, position);
     }

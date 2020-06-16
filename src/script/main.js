@@ -1,37 +1,66 @@
 'use strict'
 
-// tmp
-import { M_Manager } from './model/m_manager';
-
-import { M_Factory } from './model/m_factory';
+import { MA_Factory } from './model/MA_Factory';
+import { MC_Factory } from './model/MC_Factory';
 import { V_Factory } from './view/v_factory';
 import { C_Factory } from './controler/c_factory';
 import { E_Factory } from './event/e_factory';
 
+// tmp
+import { MA_GameMgr } from './model/MA_GameMgr';
+import { MA_List } from './model/MA_List';
+import { MA_CharaMgr } from './model/MA_CharaMgr';
+
 function main() {
     // Model
-    const mFactory  = new M_Factory();
-    const mSpace    = mFactory.createSpace();
-    const mField    = mFactory.createField();
-    const mScore    = mFactory.createScore();
-    const mTimer    = mFactory.createEnemyTimer();
-    const mState    = mFactory.createGameState();
-    const mCharList = mFactory.createCharacterList();
-    const mCrashMgr = mFactory.createCrashManager(mCharList);
-    const mFieldMgr = mFactory.createFieldManager(mField, mCharList);
-    const mRuleMgr  = mFactory.createRuleManager(mCrashMgr, mFieldMgr);
-    const mMgr  = new M_Manager(mFactory, mSpace, mField, mRuleMgr, mCharList, mScore, mTimer, mState);
+    const maf  = new MA_Factory();
+    
+    const charaList = new MA_List();
+    const mcf  = new MC_Factory(charaList);
+    
+    const mSpace    = mcf.createSpace();
+    const mField    = mcf.createField();
+    const mAreaMgr  = maf.createAreaManager(mSpace, mField);
 
+    const mScore    = maf.createScore();
+    const mTimer    = maf.createEnemyTimer();
+    const mState    = maf.createGameState();
+
+
+    const mCharaMgr = new MA_CharaMgr(charaList, mcf)
+
+
+    const mCrashMgr = maf.createCrashManager(mCharaMgr);
+    const mFieldMgr = maf.createFieldManager(mField, mCharaMgr);
+    const mRuleMgr  = maf.createRuleManager(mCrashMgr, mFieldMgr);
+
+    const mGameMgr  = new MA_GameMgr(mRuleMgr, mCharaMgr, mScore, mTimer, mState);
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // View
     const vFactory = new V_Factory();
-    const vSpace = vFactory.createSpace(mSpace);
-    const vField = vFactory.createField(mField);
-    const vMgr   = vFactory.createManager(vSpace, vField);
+    const vSpace   = vFactory.createSpace(mSpace);
+    const vField   = vFactory.createField(mField);
+    const vMgr     = vFactory.createManager(vSpace, vField);
 
     // Controler
     const cFactory = new C_Factory();
-    const cPlayer  = cFactory.createPlayerControler(mMgr)
-    const cGameMgr = cFactory.createGameControler(mMgr, vMgr)
+    const cPlayer  = cFactory.createPlayerControler(mCharaMgr, mAreaMgr);
+    const cAreaMgr = cFactory.createAreaControler(mGameMgr);
+    const cGameMgr = cFactory.createGameControler(mGameMgr, vMgr);
 
     // Event
     const ef = new E_Factory();
@@ -46,7 +75,7 @@ function main() {
     es.addController(cPlayer);
     et.addController(cPlayer);
     eb.addController(cGameMgr);
-    ew.addController(cGameMgr);
+    ew.addController(cAreaMgr);
     
     eMgr.addItem(ek);
     eMgr.addItem(es);
@@ -56,7 +85,7 @@ function main() {
 
     // Main Controler
     const cMgr = cFactory.createControlerManager();
-    cMgr.addItem(mMgr);
+    cMgr.addItem(mGameMgr);
     cMgr.addItem(vMgr);
     cMgr.addItem(eMgr);
     cMgr.init();

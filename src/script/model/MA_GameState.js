@@ -1,7 +1,7 @@
 'use strict'
 
 // ゲームの状態を管理するクラス
-export class M_GameState {
+export class MA_GameState {
     constructor() {
         this._isPlaying = false;
     }

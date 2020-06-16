@@ -1,7 +1,7 @@
 'use strict'
 
 // ステータス管理クラス
-export class M_Status {
+export class MA_Status {
     constructor(type, life, dist, score, grace) {
         this._type  = type;
         this._life  = life;

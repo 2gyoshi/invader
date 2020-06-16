@@ -1,9 +1,9 @@
 'use strict'
 
-import { M_Character } from './m_character';
+import { MC_Character } from './MC_Character';
 
 // NPCクラス
-export class M_NonPlayer extends M_Character {
+export class MC_NonPlayer extends MC_Character {
     constructor(size, position, look, status) {
         super(size, position, look, status);
     }

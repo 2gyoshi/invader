@@ -4,29 +4,18 @@ import { config }  from '../config/config';
 import { Utility } from '../util/utility';
 import { C_Base }  from './c_base';
 
-export class C_GameManager extends C_Base {
+export class C_Game extends C_Base {
     constructor(model, view) {
-        super(model, view);
+        super();
+        this._model = model;
+        this._view = view;
         this._requestID = null;
     }
 
     run(event) {
-        if(event.eventName === config.event.type.load)   return this.load();
-        if(event.eventName === config.event.type.resize) return this.resize();
         if(event.eventName === config.event.type.start)  return this.start();
         if(event.eventName === config.event.type.stop)   return this.stop();
         if(event.eventName === config.event.type.reset)  return this.reset();
-    }
-
-    load() {
-        this._model.init();
-        this._view.init();
-    }
-    
-    resize() {
-        const collection = this.model.getCollection();
-        this._model.resize();
-        this._view.resize(collection);
     }
 
     start() {

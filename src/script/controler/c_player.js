@@ -3,8 +3,10 @@
 import {C_Base} from './c_base';
 
 export class C_Player extends C_Base {
-    constructor(model) {
-        super(model, null);
+    constructor(charaMgr, areaMgr) {
+        super();
+        this._charaMgr = charaMgr;
+        this._areaMgr  = areaMgr;
     }
 
     run(event) {
@@ -14,7 +16,7 @@ export class C_Player extends C_Base {
     }
 
     moveLeft(){
-        const player = this._model.getPlayer();
+        const player = this._charaMgr.getPlayer();
         const min = 0;
         if(player.getLeft() <= min) return;
 
@@ -22,8 +24,8 @@ export class C_Player extends C_Base {
     }
 
     moveRight(){
-        const field = this._model.getField();
-        const player = this._model.getPlayer();
+        const field  = this._areaMgr.getField();
+        const player = this._charaMgr.getPlayer();
         const max = field.getWidth() - player.getWidth();
         if(player.getLeft() >= max) return;
 
@@ -31,8 +33,8 @@ export class C_Player extends C_Base {
     }
 
     shoot(){
-        // TODO: 本当はPlayerにもたせたい
-        this._model.addBullet();
+        const player = this._charaMgr.getPlayer();
+        player.shoot();
     }
 }
 

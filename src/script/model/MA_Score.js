@@ -1,7 +1,7 @@
 'use strict'
 
 // スコアを管理するクラス
-export class M_Score {
+export class MA_Score {
     constructor() {
         this._score = 0;
     }

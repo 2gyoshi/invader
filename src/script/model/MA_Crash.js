@@ -1,17 +1,17 @@
 'use strict'
 
-export class M_Crash {
+export class MA_Crash {
     constructor(list) {
-        this.characterList = list;
+        this._list = list;
     }
 
     update() {
-        const origin = this.characterList.getCharacterList();
+        const origin = this._list.getList();
         const filtered = origin.filter(e => this.isCrash(e))
         this.crash(filtered);
     }
     
-    // TODO: もっといいアルゴリズムを考える
+    // TODO: もっといいアルゴリズムを考えたい
     isCrash(e) {
         const t1 = e;
 
@@ -23,7 +23,7 @@ export class M_Crash {
 
         let result = false;
 
-        const array = this.characterList.getCharacterList()
+        const array = this._list.getList()
         let p2, s2, checkX, checkY;
 
         for(let t2 of array) {
