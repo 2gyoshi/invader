@@ -2,13 +2,13 @@
 
 export class CharacterManager {
     constructor(list, factory) {
-        this._list      = list;
-        this._factory   = factory;
-        this._player    = null;
-        this._boss      = null;
+        this._list    = list;
+        this._factory = factory;
+        this._player  = null;
+        this._boss    = null;
     }
 
-    getList() {
+    getCharacterList() {
         return this._list.getList();
     }
 
@@ -50,7 +50,8 @@ export class CharacterManager {
     }
 
     update() {
-        const list = this.getList();
-        list.forEach(e => e.update());
+        for(let e of this._list) {
+            e.update();
+        }
     }
 }

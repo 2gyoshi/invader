@@ -13,48 +13,8 @@ export class Utility {
     
     // TODO: いい方法を考えたら変える
     static controlDom(state) {
-        const btnId    = config.domId.button;
-        const msgId    = config.domId.message;
-        const startBtn = document.querySelector(`#${btnId.start}`);
-        const resetBtn = document.querySelector(`#${btnId.reset}`);
-        const stopBtn  = document.querySelector(`#${btnId.stop}`);
-        const msgWin   = document.querySelector(`#${msgId.win}`);
-        const msgLose  = document.querySelector(`#${msgId.lose}`);
-
-        if(!startBtn || !resetBtn || !stopBtn || !msgWin || !msgLose) return;
-        
-        switch (state) {
-            case config.game.state.default:
-                startBtn.style.display = 'block';
-                resetBtn.style.display = 'block';
-                stopBtn.style.display  = 'none';
-                msgWin.style.display = 'none';
-                msgLose.style.display  = 'none';
-                break;
-            case config.game.state.playing:
-                startBtn.style.display = 'none';
-                resetBtn.style.display = 'none';
-                stopBtn.style.display  = 'block';
-                msgWin.style.display   = 'none';
-                msgLose.style.display  = 'none';
-                break;
-            case config.game.state.win:
-                startBtn.style.display = 'none';
-                resetBtn.style.display = 'block';
-                stopBtn.style.display  = 'none';
-                msgWin.style.display   = 'block';
-                msgLose.style.display  = 'none';
-                break;
-            case config.game.state.lose:
-                startBtn.style.display = 'none';
-                resetBtn.style.display = 'block';
-                stopBtn.style.display  = 'none';
-                msgWin.style.display   = 'none';
-                msgLose.style.display  = 'block';
-                break;
-            default:
-                break;
-        }
+        const index = document.querySelector('.index');
+        index.classList = `index --${state}`;
     }
 
     static getSpaceProp() {
@@ -75,5 +35,13 @@ export class Utility {
         const y = 0;
      
         return {w: w, h: h, x: x, y: y};
+    }
+
+    static getPlayerType() {
+        return config.player.type;
+    }
+
+    static getBossType() {
+        return config.boss.type;
     }
 }

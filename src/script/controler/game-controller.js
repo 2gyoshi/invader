@@ -8,7 +8,7 @@ export class GameController extends ControllerBase {
     constructor(model, view) {
         super();
         this._model = model;
-        this._view = view;
+        this._view  = view;
         this._requestID = null;
     }
 
@@ -40,7 +40,7 @@ export class GameController extends ControllerBase {
         
         // ゲームが止まってる状態ならここにくる
         const score = this._model.getScore();
-        if(score < 0) return Utility.controlDom(config.game.state.lose);
+        if(score < 0) return  Utility.controlDom(config.game.state.lose);
         if(score > 99) return Utility.controlDom(config.game.state.win);
        
         // 途中だったらならここにくる

@@ -25,7 +25,7 @@ export class ViewManager {
         this.field.resize();
     }
 
-    update() {
-        this.field.update();
+    update(list) {
+        this.field.update(list);
     }
 }

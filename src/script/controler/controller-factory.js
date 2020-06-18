@@ -18,7 +18,7 @@ export class ControllerFactory {
         return new GameController(model, view);
     }
 
-    createControlerManager() {
-        return new ControllerManager();
+    createControlerManager(model, view, event) {
+        return new ControllerManager(model, view, event);
     }
 }

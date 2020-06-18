@@ -1,6 +1,7 @@
 'use strict'
 
 // TODO: tmp
+import { ModelManager }     from './model-manager'
 import { GameManager }      from './game-manager';
 import { RuleManager }      from './rule-manager';
 import { AreaManager }      from './area-manager';
@@ -15,8 +16,12 @@ import { FieldOut }   from './field-out';
 
 export class ManagerFactory {
 
-    createGameMgr(ruleMgr, charaMgr, scoreMgr, timeMgr, stateMgr) {
-        return new GameManager(ruleMgr, charaMgr, scoreMgr, timeMgr, stateMgr);
+    createModelManager(game, area, chara) {
+        return new ModelManager(game, area, chara);
+    }
+    
+    createGameMgr(rule, chara, score, time, state) {
+        return new GameManager(rule, chara, score, time, state);
     }
 
     createRuleMgr(crash, fieldout) {
@@ -44,9 +49,6 @@ export class ManagerFactory {
     }
 
 
-
-
-
     createList() {
         return new List();
     }
@@ -58,18 +60,4 @@ export class ManagerFactory {
     createFieldOut(field, charList) {
         return new FieldOut(field, charList);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

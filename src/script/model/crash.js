@@ -1,14 +1,18 @@
 'use strict'
 
 export class Crash {
-    constructor(list) {
-        this._list = list;
+    constructor(charaMgr) {
+        this._charaMgr = charaMgr;
     }
-
+    
+    crash(array) {
+        array.forEach(e => e.hit());
+    }
+    
     update() {
-        const origin = this._list.getList();
-        const filtered = origin.filter(e => this.isCrash(e))
-        this.crash(filtered);
+        const list = this._charaMgr.getCharacterList();
+        const crashed = list.filter(e => this.isCrash(e));
+        this.crash(crashed);
     }
     
     // TODO: もっといいアルゴリズムを考えたい
@@ -23,10 +27,10 @@ export class Crash {
 
         let result = false;
 
-        const array = this._list.getList()
+        const list = this._charaMgr.getCharacterList();
         let p2, s2, checkX, checkY;
 
-        for(let t2 of array) {
+        for(let t2 of list) {
             // 同じオブジェクト同士は判定しない
             if(t1 === t2) continue;
 
@@ -63,9 +67,5 @@ export class Crash {
         const h = object.getHeight() / 2;
         
         return {w: w, h: h};
-    }
-
-    crash(array) {
-        array.forEach(e => e.hit());
     }
 }

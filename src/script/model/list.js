@@ -31,20 +31,29 @@ export class List {
     }
 
     getLastIndex() {
-        return this._list.length - 1;
+        return this._list.length;
     }
 
-    first() {
-        this._index = this.getFirstIndex();
+    hasNext() {
+        return this._index !== this.getLastIndex();
     }
 
-    last() {
-        this._index = this.getLastIndex();
+    hasPrev() {
+        return this._index !== this.getFirstIndex()
+    }
+    
+    * [Symbol.iterator]() {
+        while(this.hasNext() === true) {
+            const result = this.next();
+            yield result.value;
+        }
+        this._index = 0;
     }
 
     next() {
-        if(!this.hasNext()) return;
+        const value = this.getItem();
         this._index++;
+        return {done: false, value: value};
     }
 
     prev() {
@@ -52,15 +61,13 @@ export class List {
         this._index--;
     }
 
-    hasNext() {
-        return this.getCurrentIndex() !== this.getLastIndex();
+    first() {
+        this._index = this.getFirstIndex();
     }
 
-    hasPrev() {
-        return this.getCurrentIndex() !== this.getFirstIndex()
+    last() {
+        this._index = this.getLastIndex() - 1;
     }
 
-    getCurrentItem() {
-        return this._list[this._index];
-    }
+
 }

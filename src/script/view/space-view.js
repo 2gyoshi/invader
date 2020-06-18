@@ -1,50 +1,39 @@
 'use strict'
 
-import { Utility } from '../util/utility';
-import { ViewBase }  from './view-base';
+import { Utility }  from '../util/utility';
+import { ViewBase } from './view-base';
 
 // 背景クラス
 export class SpaceView extends ViewBase {
     constructor(model) {
         super();
-        this.model   = model;
-        this.canvas  = document.querySelector('#js-space');
-        this.context = this.canvas.getContext('2d');
-    }
-
-    init() {
-        this.style();
-        this.draw();
-    }
-
-    resize() {
-        this.init();
-    }
-    
-    style() {
-        this.size();
-        this.position();
+        this._model   = model;
+        this._canvas  = document.querySelector('#js-space');
+        this._context = this._canvas.getContext('2d');
     }
 
     size() {
-        const width  = this.model.getWidth();
-        const height = this.model.getHeight();
-        this.canvas.setAttribute('width',`${width}`);
-        this.canvas.setAttribute('height', `${height}`);
+        const space  = this._model.getSpace(); 
+        const width  = space.getWidth();
+        const height = space.getHeight();
+        this._canvas.setAttribute('width',`${width}`);
+        this._canvas.setAttribute('height', `${height}`);
     }
 
     position() {
-        const top  = this.model.getTop();
-        const left = this.model.getLeft();
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.top = `${top}px`;
-        this.canvas.style.left = `${left}px`;
+        const space = this._model.getSpace(); 
+        const top   = space.getTop();
+        const left  = space.getLeft();
+        this._canvas.style.position = 'absolute';
+        this._canvas.style.top = `${top}px`;
+        this._canvas.style.left = `${left}px`;
     }
 
     draw() {
-        const width   = this.model.getWidth();
-        const height  = this.model.getHeight();
-        const context = this.context;
+        const space = this._model.getSpace(); 
+        const width   = space.getWidth();
+        const height  = space.getHeight();
+        const context = this._context;
 
         context.fillStyle = '#FFFFFF';
         

@@ -35,7 +35,7 @@ export const config = {
     },
     game: {
         state: {
-            default: 'default',
+            default: '',
             playing: 'playing',
             win:     'win',
             lose:    'lose'

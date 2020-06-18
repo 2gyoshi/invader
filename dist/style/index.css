@@ -2,79 +2,171 @@
     user-select: none;
     -webkit-touch-callout: none;
     box-sizing: border-box;
-}
-
-html, body, div {
     margin: 0;
     padding: 0;
 }
 
-html, body {
+html {
+    width: 100%;
+    height: 100%;
+    font-size: 62.5%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    font-size: 1.6rem; /* 16px*/
+    line-height: 2;
+    background: #425A69;
+}
+
+/* defalt */
+.index {
     width: 100%;
     height: 100%;
 }
 
-body {
-    background: #425A69;
-}
-
-.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.r-top {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.msg {
-    width: 100%;
-    font-size: 2vw;
-    font-weight: 900;    
+.index__msg {
+    font-size: 36px;/* IE8以下とAndroid4.3以下用フォールバック */
+    font-size: calc(2.4rem + ((1vw - 0.64rem) * 2.1429));/* 24px~36pxで可変*/
+    font-weight: 900;
+    line-height: 1.3;
     letter-spacing: .3em;
+}
+
+.index__btn {
+    font-size: 24px;/* IE8以下とAndroid4.3以下用フォールバック */
+    font-size: calc(2rem + ((1vw - 0.64rem) * 0.7143));/* 20px~24pxで可変*/
+    font-weight: 900;
+    line-height: 1.3;
+    letter-spacing: .1rem;
+}
+
+.index__msg {
+    display: none;
+    width: 100%;
     position: absolute;
     text-align: center;
     top: 25%;
 }
 
-.gameclear {
-    font-size: calc(2em + 1vw);
+.index__msg.--win {
     color: #cdd949;
-    display: none;
 }
 
-.gameover {
-    font-size: calc(2em + 1vw);
+.index__msg.--lose {
     color: #f7d6c2;
-    display: none;
 }
 
-button {
-    font-size: 1em;
-    padding: 10px 20px;
+.index__btn {
     display: block;
-    font-weight: bold;
-    background: #FFFFFF;
+    width: 5.5em;
+    height: 2em;
     border-radius: 4px;
     border: none;
     outline: none;
     cursor: pointer;
 }
 
-.start-btn {
-    margin-bottom: 10px;
+.--start {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin-bottom: 1rem;
 }
 
-.reset-btn {
+.--reset {
     color: #FFFFFF;
     background: #E53A40;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 80%);
 }
 
-.stop-btn {
+.--stop {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-1rem, 1rem);
     display: none;
 }
 
+/* Playing */
+.index.--playing .index__msg {
+    display: none;
+}
+
+.index.--playing .index__btn {
+    display: none;
+}
+
+.index.--playing .--stop {
+    display: block;
+}
+
+/* Game Clear */
+.index.--win .index__msg {
+    display: none;
+}
+
+.index.--win .index__msg.--win {
+    display: block;
+}
+
+.index.--win .index__btn {
+    display: none;
+}
+
+.index.--win .--reset {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Game Over */
+.index.--lose .index__msg {
+    display: none;
+}
+
+.index.--lose .index__msg.--lose {
+    display: block;
+}
+
+.index.--lose .index__btn {
+    display: none;
+}
+
+.index.--lose .--reset {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);}
+
+@media (min-width: 1200px) {/* 1200px以上*/
+    .index__msg {
+        font-size: 3.6rem;/* 36px*/
+    }
+    
+    .index__btn {
+        font-size: 2.4rem;/* 24px*/
+    }
+}
+
+@media screen and (max-width: 640px) {/* 640px以下*/
+    body{
+        line-height: 2;
+    }
+
+    .index__msg {
+        font-size: 2.4rem;/* 24px*/
+    }
+
+    .index__btn {
+        font-size: 2rem;/* 20px*/
+    }
+}

@@ -4,67 +4,55 @@ import { ViewBase } from './view-base';
 
 // ゲームのフィールドクラス
 export class FieldView extends ViewBase {
-    constructor(mField, mCharaMgr) {
+    constructor(model) {
         super();
-        this._mField    = mField;
-        this._mCharaMgr = mCharaMgr;
-        this.canvas  = document.querySelector('#js-field');
-        this.context = this.canvas.getContext('2d');
-    }
-
-    init() {
-        this.style();
-        this.draw();
-    }
-
-    resize() {
-        this.init();
-    }
-    
-    style() {
-        this.size();
-        this.position();
+        this._model   = model;
+        this._canvas  = document.querySelector('#js-field');
+        this._context = this._canvas.getContext('2d');
     }
 
     size() {
-        const width  = this._mField.getWidth();
-        const height = this._mField.getHeight();
-        this.canvas.setAttribute('width',`${width}`);
-        this.canvas.setAttribute('height', `${height}`);
+        const field  = this._model.getField(); 
+        const width  = field.getWidth();
+        const height = field.getHeight();
+        this._canvas.setAttribute('width',`${width}`);
+        this._canvas.setAttribute('height', `${height}`);
     }
 
     position() {
-        const top  = this._mField.getTop();
-        const left = this._mField.getLeft();
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.top = `${top}px`;
-        this.canvas.style.left = `${left}px`;
+        const field = this._model.getField(); 
+        const top   = field.getTop();
+        const left  = field.getLeft();
+        this._canvas.style.position = 'absolute';
+        this._canvas.style.top = `${top}px`;
+        this._canvas.style.left = `${left}px`;
     }
 
     draw() {
-        const list = this._mCharaMgr.getList();
-
+        const charaList = this._model.getCharacterList();
+        
         let image  = null;
         let left   = null;
         let top    = null;
         let width  = null;
         let height = null;
 
-        for(let e of list) {
+        for(let e of charaList) {
             image  = e.getLook();
             left   = e.getLeft();
             top    = e.getTop();
             width  = e.getWidth();
             height = e.getHeight();
             
-            this.context.drawImage(e.getLook(), left, top, width, height);
+            this._context.drawImage(image, left, top, width, height);
         }
     }
 
     erase() {
-        const width  = this._mField.getWidth();
-        const height = this._mField.getHeight();
-        this.context.clearRect(0, 0, width, height);
+        const field  = this._model.getField(); 
+        const width  = field.getWidth();
+        const height = field.getHeight();
+        this._context.clearRect(0, 0, width, height);
     }
 
     update() {

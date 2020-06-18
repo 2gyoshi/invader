@@ -2,19 +2,15 @@
 
 // Controlerクラス
 export class ControllerManager {
-    constructor() {
-        this._items = new Array();
-    }
-
-    addItem(item) {
-        this._items.push(item);
-    }
-
-    removeItem(item) {
-        this._items = this._items.filter(e => e !== item);
+    constructor(model, view, event) {
+        this._model = model;
+        this._view  = view;
+        this._event = event;
     }
 
     init() {
-        this._items.forEach(e => e.init());
+        this._model.init();
+        this._view.init();
+        this._event.init();
     }
 }

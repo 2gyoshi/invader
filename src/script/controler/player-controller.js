@@ -3,10 +3,9 @@
 import { ControllerBase } from './controller-base';
 
 export class PlayerController extends ControllerBase {
-    constructor(charaMgr, areaMgr) {
+    constructor(model) {
         super();
-        this._charaMgr = charaMgr;
-        this._areaMgr  = areaMgr;
+        this._model = model;
     }
 
     run(event) {
@@ -16,7 +15,7 @@ export class PlayerController extends ControllerBase {
     }
 
     moveLeft(){
-        const player = this._charaMgr.getPlayer();
+        const player = this._model.getPlayer();
         const min = 0;
         if(player.getLeft() <= min) return;
 
@@ -24,8 +23,8 @@ export class PlayerController extends ControllerBase {
     }
 
     moveRight(){
-        const field  = this._areaMgr.getField();
-        const player = this._charaMgr.getPlayer();
+        const field  = this._model.getField();
+        const player = this._model.getPlayer();
         const max = field.getWidth() - player.getWidth();
         if(player.getLeft() >= max) return;
 
@@ -33,7 +32,7 @@ export class PlayerController extends ControllerBase {
     }
 
     shoot(){
-        const player = this._charaMgr.getPlayer();
+        const player = this._model.getPlayer();
         player.shoot();
     }
 }

@@ -7,11 +7,10 @@ export class GameManager {
         this._scoreMgr = scoreMgr;
         this._timeMgr  = timeMgr;
         this._stateMgr = stateMgr;
-        this._isPlaying = false;
     }
 
     isPlaying() {
-        return this._isPlaying;
+        return this._stateMgr.getState();
     }
 
     isGameClear() {
@@ -27,16 +26,16 @@ export class GameManager {
     }
 
     init() {
-        this._isPlaying = false;
+        // do nothing
     }
 
     start() {
-        this.addPlayer();
-        this._isPlaying = true;
+        this._stateMgr.start();
+        this._charaMgr.addPlayer();
     }
 
     stop() {
-        this._isPlaying = false;
+        this._stateMgr.stop();
     }
 
     update() {
@@ -48,11 +47,7 @@ export class GameManager {
 
     createEnemy() {
         if(this.getScore() > 9) return this.addBoss();
-        if(this._timeMgr.isAppearTime() === true) return this.addEnemy() ;
-    }
-
-    addPlayer() {
-        this._charaMgr.addPlayer();
+        if(this._timeMgr.isAppearTime() === true) return this.addEnemy();
     }
 
     addEnemy() {
@@ -64,13 +59,11 @@ export class GameManager {
     }
 
     dispose() {
-        const array = this._charaMgr.getList();
-        for(let e of array) {
+        const list = this._charaMgr.getCharacterList();
+        for(let e of list) {
             if(e.getIsDispose() === false) continue;
-
-            // TODO: いいやりかた思いついたら変える
-            this._scoreMgr.changeScore(e.getScore());
             this._charaMgr.removeCharacter(e);
+            this._scoreMgr.changeScore(e.getScore());
             e = null;
         }
     }
