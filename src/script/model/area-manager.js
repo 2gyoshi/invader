@@ -14,7 +14,12 @@ export class AreaManager {
     getField() {
         return this._field;
     }
-    
+
+    init() {
+        this._space.init();
+        this._field.init();
+    }
+
     resize() {
         this._space.resize();
         this._field.resize();

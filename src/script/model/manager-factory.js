@@ -48,7 +48,6 @@ export class ManagerFactory {
         return new TimeManager();
     }
 
-
     createList() {
         return new List();
     }

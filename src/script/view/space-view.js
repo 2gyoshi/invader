@@ -35,8 +35,10 @@ export class SpaceView extends ViewBase {
         const height  = space.getHeight();
         const context = this._context;
 
+        context.fillStyle = '#425A69';
+        context.fillRect(0, 0, width, height);
+
         context.fillStyle = '#FFFFFF';
-        
         for(let i = 0; i < 1000; i++) {
             let x = Utility.getRandomInt(0, width);
             let y = Utility.getRandomInt(0, height);

@@ -9,6 +9,7 @@ export class ModelManager {
 
     init() {
         this._gameMgr.init();
+        this._areaMgr.init();
     }
 
     start() {

@@ -1,6 +1,6 @@
 'use strict'
 
-import { GameObjectBase }  from './game-object-base';
+import { GameObjectBase } from './game-object-base';
 import { Utility } from '../util/utility';
 
 // フィールドのModelクラス
@@ -9,11 +9,15 @@ export class Field extends GameObjectBase {
         super(size, position);
     }
 
-    resize() {
-        const prop  = Utility.getFieldProp();
-        this.setWidth(prop.w);
-        this.setHeight(prop.h);
+    init() {
+        const prop = Utility.getFieldProp();
         this.setLeft(prop.x);
         this.setTop(prop.y);
+        this.setWidth(prop.w);
+        this.setHeight(prop.h);
+    }
+
+    resize() {
+        this.init();
     }
 }

@@ -1,7 +1,6 @@
 'use strict'
 
 import { config }  from '../config/config';
-import { Utility } from '../util/utility';
 import { ControllerBase }  from './controller-base';
 
 export class GameController extends ControllerBase {
@@ -35,16 +34,20 @@ export class GameController extends ControllerBase {
     }
 
     controlDom() {
+        const index = document.querySelector('.index');
+        index.classList = config.game.state.default;
+
+        // ゲームがプレイ中
         const isPlaying = this._model.isPlaying();
-        if(isPlaying === true) return Utility.controlDom(config.game.state.playing);
+        if(isPlaying === true) return index.classList.add(config.game.state.playing);
         
-        // ゲームが止まってる状態ならここにくる
+        // ゲームが終了中
         const score = this._model.getScore();
-        if(score < 0) return  Utility.controlDom(config.game.state.lose);
-        if(score > 99) return Utility.controlDom(config.game.state.win);
+        if(score < 0) return  index.classList.add(config.game.state.lose);
+        if(score > 99) return index.classList.add(config.game.state.win);
        
-        // 途中だったらならここにくる
-        return Utility.controlDom(config.game.state.default);
+        // ゲームが停止中
+        return index.classList.add(config.game.state.default);
     }
 
     update() {

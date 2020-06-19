@@ -35,10 +35,10 @@ export const config = {
     },
     game: {
         state: {
-            default: '',
-            playing: 'playing',
-            win:     'win',
-            lose:    'lose'
+            default: 'index',
+            playing: '--playing',
+            win:     '--win',
+            lose:    '--lose'
         }
     },
     field: {

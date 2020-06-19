@@ -1,9 +1,9 @@
 * {
+    margin: 0;
+    padding: 0;
     user-select: none;
     -webkit-touch-callout: none;
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 html {
@@ -15,9 +15,8 @@ html {
 body {
     width: 100%;
     height: 100%;
-    font-size: 1.6rem; /* 16px*/
+    font-size: 1.6rem;
     line-height: 2;
-    background: #425A69;
 }
 
 /* defalt */

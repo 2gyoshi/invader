@@ -9,9 +9,13 @@ export class Space extends GameObjectBase {
         super(size, position);
     }
 
-    resize() {
+    init() {
         const prop = Utility.getSpaceProp();
         this.setWidth(prop.w);
         this.setHeight(prop.h);
+    }
+
+    resize() {
+        this.init();
     }
 }

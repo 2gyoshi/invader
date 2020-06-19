@@ -10,17 +10,10 @@ export class Utility {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    
-    // TODO: いい方法を考えたら変える
-    static controlDom(state) {
-        const index = document.querySelector('.index');
-        index.classList = `index --${state}`;
-    }
 
     static getSpaceProp() {
-        const body = document.querySelector('body');
-        const w = body.clientWidth;
-        const h = body.clientHeight;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
         const x = 0;
         const y = 0;
     
@@ -28,10 +21,9 @@ export class Utility {
     }
 
     static getFieldProp() {
-        const body = document.querySelector('body');
         const w = config.field.width;
-        const h = body.clientHeight;
-        const x = (body.clientWidth / 2) - (w / 2);
+        const h = window.innerHeight;
+        const x = (window.innerWidth / 2) - (w / 2);
         const y = 0;
      
         return {w: w, h: h, x: x, y: y};
