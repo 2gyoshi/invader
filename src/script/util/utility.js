@@ -33,11 +33,27 @@ export class Utility {
         return document.getElementById(config.domId.root);
     }
 
-    static getPlayerType() {
+    static getConfigPlayer() {
+        return config.player;
+    }
+
+    static getConfigBullet() {
+        return config.bullet;
+    }
+
+    static getConfigEnemy() {
+        return config.enemy;
+    }
+
+    static getConfigBoss() {
+        return config.boss;
+    }
+    
+    static getConfigPlayerType() {
         return config.player.type;
     }
 
-    static getBossType() {
+    static getConfigBossType() {
         return config.boss.type;
     }
 

@@ -9,7 +9,15 @@ export class CharacterManager {
     }
 
     getCharacterList() {
-        return this._list.getList();
+        return this._list.toArray();
+    }
+
+    getPlayer() {
+        return this._player;
+    }
+
+    getBoss() {
+        return this._boss;
     }
 
     addPlayer() {
@@ -17,22 +25,6 @@ export class CharacterManager {
         const player = this._factory.createPlayer(this);
         this._player = player;
         this._list.addItem(player);
-    }
-
-    getPlayer() {
-        return this._player;
-    }
-
-    addBoss() {
-        if(this._boss !== null) return;
-
-        const boss = this._factory.createBoss();
-        this._boss = boss;
-        this._list.addItem(boss);
-    }
-
-    getBoss() {
-        return this._boss;
     }
 
     addBullet() {
@@ -45,13 +37,35 @@ export class CharacterManager {
         this._list.addItem(enemy);
     }
 
+    addBoss() {
+        if(this._boss !== null) return;
+
+        const boss = this._factory.createBoss();
+        this._boss = boss;
+        this._list.addItem(boss);
+    }
+
+    getDisposeTaget() {
+        const list = this._list.toArray();
+        return list.filter(e => e.getIsDispose() === true);
+    }
+
     removeCharacter(chara) {
         this._list.removeItem(chara);
     }
 
     update() {
-        for(let e of this._list) {
-            e.update();
+        for(const e of this._list) e.update();
+    }
+
+    disposeCharacter() {
+        const array = this._list.toArray();
+        for(let e of array) {
+            if(e.getIsDispose() === false) continue;
+            this.removeCharacter(e);
+            e.dispose();
+            e = null;
         }
     }
+
 }

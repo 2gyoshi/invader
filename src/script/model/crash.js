@@ -5,13 +5,13 @@ export class Crash {
         this._charaMgr = charaMgr;
     }
     
-    crash(array) {
-        array.forEach(e => e.hit());
+    crash(list) {
+        list.forEach(e => e.hit());
     }
     
     update() {
-        const list = this._charaMgr.getCharacterList();
-        const crashed = list.filter(e => this.isCrash(e));
+        const origin = this._charaMgr.getCharacterList();
+        const crashed = origin.filter(e => this.isCrash(e));
         this.crash(crashed);
     }
     

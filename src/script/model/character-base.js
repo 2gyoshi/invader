@@ -3,11 +3,10 @@
 import { GameObjectBase } from './game-object-base';
 
 export class CharacterBase extends GameObjectBase {
-    constructor(size, position, look, status, field) {
+    constructor(size, position, look, status) {
         super(size, position)
         this._look      = look;
         this._status    = status;
-        this._field     = field;
         this._isDispose = false;
     }
 
@@ -60,6 +59,14 @@ export class CharacterBase extends GameObjectBase {
     }
 
     dispose() {
-        return this._status.getScore();
+        const score = this.getScore();
+        
+        this._position = null;
+        this._size     = null;
+        this._look     = null;
+        this._status   = null;
+        this._field    = null;
+        
+        return score;
     }
 }

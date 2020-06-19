@@ -8,16 +8,16 @@ export class FieldOut {
     }
 
     update() {
-        const origin = this._charaMgr.getCharacterList();
+        const origin = this._charaMgr.getCharacterList()
         const filtered = origin.filter(e => this.isFieldOut(e))
         this.fieldOut(filtered);
     }
 
     isFieldOut(e) {
         // プレイヤーは仕様上フィールドアウトできないので除外する
-        if(e.getType() === Utility.getPlayerType()) return false;
+        if(e.getType() === Utility.getConfigPlayerType()) return false;
         // ボスは仕様上フィールドアウトしても良いので除外する
-        if(e.getType() === Utility.getBossType()) return false;
+        if(e.getType() === Utility.getConfigBossType()) return false;
 
         const fp = Utility.getFieldProp();
         const top = e.getTop();

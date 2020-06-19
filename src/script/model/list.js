@@ -14,10 +14,6 @@ export class List {
         this._list = this._list.filter(e => e !== item);
     }
 
-    getList() {
-        return this._list;
-    }
-
     getItem() {
         return this._list[this._index];
     }
@@ -69,5 +65,7 @@ export class List {
         this._index = this.getLastIndex() - 1;
     }
 
-
+    toArray() {
+        return this._list;
+    }
 }

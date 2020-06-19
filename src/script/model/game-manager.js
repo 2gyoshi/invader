@@ -42,7 +42,7 @@ export class GameManager {
         this.createEnemy();
         this._charaMgr.update();
         this._ruleMgr.update();
-        this.dispose();
+        this.cleanUp();
     }
 
     createEnemy() {
@@ -58,13 +58,11 @@ export class GameManager {
         this._charaMgr.addBoss();
     }
 
-    dispose() {
-        const list = this._charaMgr.getCharacterList();
-        for(let e of list) {
-            if(e.getIsDispose() === false) continue;
-            this._charaMgr.removeCharacter(e);
-            this._scoreMgr.changeScore(e.getScore());
-            e = null;
-        }
+    cleanUp() {
+        let score = 0;
+        const target = this._charaMgr.getDisposeTaget();
+        for(const e of target) score += e.getScore();
+        this._scoreMgr.changeScore(score);
+        this._charaMgr.disposeCharacter();
     }
 }

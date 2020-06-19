@@ -1,7 +1,7 @@
 'use strict'
 
-import { GameObjectBase } from './game-object-base';
 import { Utility } from '../util/utility';
+import { GameObjectBase } from './game-object-base';
 
 // フィールドのModelクラス
 export class Field extends GameObjectBase {

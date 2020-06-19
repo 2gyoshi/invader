@@ -1,6 +1,6 @@
 'use strict'
 
-import { config } from '../config/config';
+import { Utility } from '../util/utility';
 
 export class TimeManager {
     constructor() {
@@ -8,8 +8,9 @@ export class TimeManager {
     }
 
     isAppearTime() {
-        const now = Date.now();
-        if(now - this.preAppearTime < config.enemy.interval) return false;
+        const now      = Date.now();
+        const config   = Utility.getConfigEnemy();
+        if(now - this.preAppearTime < config.interval) return false;
 
         this.preAppearTime = now;
         return true;
