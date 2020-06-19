@@ -1,7 +1,7 @@
 'use strict'
 
-import { config }  from '../config/config';
-import { ControllerBase }  from './controller-base';
+import { Utility } from '../util/utility';
+import { ControllerBase } from './controller-base';
 
 export class AreaController extends ControllerBase {
     constructor(model, view) {
@@ -20,7 +20,8 @@ export class AreaController extends ControllerBase {
     }
 
     run(event) {
-        if(event.eventName === config.event.type.load)   return this.init();
-        if(event.eventName === config.event.type.resize) return this.resize();
+        const type = Utility.getConfigEventType();
+        if(event.eventName === type.load)   return this.init();
+        if(event.eventName === type.resize) return this.resize();
     }
 }

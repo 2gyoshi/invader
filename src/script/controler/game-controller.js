@@ -1,6 +1,6 @@
 'use strict'
 
-import { config }  from '../config/config';
+import { Utility } from '../util/utility';
 import { ControllerBase }  from './controller-base';
 
 export class GameController extends ControllerBase {
@@ -12,9 +12,11 @@ export class GameController extends ControllerBase {
     }
 
     run(event) {
-        if(event.eventName === config.event.type.start)  return this.start();
-        if(event.eventName === config.event.type.stop)   return this.stop();
-        if(event.eventName === config.event.type.reset)  return this.reset();
+        // TODO: event.eventName => eventTypeにする
+        const type = Utility.getConfigEventType();
+        if(event.eventName === type.start) return this.start();
+        if(event.eventName === type.stop)  return this.stop();
+        if(event.eventName === type.reset) return this.reset();
     }
 
     start() {
@@ -34,20 +36,21 @@ export class GameController extends ControllerBase {
     }
 
     controlDom() {
-        const index = document.querySelector('.index');
-        index.classList = config.game.state.default;
+        const root  = Utility.getRootDom();
+        const state = Utility.getConfigGameState();
+        root.classList = state.default;
 
         // ゲームがプレイ中
         const isPlaying = this._model.isPlaying();
-        if(isPlaying === true) return index.classList.add(config.game.state.playing);
+        if(isPlaying === true) return root.classList.add(state.playing);
         
         // ゲームが終了中
         const score = this._model.getScore();
-        if(score < 0) return  index.classList.add(config.game.state.lose);
-        if(score > 99) return index.classList.add(config.game.state.win);
+        if(score < 0) return  root.classList.add(state.lose);
+        if(score > 99) return root.classList.add(state.win);
        
         // ゲームが停止中
-        return index.classList.add(config.game.state.default);
+        return root.classList.add(state.default);
     }
 
     update() {

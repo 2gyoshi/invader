@@ -3,20 +3,25 @@
 // ゲームセッティング
 export const config = {
     domId: {
+        root: 'js-index',
+    
         button: {
             start: 'js-start-btn',
             stop:  'js-stop-btn',
             reset: 'js-reset-btn',
         },
+    
         message: {
             win:  'js-gameclear',
             lose: 'js-gameover',
         },
+    
         canvas: {
             space: 'js-space',
             field: 'js-field',
         }
     },
+
     event: {
         type: {
             load:   'load',
@@ -29,10 +34,12 @@ export const config = {
             shoot:  'shoot',
             none:   'none'
         },
+    
         swipe: {
             dist: 50
         }
     },
+
     game: {
         state: {
             default: 'index',
@@ -41,10 +48,12 @@ export const config = {
             lose:    '--lose'
         }
     },
+
     field: {
         width: 250,
         top: 0
     },
+
     player: {
         type:  'player',
         width:  50,
@@ -59,6 +68,7 @@ export const config = {
         },
         top: 0.9
     },
+
     bullet: {
         type:  'bullet',
         width:  5,
@@ -71,6 +81,7 @@ export const config = {
             normal: './img/bullet.svg',
         }
     },
+
     enemy: {
         type:  'enemy',
         width:  50,
@@ -86,6 +97,7 @@ export const config = {
         top:      0.1,
         interval: 3000
     },
+
     boss: {
         type:   'boss',
         width:  250,

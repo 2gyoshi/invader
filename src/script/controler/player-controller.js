@@ -1,5 +1,6 @@
 'use strict'
 
+import { Utility } from '../util/utility';
 import { ControllerBase } from './controller-base';
 
 export class PlayerController extends ControllerBase {
@@ -9,9 +10,10 @@ export class PlayerController extends ControllerBase {
     }
 
     run(event) {
-        if(event.eventName === 'left')  return this.moveLeft();
-        if(event.eventName === 'right') return this.moveRight();
-        if(event.eventName === 'shoot') return this.shoot();
+        const type = Utility.getConfigEventType();
+        if(event.eventName === type.left)  return this.moveLeft();
+        if(event.eventName === type.right) return this.moveRight();
+        if(event.eventName === type.shoot) return this.shoot();
     }
 
     moveLeft(){

@@ -29,11 +29,23 @@ export class Utility {
         return {w: w, h: h, x: x, y: y};
     }
 
+    static getRootDom() {
+        return document.getElementById(config.domId.root);
+    }
+
     static getPlayerType() {
         return config.player.type;
     }
 
     static getBossType() {
         return config.boss.type;
+    }
+
+    static getConfigEventType() {
+        return config.event.type;
+    }
+
+    static getConfigGameState() {
+        return config.game.state;
     }
 }
