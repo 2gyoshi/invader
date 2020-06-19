@@ -10,11 +10,17 @@
         <canvas id="js-field"></canvas>
 
         <div id="js-index" class="index">
-            <div id="js-gameclear"    class="index__msg --win">GAME CLEAR</div>
-            <div id="js-gameover"     class="index__msg --lose">GAME OVER</div>
-            <button id="js-start-btn" class="index__btn --start">START</button>
-            <button id="js-reset-btn" class="index__btn --reset">RESET</button>
-            <button id="js-stop-btn"  class="index__btn --stop">STOP</button>
+            <div class="index__top25">
+                <div class="index__msg --win">GAME CLEAR</div>
+                <div class="index__msg --lose">GAME OVER</div>
+            </div>
+            <div class="index__center">
+                <button id="js-start-btn" class="index__btn --start">START</button>
+                <button id="js-reset-btn" class="index__btn --reset">RESET</button>
+            </div>
+            <div class="index__right-top">
+                <button id="js-stop-btn"  class="index__btn --stop">STOP</button>
+            </div>
         </div>
 
         <script src="./script/main.js"></script>
