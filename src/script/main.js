@@ -44,24 +44,12 @@ function main() {
 
     // Event
     const ef = new EventFactory();
-    const ek = ef.createKeydownEvent();
-    const es = ef.createSwipeEvent();
-    const et = ef.createTouchEvent();
-    const eb = ef.createButtonEvent();
-    const ew = ef.createWindowEvent();
-    const eMgr = ef.createEventManager();
-
-    ek.addController(cPlayer);
-    es.addController(cPlayer);
-    et.addController(cPlayer);
-    eb.addController(cGameMgr);
-    ew.addController(cAreaMgr);
-    
-    eMgr.addItem(ek);
-    eMgr.addItem(es);
-    eMgr.addItem(et);
-    eMgr.addItem(eb); 
-    eMgr.addItem(ew);
+    const ek = ef.createKeydownEvent(cPlayer);
+    const es = ef.createSwipeEvent(cPlayer);
+    const et = ef.createTouchEvent(cPlayer);
+    const eb = ef.createButtonEvent(cGameMgr);
+    const ew = ef.createWindowEvent(cAreaMgr);
+    const eMgr = ef.createEventManager(ek, es, et, eb, ew);
 
     // Main Controler
     const cMgr = cFactory.createControlerManager(mMgr, vMgr, eMgr);

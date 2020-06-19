@@ -5,8 +5,8 @@ import { EventBase } from './event-base';
 
 // スワイプイベントクラス
 export class SwipeEvent extends EventBase {
-    constructor() {
-        super();
+    constructor(...observers) {
+        super(...observers);
         this._x1 = 0;
         this._x2 = 0;
     }

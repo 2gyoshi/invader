@@ -4,8 +4,8 @@ import { Utility }   from '../util/utility';
 import { EventBase } from './event-base';
 
 export class WindowEvent extends EventBase {
-    constructor() {
-        super();
+    constructor(...observers) {
+        super(...observers);
     }
 
     init() {

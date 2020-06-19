@@ -8,27 +8,27 @@ import { SwipeEvent }   from './swipe-event';
 import { TouchEvent }   from './touch-event';
 
 export class EventFactory {
-    createEventManager() {
-        return new EventManager();
+    createEventManager(...events) {
+        return new EventManager(...events);
     }
 
-    createWindowEvent() {
-        return new WindowEvent();
+    createWindowEvent(...observers) {
+        return new WindowEvent(...observers);
     }
 
-    createButtonEvent() {
-        return new ButtonEvent();
+    createButtonEvent(...observers) {
+        return new ButtonEvent(...observers);
     }
 
-    createKeydownEvent() {
-        return new KeydownEvent();
+    createKeydownEvent(...observers) {
+        return new KeydownEvent(...observers);
     }
 
-    createSwipeEvent() {
-        return new SwipeEvent();
+    createSwipeEvent(...observers) {
+        return new SwipeEvent(...observers);
     }
 
-    createTouchEvent() {
-        return new TouchEvent();
+    createTouchEvent(...observers) {
+        return new TouchEvent(...observers);
     }
 }

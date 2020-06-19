@@ -4,8 +4,8 @@ import { Utility }   from '../util/utility';
 import { EventBase } from './event-base';
 
 export class KeydownEvent extends EventBase {
-    constructor() {
-        super();
+    constructor(...observers) {
+        super(...observers);
         this._disable = false;
     }
 

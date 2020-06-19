@@ -5,8 +5,8 @@ import { EventBase } from './event-base';
 
 // ボタンイベントクラス
 export class ButtonEvent extends EventBase {
-    constructor() {
-        super();
+    constructor(...observers) {
+        super(...observers);
         this.domStrBtn = document.querySelector('#js-start-btn');
         this.domStpBtn = document.querySelector('#js-stop-btn');
         this.domRstBtn = document.querySelector('#js-reset-btn');
