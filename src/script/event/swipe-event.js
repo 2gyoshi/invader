@@ -1,6 +1,6 @@
 'use strict'
 
-import { config } from '../config/config';
+import { Utility } from '../util/utility';
 import { EventBase } from './event-base';
 
 // スワイプイベントクラス
@@ -35,14 +35,16 @@ export class SwipeEvent extends EventBase {
     }
 
     moveLeft() {
-        if ((this._x1 - this._x2) < config.event.swipe.dist) return;
-        this._eventName = config.event.type.left;
+        if ((this._x1 - this._x2) < Utility.getConfigSwipeDist()) return;
+        const type = Utility.getConfigEventType();
+        this._type = type.left;
         this.notify();
     }
 
     moveRight() {
-        if((this._x2 - this._x1) < config.event.swipe.dist) return;
-        this._eventName = config.event.type.right;
+        if((this._x2 - this._x1) < Utility.getConfigSwipeDist()) return;
+        const type = Utility.getConfigEventType();
+        this._type = type.right;
         this.notify();
     }
 }

@@ -2,12 +2,12 @@
 
 export class EventBase {
     constructor() {
-        this._itemList  = new Array();
-        this._eventName = '';
+        this._itemList = new Array();
+        this._type = '';
     }
 
-    get eventName() {
-        return this._eventName;
+    get type() {
+        return this._type;
     }
 
     // TODO: rename

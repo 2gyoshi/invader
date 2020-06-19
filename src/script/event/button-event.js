@@ -1,9 +1,9 @@
 'use strict'
 
-import { config }  from '../config/config';
+import { Utility } from '../util/utility';
 import { EventBase } from './event-base';
 
-// タッチイベントクラス
+// ボタンイベントクラス
 export class ButtonEvent extends EventBase {
     constructor() {
         super();
@@ -32,14 +32,17 @@ export class ButtonEvent extends EventBase {
     }
 
     start() {
-        this._eventName = config.event.type.start;
+        const type = Utility.getConfigEventType();
+        this._type = type.start;
     }
 
     stop() {
-        this._eventName = config.event.type.stop;
+        const type = Utility.getConfigEventType();
+        this._type = type.stop;
     }
 
     reset() {
-        this._eventName = config.event.type.reset;
+        const type = Utility.getConfigEventType();
+        this._type = type.reset;
     }
 }

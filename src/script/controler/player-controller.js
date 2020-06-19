@@ -11,9 +11,9 @@ export class PlayerController extends ControllerBase {
 
     run(event) {
         const type = Utility.getConfigEventType();
-        if(event.eventName === type.left)  return this.moveLeft();
-        if(event.eventName === type.right) return this.moveRight();
-        if(event.eventName === type.shoot) return this.shoot();
+        if(event.type === type.left)  return this.moveLeft();
+        if(event.type === type.right) return this.moveRight();
+        if(event.type === type.shoot) return this.shoot();
     }
 
     moveLeft(){

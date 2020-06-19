@@ -12,11 +12,10 @@ export class GameController extends ControllerBase {
     }
 
     run(event) {
-        // TODO: event.eventName => eventTypeにする
         const type = Utility.getConfigEventType();
-        if(event.eventName === type.start) return this.start();
-        if(event.eventName === type.stop)  return this.stop();
-        if(event.eventName === type.reset) return this.reset();
+        if(event.type === type.start) return this.start();
+        if(event.type === type.stop)  return this.stop();
+        if(event.type === type.reset) return this.reset();
     }
 
     start() {

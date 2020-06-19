@@ -1,6 +1,6 @@
 'use strict'
 
-import { config } from '../config/config';
+import { Utility }   from '../util/utility';
 import { EventBase } from './event-base';
 
 export class WindowEvent extends EventBase {
@@ -14,12 +14,14 @@ export class WindowEvent extends EventBase {
     }
 
     load() {
-        this._eventName = config.event.type.load;
+        const type = Utility.getConfigEventType();
+        this._type = type.load;
         this.notify(this);
     }
 
     resize() {
-        this._eventName = config.event.type.resize;
+        const type = Utility.getConfigEventType();
+        this._type = type.resize;
         this.notify(this);
     }
 }

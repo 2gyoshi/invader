@@ -1,7 +1,7 @@
 'use strict'
 
-import { config }  from '../config/config';
-import { EventBase }  from './event-base';
+import { Utility }   from '../util/utility';
+import { EventBase } from './event-base';
 
 export class KeydownEvent extends EventBase {
     constructor() {
@@ -21,18 +21,21 @@ export class KeydownEvent extends EventBase {
         this._disable = true;
 
         const val = this.convertKeyCodeToMeaningStr(e.keyCode);
-        if(val === null)    this._eventName = config.event.type.none;
-        if(val === 'space') this._eventName = config.event.type.shoot;
-        if(val === 'left')  this._eventName = config.event.type.left;
-        if(val === 'right') this._eventName = config.event.type.right;
+        const type = Utility.getConfigEventType();
+
+        if(val === null)       this._type = type.none;
+        if(val === type.shoot) this._type = type.shoot;
+        if(val === type.left)  this._type = type.left;
+        if(val === type.right) this._type = type.right;
 
         this.notify();
     }
 
     convertKeyCodeToMeaningStr(code) {
-        if(code === 32) return 'space';
-        if(code === 37) return 'left';
-        if(code === 39) return 'right';
+        const type = Utility.getConfigEventType();
+        if(code === 32) return type.shoot;
+        if(code === 37) return type.left;
+        if(code === 39) return type.right;
         
         return null;
     }

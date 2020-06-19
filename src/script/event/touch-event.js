@@ -1,6 +1,6 @@
 'use strict'
 
-import { config } from '../config/config';
+import { Utility }   from '../util/utility';
 import { EventBase } from './event-base';
 
 // タッチイベントクラス
@@ -30,12 +30,13 @@ export class TouchEvent extends EventBase {
     }
 
     touchEnd() {
-        if(Math.abs(this._x2 - this._x1) >= config.event.swipe.dist) return;
+        if(Math.abs(this._x2 - this._x1) >= Utility.getConfigSwipeDist()) return;
         this.shoot();
     }
 
     shoot() {
-        this._eventName = config.event.type.shoot;
+        const type = Utility.getConfigEventType();
+        this._type = type.shoot;
         this.notify();
     }
 }

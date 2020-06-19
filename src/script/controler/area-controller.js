@@ -21,7 +21,7 @@ export class AreaController extends ControllerBase {
 
     run(event) {
         const type = Utility.getConfigEventType();
-        if(event.eventName === type.load)   return this.init();
-        if(event.eventName === type.resize) return this.resize();
+        if(event.type === type.load)   return this.init();
+        if(event.type === type.resize) return this.resize();
     }
 }

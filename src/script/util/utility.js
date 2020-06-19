@@ -48,4 +48,8 @@ export class Utility {
     static getConfigGameState() {
         return config.game.state;
     }
+
+    static getConfigSwipeDist() {
+        return config.event.swipe.dist;
+    }
 }
