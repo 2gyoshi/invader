@@ -1,5 +1,5 @@
 'use strict'
-
+import '../style/index.scss'
 import { ManagerFactory }    from './model/manager-factory';
 import { GameObjectFactory } from './model/game-object-factory';
 import { ViewFactory }  from './view/view-factory';

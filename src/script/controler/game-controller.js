@@ -35,21 +35,21 @@ export class GameController extends ControllerBase {
     }
 
     controlDom() {
-        const root  = Utility.getRootDom();
-        const state = Utility.getConfigGameState();
-        root.classList = state.default;
+        const mode = Utility.getConfigCssClass();
+        const element  = Utility.getRootDom();
+        element.classList = mode.default;
 
         // ゲームがプレイ中
         const isPlaying = this._model.isPlaying();
-        if(isPlaying === true) return root.classList.add(state.playing);
+        if(isPlaying === true) return element.classList.add(mode.playing);
         
         // ゲームが終了中
         const score = this._model.getScore();
-        if(score < 0) return  root.classList.add(state.lose);
-        if(score > 99) return root.classList.add(state.win);
+        if(score < 0) return  element.classList.add(mode.lose);
+        if(score > 99) return element.classList.add(mode.win);
        
         // ゲームが停止中
-        return root.classList.add(state.default);
+        // return this.setCssClass(mode.default);
     }
 
     update() {

@@ -33,6 +33,10 @@ export class Utility {
         return document.getElementById(config.domId.root);
     }
 
+    static getConfigCssClass() {
+        return config.cssClass;
+    }
+    
     static getConfigPlayer() {
         return config.player;
     }
@@ -59,10 +63,6 @@ export class Utility {
 
     static getConfigEventType() {
         return config.event.type;
-    }
-
-    static getConfigGameState() {
-        return config.game.state;
     }
 
     static getConfigSwipeDist() {

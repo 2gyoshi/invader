@@ -22,6 +22,13 @@ export const config = {
         }
     },
 
+    cssClass: {
+        default: 'Index',
+        playing: '-playing',
+        win:     '-win',
+        lose:    '-lose'
+    },
+    
     event: {
         type: {
             load:   'load',
@@ -37,15 +44,6 @@ export const config = {
     
         swipe: {
             dist: 50
-        }
-    },
-
-    game: {
-        state: {
-            default: 'index',
-            playing: '--playing',
-            win:     '--win',
-            lose:    '--lose'
         }
     },
 
