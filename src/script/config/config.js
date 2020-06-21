@@ -1,7 +1,7 @@
 'use strict'
 
 // ゲームセッティング
-export const config = {
+export const CONFIG = {
     domId: {
         root: 'js-index',
     

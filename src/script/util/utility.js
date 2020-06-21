@@ -1,6 +1,6 @@
 'use strict'
 
-import { config } from '../config/config';
+import { CONFIG } from '../config/config';
 
 // ユーティリティクラス
 export class Utility {
@@ -21,7 +21,7 @@ export class Utility {
     }
 
     static getFieldProp() {
-        const w = config.field.width;
+        const w = CONFIG.field.width;
         const h = window.innerHeight;
         const x = (window.innerWidth / 2) - (w / 2);
         const y = 0;
@@ -30,42 +30,42 @@ export class Utility {
     }
 
     static getRootDom() {
-        return document.getElementById(config.domId.root);
+        return document.getElementById(CONFIG.domId.root);
     }
 
     static getConfigCssClass() {
-        return config.cssClass;
+        return CONFIG.cssClass;
     }
     
     static getConfigPlayer() {
-        return config.player;
+        return CONFIG.player;
     }
 
     static getConfigBullet() {
-        return config.bullet;
+        return CONFIG.bullet;
     }
 
     static getConfigEnemy() {
-        return config.enemy;
+        return CONFIG.enemy;
     }
 
     static getConfigBoss() {
-        return config.boss;
+        return CONFIG.boss;
     }
     
     static getConfigPlayerType() {
-        return config.player.type;
+        return CONFIG.player.type;
     }
 
     static getConfigBossType() {
-        return config.boss.type;
+        return CONFIG.boss.type;
     }
 
     static getConfigEventType() {
-        return config.event.type;
+        return CONFIG.event.type;
     }
 
     static getConfigSwipeDist() {
-        return config.event.swipe.dist;
+        return CONFIG.event.swipe.dist;
     }
 }
