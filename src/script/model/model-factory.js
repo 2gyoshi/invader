@@ -1,7 +1,20 @@
 'use strict'
 
+// TODO: tmp
+import { ModelManager }     from './model-manager';
+import { GameManager }      from './game-manager';
+import { RuleManager }      from './rule-manager';
+import { AreaManager }      from './area-manager';
+import { CharacterManager } from './character-manager';
+import { StateManager }     from './state-manager';
+import { ScoreManager }     from './score-manager';
+import { TimeManager }      from './time-manager';
+
+import { List }       from './list';
+import { Crash }      from './crash';
+import { FieldOut }   from './field-out';
+
 import { Utility }   from '../util/utility';
-import { List } 　　　from './list';
 import { Size }      from './size';
 import { Position }  from './position';
 import { Looks }     from './looks';
@@ -11,7 +24,41 @@ import { Field }     from './field';
 import { Player }    from './player';
 import { NonPlayer } from './non-player';
 
-export class GameObjectFactory {
+export class ModelFactory {
+    createModelManager(gameMgr, areaMgr, charaMgr) {
+        return new ModelManager(gameMgr, areaMgr, charaMgr);
+    }
+
+    createGameMgr(chara, rule) {
+        const score = new ScoreManager();
+        const time  = new TimeManager();
+        const state = new StateManager();
+        return new GameManager(chara, rule, score, time, state);
+    }
+
+    createRuleMgr(crash, fieldout) {
+        return new RuleManager(crash, fieldout);
+    }
+
+    createAreaMgr() {
+        const space = this.createSpace();
+        const field = this.createField();
+        return new AreaManager(space, field);
+    }
+
+    createCharaMgr() {
+        const list = new List();
+        return new CharacterManager(list, this);
+    }
+
+    createCrash(charaMgr) {
+        return new Crash(charaMgr);
+    }
+
+    createFieldOut(charaMgr) {
+        return new FieldOut(charaMgr);
+    }
+
     createSpace() {
         const prop  = Utility.getSpaceProp();
         const size  = new Size(prop.w, prop.h);
@@ -143,5 +190,4 @@ export class GameObjectFactory {
 
         return new NonPlayer(size, position, looks, status);
     }
-
 }

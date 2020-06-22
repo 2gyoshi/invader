@@ -6,19 +6,19 @@ import { GameController }    from './game-controller';
 import { ControllerManager } from './controller-manager';
 
 export class ControllerFactory {
-    createAreaControler(model, view) {
+    createAreaController(model, view) {
         return new AreaController(model, view);
     }
 
-    createPlayerControler(charaMgr, areaMgr) {
+    createPlayerController(charaMgr, areaMgr) {
         return new PlayerController(charaMgr, areaMgr);
     }
 
-    createGameControler(model, view) {
+    createGameController(model, view) {
         return new GameController(model, view);
     }
 
-    createControlerManager(model, view, event) {
-        return new ControllerManager(model, view, event);
+    createControllerManager(pcon, acon, gcon) {
+        return new ControllerManager(pcon, acon, gcon);
     }
 }

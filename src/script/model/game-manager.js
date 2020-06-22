@@ -1,9 +1,9 @@
 'use strict'
 
 export class GameManager {
-    constructor(ruleMgr, charaMgr, scoreMgr, timeMgr, stateMgr) {
-        this._ruleMgr  = ruleMgr;
+    constructor(charaMgr, ruleMgr, scoreMgr, timeMgr, stateMgr) {
         this._charaMgr = charaMgr;
+        this._ruleMgr  = ruleMgr;
         this._scoreMgr = scoreMgr;
         this._timeMgr  = timeMgr;
         this._stateMgr = stateMgr;

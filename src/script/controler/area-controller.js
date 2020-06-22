@@ -11,7 +11,7 @@ export class AreaController extends ControllerBase {
     }
 
     init() {
-        // nothing
+        // do nothing
     }
 
     resize() {

@@ -9,6 +9,10 @@ export class PlayerController extends ControllerBase {
         this._model = model;
     }
 
+    init() {
+        // do nothing
+    }
+    
     run(event) {
         const type = Utility.getConfigEventType();
         if(event.type === type.left)  return this.moveLeft();

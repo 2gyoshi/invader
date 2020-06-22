@@ -2,15 +2,27 @@
 
 // Controlerクラス
 export class ControllerManager {
-    constructor(model, view, event) {
-        this._model = model;
-        this._view  = view;
-        this._event = event;
+    constructor(pcon, acon, gcon) {
+        this._pcon = pcon;
+        this._acon = acon;
+        this._gcon = gcon;
     }
 
     init() {
-        this._model.init();
-        this._view.init();
-        this._event.init();
+        this._pcon.init();
+        this._acon.init();
+        this._gcon.init();
+    }
+
+    get playerController() {
+        this._pcon;
+    }
+
+    get areaController() {
+        this._acon;
+    }
+
+    get gameController() {
+        this._gcon;
     }
 }

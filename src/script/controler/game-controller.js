@@ -11,6 +11,10 @@ export class GameController extends ControllerBase {
         this._requestID = null;
     }
 
+    init() {
+        // do nothing
+    }
+    
     run(event) {
         const type = Utility.getConfigEventType();
         if(event.type === type.start) return this.start();
@@ -34,6 +38,16 @@ export class GameController extends ControllerBase {
         location.reload();
     }
 
+    update() {
+        if(this._model.isGameOver()  === true) return this.stop();
+        if(this._model.isGameClear() === true) return this.stop();
+
+        this._model.update();
+        this._view.update();
+        
+        this._requestID = requestAnimationFrame(this.update.bind(this));
+    }
+
     controlDom() {
         const mode = Utility.getConfigCssClass();
         const element  = Utility.getRootDom();
@@ -47,19 +61,6 @@ export class GameController extends ControllerBase {
         const score = this._model.getScore();
         if(score < 0) return  element.classList.add(mode.lose);
         if(score > 99) return element.classList.add(mode.win);
-       
-        // ゲームが停止中
-        // return this.setCssClass(mode.default);
-    }
-
-    update() {
-        if(this._model.isGameOver()  === true) return this.stop();
-        if(this._model.isGameClear() === true) return this.stop();
-
-        this._model.update();
-        this._view.update();
-        
-        this._requestID = requestAnimationFrame(this.update.bind(this));
     }
 }
 

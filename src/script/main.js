@@ -1,59 +1,48 @@
 'use strict'
+
 import '../style/index.scss'
-import { ManagerFactory }    from './model/manager-factory';
-import { GameObjectFactory } from './model/game-object-factory';
-import { ViewFactory }  from './view/view-factory';
+import { ModelFactory }      from './model/model-factory';
+import { ViewFactory }       from './view/view-factory';
 import { ControllerFactory } from './controler/controller-factory';
-import { EventFactory }  from './event/event-factory';
+import { EventFactory }      from './event/event-factory';
 
 function main() {
     // Model
-    const mf = new ManagerFactory();
-    const gf = new GameObjectFactory();
-    
-    const mSpace   = gf.createSpace();
-    const mField   = gf.createField();
-    const areaMgr = mf.createAreaMgr(mSpace, mField);
-
-    const list     = mf.createList();
-    const charaMgr = mf.createCharaMgr(list, gf);
-
-    const crash    = mf.createCrash(charaMgr);
-    const fieldOut = mf.createFieldOut(charaMgr);
-    const ruleMgr = mf.createRuleMgr(crash, fieldOut);
-
-    const scoreMgr = mf.createScoreManager();
-    const timeMgr  = mf.createTimeManager();
-    const stateMgr = mf.createStateManager();
-
-    const gameMgr = mf.createGameMgr(ruleMgr, charaMgr, scoreMgr, timeMgr, stateMgr);
-
-    const mMgr = mf.createModelManager(gameMgr, areaMgr, charaMgr);
+    const mFactory  = new ModelFactory();
+    const mCharaMgr = mFactory.createCharaMgr();
+    const mAreaMgr  = mFactory.createAreaMgr();
+    const mCrash    = mFactory.createCrash(mCharaMgr);
+    const mFildOut  = mFactory.createFieldOut(mCharaMgr);
+    const mRuleMgr  = mFactory.createRuleMgr(mCrash, mFildOut);
+    const mGameMgr  = mFactory.createGameMgr(mCharaMgr, mRuleMgr);
+    const mManager  = mFactory.createModelManager(mGameMgr, mAreaMgr, mCharaMgr);
 
     // View
-    const vFactory = new ViewFactory();
-    const vSpace   = vFactory.createSpace(mMgr);
-    const vField   = vFactory.createField(mMgr);
-    const vMgr     = vFactory.createManager(vSpace, vField);
+    const vFactory  = new ViewFactory();
+    const vSpace    = vFactory.createSpace(mManager);
+    const vField    = vFactory.createField(mManager);
+    const vManager  = vFactory.createManager(vSpace, vField);
 
     // Controler
-    const cFactory = new ControllerFactory();
-    const cPlayer  = cFactory.createPlayerControler(mMgr);
-    const cAreaMgr = cFactory.createAreaControler(mMgr, vMgr);
-    const cGameMgr = cFactory.createGameControler(mMgr, vMgr);
+    const cFactory  = new ControllerFactory();
+    const cPlayer   = cFactory.createPlayerController(mManager);
+    const cArea     = cFactory.createAreaController(mManager, vManager);
+    const cGame     = cFactory.createGameController(mManager, vManager);
+    const cManager  = cFactory.createControllerManager(cPlayer, cArea, cGame);
 
     // Event
-    const ef = new EventFactory();
-    const ek = ef.createKeydownEvent(cPlayer);
-    const es = ef.createSwipeEvent(cPlayer);
-    const et = ef.createTouchEvent(cPlayer);
-    const eb = ef.createButtonEvent(cGameMgr);
-    const ew = ef.createWindowEvent(cAreaMgr);
-    const eMgr = ef.createEventManager(ek, es, et, eb, ew);
+    const eFactory  = new EventFactory();
+    const eKeydown  = eFactory.createKeydownEvent(cPlayer);
+    const eSwipe    = eFactory.createSwipeEvent(cPlayer);
+    const eTouch    = eFactory.createTouchEvent(cPlayer);
+    const eButton   = eFactory.createButtonEvent(cGame);
+    const eWindow   = eFactory.createWindowEvent(cArea);
+    const eManager  = eFactory.createEventManager(eKeydown, eSwipe, eTouch, eButton, eWindow);
 
-    // Main Controler
-    const cMgr = cFactory.createControlerManager(mMgr, vMgr, eMgr);
-    cMgr.init();
+    mManager.init();
+    vManager.init();
+    cManager.init();
+    eManager.init();
 }
 
 main();
