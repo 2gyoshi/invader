@@ -1,14 +1,17 @@
 const path = require('path');
 
-const MODE = 'development';
+const MODE = 'production';
 const enabledSourceMap = MODE === 'development';
 
 module.exports = {
   mode: MODE,
   entry: path.resolve(__dirname, 'src/script/main.js'),
   output: {
-    filename: 'script/main.js',
+    filename: 'script/app.min.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+    minimize: true,
   },
   module: {
     rules: [
