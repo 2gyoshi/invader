@@ -1,10 +1,6 @@
 const path = require('path');
 
 const MODE = 'development';
-const entryPath  = path.resolve(__dirname, 'src/script/main.js');
-const outputPath = path.resolve(__dirname, 'dist');
-const fileName   = 'script/main.js';
-const devServerRoot    = 'dist';
 const enabledSourceMap = MODE === 'development';
 
 module.exports = {
