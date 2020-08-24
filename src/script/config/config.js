@@ -61,8 +61,8 @@ export const CONFIG = {
         dist:   50,
         grace:  200,
         look: {
-            normal: './img/player.svg',
-            dead:   './img/explosion.svg'
+            normal: './dist/img/player.svg',
+            dead:   './dist/img/explosion.svg'
         },
         top: 0.9
     },
@@ -76,7 +76,7 @@ export const CONFIG = {
         dist:   -5,
         grace:  0,
         look: {
-            normal: './img/bullet.svg',
+            normal: './dist/img/bullet.svg',
         }
     },
 
@@ -89,8 +89,8 @@ export const CONFIG = {
         dist:   0.5,
         grace:  200,
         look: {
-            normal: './img/enemy.svg',
-            dead:   './img/explosion.svg'
+            normal: './dist/img/enemy.svg',
+            dead:   './dist/img/explosion.svg'
         },
         top:      0.1,
         interval: 3000
@@ -105,8 +105,8 @@ export const CONFIG = {
         dist:   0.5,
         grace:  200,
         look: {
-            normal: './img/boss.svg',
-            dead:   './img/explosion.svg'
+            normal: './dist/img/boss.svg',
+            dead:   './dist/img/explosion.svg'
         }
     }
 };
