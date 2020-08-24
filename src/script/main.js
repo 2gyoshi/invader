@@ -1,6 +1,6 @@
 'use strict'
 
-import '../style/index.scss'
+import '../style/index.scss';
 import { ModelFactory }      from './model/model-factory';
 import { ViewFactory }       from './view/view-factory';
 import { ControllerFactory } from './controler/controller-factory';
